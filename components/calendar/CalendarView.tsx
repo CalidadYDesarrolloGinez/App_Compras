@@ -44,18 +44,19 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
 
     // Transform requisiciones to FullCalendar format
     const events: CalendarEvent[] = requisiciones.map(req => {
-        const color = req.estatus?.color_hex || '#3B82F6'
+        const eventColor = req.estatus?.color_hex || '#3b82f6'
+        const title = `${req.producto?.nombre || 'S/P'} - ${req.proveedor?.nombre || 'S/P'}`
         return {
             id: req.id,
-            title: req.producto?.nombre || 'Producto Desconocido',
-            start: req.fecha_recepcion, // YYYY-MM-DD format
-            backgroundColor: color,
-            borderColor: color,
+            title,
+            start: req.fecha_confirmada || req.fecha_recepcion, // YYYY-MM-DD format
+            backgroundColor: eventColor,
+            borderColor: eventColor,
             extendedProps: {
                 requisicion: req,
                 proveedor_nombre: req.proveedor?.nombre || 'N/A',
                 estatus_nombre: req.estatus?.nombre || 'N/A',
-                estatus_color: color,
+                estatus_color: eventColor,
             }
         }
     })

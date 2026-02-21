@@ -7,12 +7,17 @@ export const requisicionSchema = z.object({
     presentacion_id: z.string().uuid('Selecciona una presentación'),
     destino_id: z.string().uuid('Selecciona un destino'),
     estatus_id: z.string().uuid('Selecciona un estatus'),
-    cantidad_solicitada: z
-        .number({ invalid_type_error: 'Debe ser un número' })
-        .positive('Debe ser mayor a 0'),
+    cantidad_solicitada: z.number().positive('Debe ser mayor a 0'),
     unidad_cantidad_id: z.string().uuid('Selecciona una unidad'),
-    numero_oc: z.string().optional(),
-    comentarios: z.string().optional(),
+    numero_oc: z.string().optional().or(z.literal('')),
+    requisicion_numero: z.string().optional().or(z.literal('')),
+    fecha_oc: z.string().optional().or(z.literal('')).transform(val => val === '' ? null : val),
+    fecha_solicitada_entrega: z.string().optional().or(z.literal('')).transform(val => val === '' ? null : val),
+    fecha_confirmada: z.string().optional().or(z.literal('')).transform(val => val === '' ? null : val),
+    fecha_entregado: z.string().optional().or(z.literal('')).transform(val => val === '' ? null : val),
+    cantidad_entregada: z.union([z.number(), z.nan()]).optional().transform(val => typeof val === 'number' && isNaN(val) ? null : val).nullable(),
+    factura_remision: z.string().optional().or(z.literal('')),
+    comentarios: z.string().optional().or(z.literal('')),
 })
 
 export type RequisicionSchema = z.infer<typeof requisicionSchema>

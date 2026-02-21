@@ -79,16 +79,33 @@ export async function updateRequisicion(
 }
 
 export async function deleteRequisicion(id: string) {
+    console.log('Iniciando eliminación de requisición:', id)
     const supabase = await createClient()
     const profile = await getCurrentProfile()
 
+    console.log('Perfil obtenido para eliminación:', profile)
+
     if (!profile || profile.rol !== 'admin') {
+        console.error('Permiso denegado: el perfil no es admin o no existe')
         return { error: 'Solo el administrador puede eliminar requisiciones' }
     }
 
-    const { error } = await supabase.from('requisiciones').delete().eq('id', id)
+    // Delete history first to avoid foreign key constraints
+    console.log('Eliminando historial para:', id)
+    const historyResult = await supabase.from('requisiciones_historial').delete().eq('requisicion_id', id)
+    if (historyResult.error) {
+        console.error('Error al eliminar historial:', historyResult.error)
+    }
 
-    if (error) return { error: error.message }
+    console.log('Eliminando requisición de la tabla principal...')
+    const { error, count } = await supabase.from('requisiciones').delete().eq('id', id).select()
+
+    console.log('Resultado de eliminación:', { error, count })
+
+    if (error) {
+        console.error('Error de base de datos al eliminar:', error)
+        return { error: error.message }
+    }
 
     revalidatePath('/dashboard/calendar')
     revalidatePath('/dashboard/requisiciones')
@@ -140,12 +157,12 @@ export async function getCatalogos() {
 
     const [proveedores, productos, presentaciones, destinos, estatus, unidades] =
         await Promise.all([
-            supabase.from('proveedores').select('*').eq('activo', true).order('nombre'),
-            supabase.from('productos').select('*').eq('activo', true).order('nombre'),
-            supabase.from('presentaciones').select('*').eq('activo', true).order('nombre'),
-            supabase.from('destinos').select('*').eq('activo', true).order('nombre'),
-            supabase.from('estatus').select('*').eq('activo', true).order('nombre'),
-            supabase.from('unidades').select('*').eq('activo', true).order('nombre'),
+            supabase.from('proveedores').select('*').order('nombre'),
+            supabase.from('productos').select('*').order('nombre'),
+            supabase.from('presentaciones').select('*').order('nombre'),
+            supabase.from('destinos').select('*').order('nombre'),
+            supabase.from('estatus').select('*').order('nombre'),
+            supabase.from('unidades').select('*').order('nombre'),
         ])
 
     return {

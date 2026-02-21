@@ -31,6 +31,7 @@ interface EventDetailModalProps {
     open: boolean
     onOpenChange: (open: boolean) => void
     onEdit: (req: Requisicion) => void
+    onSuccess?: () => void
 }
 
 export function EventDetailModal({
@@ -38,20 +39,22 @@ export function EventDetailModal({
     open,
     onOpenChange,
     onEdit,
+    onSuccess,
 }: EventDetailModalProps) {
     const { canEdit, canDelete } = useAuthRole()
 
     if (!requisicion) return null
 
     const handleDelete = async () => {
-        if (!confirm('¿Está seguro de que desea eliminar esta requisición?')) return
+        if (!confirm('¿Está seguro de que desea eliminar permanentemente esta requisición? Esta acción no se puede deshacer.')) return
 
         const result = await deleteRequisicion(requisicion.id)
         if (result?.error) {
             toast.error('Error al eliminar', { description: result.error })
         } else {
-            toast.success('Requisición eliminada')
+            toast.success('Requisición eliminada correctamente')
             onOpenChange(false)
+            onSuccess?.()
         }
     }
 

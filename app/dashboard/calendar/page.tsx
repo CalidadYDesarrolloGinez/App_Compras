@@ -98,6 +98,7 @@ export default function CalendarPage() {
                     setSelectedReq(req)
                     setFormOpen(true)
                 }}
+                onSuccess={loadData}
             />
         </div>
     )

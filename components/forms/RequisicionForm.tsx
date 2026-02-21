@@ -7,7 +7,7 @@ import { format } from 'date-fns'
 import { requisicionSchema, type RequisicionSchema } from '@/lib/validations/schemas'
 import { createRequisicion, updateRequisicion } from '@/lib/actions/requisiciones'
 import { useCatalogos } from '@/lib/hooks/useCatalogos'
-import type { Requisicion } from '@/types'
+import type { Requisicion, RequisicionFormData } from '@/types'
 
 import {
     Dialog,
@@ -29,7 +29,10 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
+import { QuickAddModal } from './QuickAddModal'
+import { createClient } from '@/lib/supabase/client'
+import { useAuthRole } from '@/lib/hooks/useAuthRole'
 
 interface RequisicionFormModalProps {
     open: boolean
@@ -44,15 +47,18 @@ export function RequisicionFormModal({
     initialData,
     onSuccess,
 }: RequisicionFormModalProps) {
-    const { catalogos, loading: loadingCatalogs } = useCatalogos()
+    const { catalogos, loading: loadingCatalogs, refresh } = useCatalogos()
+    const { role } = useAuthRole()
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [quickAdd, setQuickAdd] = useState<{ open: boolean; title: string; table: string; field: keyof RequisicionSchema } | null>(null)
 
     const isEdit = !!initialData
+    const canEditConfirmedDate = role === 'admin' || role === 'coordinadora'
 
     const form = useForm<RequisicionSchema>({
         resolver: zodResolver(requisicionSchema),
         defaultValues: {
-            fecha_recepcion: '',
+            fecha_recepcion: format(new Date(), 'yyyy-MM-dd'),
             proveedor_id: '',
             producto_id: '',
             presentacion_id: '',
@@ -61,6 +67,13 @@ export function RequisicionFormModal({
             cantidad_solicitada: 0,
             unidad_cantidad_id: '',
             numero_oc: '',
+            requisicion_numero: '',
+            fecha_oc: '',
+            fecha_solicitada_entrega: '',
+            fecha_confirmada: '',
+            fecha_entregado: '',
+            cantidad_entregada: null,
+            factura_remision: '',
             comentarios: '',
         },
     })
@@ -77,6 +90,13 @@ export function RequisicionFormModal({
                 cantidad_solicitada: Number(initialData.cantidad_solicitada),
                 unidad_cantidad_id: initialData.unidad_cantidad_id,
                 numero_oc: initialData.numero_oc || '',
+                requisicion_numero: initialData.requisicion_numero || '',
+                fecha_oc: initialData.fecha_oc || '',
+                fecha_solicitada_entrega: initialData.fecha_solicitada_entrega || '',
+                fecha_confirmada: initialData.fecha_confirmada || '',
+                fecha_entregado: initialData.fecha_entregado || '',
+                cantidad_entregada: initialData.cantidad_entregada ? Number(initialData.cantidad_entregada) : null,
+                factura_remision: initialData.factura_remision || '',
                 comentarios: initialData.comentarios || '',
             })
         } else if (open && !initialData) {
@@ -90,6 +110,13 @@ export function RequisicionFormModal({
                 cantidad_solicitada: 0,
                 unidad_cantidad_id: '',
                 numero_oc: '',
+                requisicion_numero: '',
+                fecha_oc: '',
+                fecha_solicitada_entrega: '',
+                fecha_confirmada: '',
+                fecha_entregado: '',
+                cantidad_entregada: null,
+                factura_remision: '',
                 comentarios: '',
             })
         }
@@ -112,13 +139,20 @@ export function RequisicionFormModal({
                     cantidad_solicitada: 'Cantidad Solicitada',
                     unidad_cantidad_id: 'Unidad de Medida',
                     numero_oc: 'Número O.C.',
+                    requisicion_numero: '№ Requi',
+                    fecha_oc: 'Fecha de OC',
+                    fecha_solicitada_entrega: 'Fecha Solicitada Entrega',
+                    fecha_confirmada: 'Fecha Confirmada',
+                    fecha_entregado: 'Fecha Entregado',
+                    cantidad_entregada: 'Cantidad Entregada',
+                    factura_remision: 'Factura/Remisión',
                     comentarios: 'Comentarios'
                 }
 
                 const modifications = Object.keys(values).reduce((acc, key) => {
                     const k = key as keyof RequisicionSchema
-                    const newVal = String(values[k] || '')
-                    const oldVal = String(initialData[k as keyof Requisicion] || '')
+                    const newVal = String(values[k] ?? '')
+                    const oldVal = String(initialData[k as keyof Requisicion] ?? '')
 
                     if (newVal !== oldVal) {
                         acc.push({
@@ -130,9 +164,9 @@ export function RequisicionFormModal({
                     return acc
                 }, [] as Array<{ campo: string; anterior: string; nuevo: string }>)
 
-                result = await updateRequisicion(initialData.id, values, modifications)
+                result = await updateRequisicion(initialData.id, values as RequisicionFormData, modifications)
             } else {
-                result = await createRequisicion(values)
+                result = await createRequisicion(values as RequisicionFormData)
             }
 
             if (result?.error) {
@@ -152,8 +186,8 @@ export function RequisicionFormModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-2xl bg-[#F8F9FC] border-none shadow-2xl p-0 overflow-hidden">
-                <div className="bg-[#1A2B4A] px-6 py-4">
+            <DialogContent className="max-w-2xl bg-[#F8F9FC] border-none shadow-2xl p-0 overflow-hidden flex flex-col max-h-[95vh]">
+                <div className="bg-[#1A2B4A] px-6 py-4 sticky top-0 z-20">
                     <DialogTitle className="text-white text-lg">
                         {isEdit ? 'Editar Requisición' : 'Nueva Requisición'}
                     </DialogTitle>
@@ -162,179 +196,215 @@ export function RequisicionFormModal({
                     </DialogDescription>
                 </div>
 
-                <form onSubmit={form.handleSubmit(onSubmit)} className="px-6 py-4 space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                        <div className="space-y-1.5">
-                            <Label htmlFor="fecha" className="text-sm font-semibold text-[#1A2B4A]">
-                                Fecha de Recepción *
-                            </Label>
-                            <Input
-                                id="fecha"
-                                type="date"
-                                className="bg-white"
-                                {...form.register('fecha_recepcion')}
-                            />
-                            {form.formState.errors.fecha_recepcion && (
-                                <p className="text-xs text-red-500">{form.formState.errors.fecha_recepcion.message}</p>
-                            )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Estatus *</Label>
-                            <Select
-                                disabled={loadingCatalogs}
-                                value={form.watch('estatus_id')}
-                                onValueChange={(val) => form.setValue('estatus_id', val, { shouldValidate: true })}
-                            >
-                                <SelectTrigger className="bg-white">
-                                    <SelectValue placeholder="Seleccione estatus" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {catalogos.estatus.map(e => (
-                                        <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {form.formState.errors.estatus_id && (
-                                <p className="text-xs text-red-500">{form.formState.errors.estatus_id.message}</p>
-                            )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Proveedor *</Label>
-                            <Select
-                                disabled={loadingCatalogs}
-                                value={form.watch('proveedor_id')}
-                                onValueChange={(val) => form.setValue('proveedor_id', val, { shouldValidate: true })}
-                            >
-                                <SelectTrigger className="bg-white">
-                                    <SelectValue placeholder="Seleccione proveedor" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {catalogos.proveedores.map(p => (
-                                        <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {form.formState.errors.proveedor_id && (
-                                <p className="text-xs text-red-500">{form.formState.errors.proveedor_id.message}</p>
-                            )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Producto *</Label>
-                            <Select
-                                disabled={loadingCatalogs}
-                                value={form.watch('producto_id')}
-                                onValueChange={(val) => form.setValue('producto_id', val, { shouldValidate: true })}
-                            >
-                                <SelectTrigger className="bg-white">
-                                    <SelectValue placeholder="Seleccione producto" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {catalogos.productos.map(p => (
-                                        <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {form.formState.errors.producto_id && (
-                                <p className="text-xs text-red-500">{form.formState.errors.producto_id.message}</p>
-                            )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Presentación *</Label>
-                            <Select
-                                disabled={loadingCatalogs}
-                                value={form.watch('presentacion_id')}
-                                onValueChange={(val) => form.setValue('presentacion_id', val, { shouldValidate: true })}
-                            >
-                                <SelectTrigger className="bg-white">
-                                    <SelectValue placeholder="Seleccione presentación" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {catalogos.presentaciones.map(p => (
-                                        <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {form.formState.errors.presentacion_id && (
-                                <p className="text-xs text-red-500">{form.formState.errors.presentacion_id.message}</p>
-                            )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Destino *</Label>
-                            <Select
-                                disabled={loadingCatalogs}
-                                value={form.watch('destino_id')}
-                                onValueChange={(val) => form.setValue('destino_id', val, { shouldValidate: true })}
-                            >
-                                <SelectTrigger className="bg-white">
-                                    <SelectValue placeholder="Seleccione destino" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {catalogos.destinos.map(p => (
-                                        <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {form.formState.errors.destino_id && (
-                                <p className="text-xs text-red-500">{form.formState.errors.destino_id.message}</p>
-                            )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Cantidad *</Label>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="number"
-                                    step="0.01"
-                                    className="bg-white flex-1"
-                                    {...form.register('cantidad_solicitada', { valueAsNumber: true })}
-                                />
-                                <Select
-                                    disabled={loadingCatalogs}
-                                    value={form.watch('unidad_cantidad_id')}
-                                    onValueChange={(val) => form.setValue('unidad_cantidad_id', val, { shouldValidate: true })}
-                                >
-                                    <SelectTrigger className="bg-white w-24">
-                                        <SelectValue placeholder="Unidad" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {catalogos.unidades.map(u => (
-                                            <SelectItem key={u.id} value={u.id}>{u.abreviatura}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="px-6 py-4 overflow-y-auto flex-1">
+                    <div className="space-y-6">
+                        {/* Section 1: Manual Input Fields (Excel Style) */}
+                        <div className="bg-white p-4 rounded-lg border border-gray-200">
+                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b pb-2">Datos de la Requisición</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">№ REQUI</Label>
+                                    <Input {...form.register('requisicion_numero')} className="h-8 text-sm" placeholder="F0000" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">FECHA DE OC</Label>
+                                    <Input type="date" {...form.register('fecha_oc')} className="h-8 text-sm" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">FOLIO OC</Label>
+                                    <Input {...form.register('numero_oc')} className="h-8 text-sm" placeholder="GG-01000" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">FECHA SOLICITADA</Label>
+                                    <Input type="date" {...form.register('fecha_solicitada_entrega')} className="h-8 text-sm" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className={`text-xs font-semibold ${canEditConfirmedDate ? 'text-[#1B3D8F]' : 'text-gray-400'}`}>FECHA CONFIRMADA *</Label>
+                                    <Input
+                                        type="date"
+                                        {...form.register('fecha_confirmada')}
+                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[#1B3D8F]' : 'bg-gray-50 cursor-not-allowed'}`}
+                                        disabled={!canEditConfirmedDate}
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">FACTURA / REMISIÓN</Label>
+                                    <Input {...form.register('factura_remision')} className="h-8 text-sm" />
+                                </div>
                             </div>
-                            {form.formState.errors.cantidad_solicitada && (
-                                <p className="text-xs text-red-500">{form.formState.errors.cantidad_solicitada.message}</p>
-                            )}
-                            {form.formState.errors.unidad_cantidad_id && (
-                                <p className="text-xs text-red-500">{form.formState.errors.unidad_cantidad_id.message}</p>
-                            )}
+                        </div>
+
+                        {/* Section 2: Catalog Selection */}
+                        <div className="bg-blue-50/30 p-4 rounded-lg border border-blue-100">
+                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b border-blue-100 pb-2">Detalles del Material (Catálogo)</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">PROVEEDOR *</Label>
+                                    <div className="flex gap-1.5">
+                                        <Select
+                                            value={form.watch('proveedor_id')}
+                                            onValueChange={(val) => form.setValue('proveedor_id', val, { shouldValidate: true })}
+                                        >
+                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectContent>
+                                                {catalogos.proveedores.map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            onClick={() => setQuickAdd({ open: true, title: 'Proveedor', table: 'proveedores', field: 'proveedor_id' })}
+                                        >
+                                            <Plus className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">PRODUCTO *</Label>
+                                    <div className="flex gap-1.5">
+                                        <Select
+                                            value={form.watch('producto_id')}
+                                            onValueChange={(val) => form.setValue('producto_id', val, { shouldValidate: true })}
+                                        >
+                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectContent>
+                                                {catalogos.productos.map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            onClick={() => setQuickAdd({ open: true, title: 'Producto', table: 'productos', field: 'producto_id' })}
+                                        >
+                                            <Plus className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">PRESENTACIÓN *</Label>
+                                    <div className="flex gap-1.5">
+                                        <Select
+                                            value={form.watch('presentacion_id')}
+                                            onValueChange={(val) => form.setValue('presentacion_id', val, { shouldValidate: true })}
+                                        >
+                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectContent>
+                                                {catalogos.presentaciones.map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            onClick={() => setQuickAdd({ open: true, title: 'Presentación', table: 'presentaciones', field: 'presentacion_id' })}
+                                        >
+                                            <Plus className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">DESTINO *</Label>
+                                    <div className="flex gap-1.5">
+                                        <Select
+                                            value={form.watch('destino_id')}
+                                            onValueChange={(val) => form.setValue('destino_id', val, { shouldValidate: true })}
+                                        >
+                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectContent>
+                                                {catalogos.destinos.map(d => <SelectItem key={d.id} value={d.id}>{d.nombre}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            onClick={() => setQuickAdd({ open: true, title: 'Destino', table: 'destinos', field: 'destino_id' })}
+                                        >
+                                            <Plus className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">ESTATUS *</Label>
+                                    <div className="flex gap-1.5">
+                                        <Select
+                                            value={form.watch('estatus_id')}
+                                            onValueChange={(val) => form.setValue('estatus_id', val, { shouldValidate: true })}
+                                        >
+                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectContent>
+                                                {catalogos.estatus.map(e => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            onClick={() => setQuickAdd({ open: true, title: 'Estatus', table: 'estatus', field: 'estatus_id' })}
+                                        >
+                                            <Plus className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">CANTIDAD Y UNIDAD *</Label>
+                                    <div className="flex gap-2">
+                                        <Input type="number" step="0.01" {...form.register('cantidad_solicitada', { valueAsNumber: true })} className="h-8 text-sm bg-white flex-1" />
+                                        <div className="flex gap-1">
+                                            <Select
+                                                value={form.watch('unidad_cantidad_id')}
+                                                onValueChange={(val) => form.setValue('unidad_cantidad_id', val, { shouldValidate: true })}
+                                            >
+                                                <SelectTrigger className="h-8 text-xs bg-white w-20"><SelectValue placeholder="UM" /></SelectTrigger>
+                                                <SelectContent>
+                                                    {catalogos.unidades.map(u => <SelectItem key={u.id} value={u.id}>{u.abreviatura}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="icon"
+                                                className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                                onClick={() => setQuickAdd({ open: true, title: 'Unidad', table: 'unidades', field: 'unidad_cantidad_id' })}
+                                            >
+                                                <Plus className="h-3 w-3" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Delivery Information Section */}
+                        <div className="bg-emerald-50/20 p-4 rounded-lg border border-emerald-100/50">
+                            <h3 className="text-sm font-bold text-[#065F46] mb-4 border-b border-emerald-100 pb-2">Información de Entrega (Cierre)</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">FECHA ENTREGADO</Label>
+                                    <Input type="date" {...form.register('fecha_entregado')} className="h-8 text-sm bg-white" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs font-semibold text-gray-600">CANTIDAD ENTREGADA</Label>
+                                    <Input type="number" step="0.01" {...form.register('cantidad_entregada', { valueAsNumber: true })} className="h-8 text-sm bg-white" />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Orden de Compra</Label>
-                            <Input
-                                className="bg-white"
-                                placeholder="Ej. OC-2023-001"
-                                {...form.register('numero_oc')}
-                            />
-                        </div>
-
-                        <div className="space-y-1.5 md:col-span-2">
-                            <Label className="text-sm font-semibold text-[#1A2B4A]">Comentarios</Label>
+                            <Label className="text-xs font-semibold text-gray-600">COMENTARIOS / NOTAS</Label>
                             <Textarea
-                                className="bg-white resize-none"
-                                placeholder="Instrucciones de descarga, horarios, etc."
+                                className="bg-white resize-none h-20 text-sm"
+                                placeholder="Instrucciones adicionales..."
                                 {...form.register('comentarios')}
                             />
                         </div>
-
                     </div>
 
                     <DialogFooter className="mt-6 border-t border-gray-200 pt-4">
@@ -352,10 +422,24 @@ export function RequisicionFormModal({
                             disabled={isSubmitting}
                         >
                             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            {isEdit ? 'Guardar Cambios' : 'Agendar Entrega'}
+                            {isEdit ? 'Guardar Cambios' : 'Generar Nueva Requisición'}
                         </Button>
                     </DialogFooter>
                 </form>
+
+                {quickAdd && (
+                    <QuickAddModal
+                        open={quickAdd.open}
+                        onOpenChange={(open) => setQuickAdd(prev => prev ? { ...prev, open } : null)}
+                        title={quickAdd.title}
+                        table={quickAdd.table}
+                        onSuccess={(newItem) => {
+                            refresh()
+                            form.setValue(quickAdd.field, newItem.id as any, { shouldValidate: true })
+                            setQuickAdd(null)
+                        }}
+                    />
+                )}
             </DialogContent>
         </Dialog>
     )

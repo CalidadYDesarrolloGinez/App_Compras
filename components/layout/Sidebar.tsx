@@ -8,13 +8,12 @@ import {
     CalendarDays,
     ClipboardList,
     BookOpen,
-    BarChart3,
     Settings,
     ChevronLeft,
     ChevronRight,
     ShoppingCart,
-    History,
     Shield,
+    Plus,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthRole } from '@/lib/hooks/useAuthRole'
@@ -23,22 +22,10 @@ const navItems = [
     {
         section: 'GENERAL',
         items: [
-            { href: '/dashboard/calendar', label: 'Panel Principal', icon: LayoutDashboard },
             { href: '/dashboard/calendar', label: 'Calendario', icon: CalendarDays },
-        ],
-    },
-    {
-        section: 'COMPRAS',
-        items: [
-            { href: '/dashboard/requisiciones', label: 'Requisiciones', icon: ClipboardList },
+            { href: '/dashboard/requisiciones', label: 'Administrar requisiciones', icon: ClipboardList },
+            { href: '/dashboard/requisiciones/nueva', label: 'Nueva Requisición', icon: Plus },
             { href: '/dashboard/catalogos', label: 'Catálogos', icon: BookOpen },
-        ],
-    },
-    {
-        section: 'SOPORTE',
-        items: [
-            { href: '/dashboard/historial', label: 'Historial', icon: History },
-            { href: '/dashboard/reportes', label: 'Reportes', icon: BarChart3 },
         ],
     },
 ]
@@ -55,7 +42,7 @@ interface SidebarProps {
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     const pathname = usePathname()
-    const { isAdmin } = useAuthRole()
+    const { isAdmin, role } = useAuthRole()
 
     return (
         <aside
@@ -79,32 +66,39 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
             {/* Nav */}
             <nav className="flex-1 overflow-y-auto py-3">
-                {navItems.map((section) => (
-                    <div key={section.section}>
-                        {!collapsed && (
-                            <p className="sidebar-section-label">{section.section}</p>
-                        )}
-                        {section.items.map((item) => {
-                            const Icon = item.icon
-                            const active = pathname === item.href || pathname.startsWith(item.href + '/')
-                            return (
-                                <Link
-                                    key={item.href + item.label}
-                                    href={item.href}
-                                    className={cn('sidebar-nav-item', active && 'active')}
-                                    title={collapsed ? item.label : undefined}
-                                >
-                                    <Icon className="h-4 w-4 shrink-0" />
-                                    {!collapsed && (
-                                        <span className="text-sm whitespace-nowrap overflow-hidden animate-slide-in">
-                                            {item.label}
-                                        </span>
-                                    )}
-                                </Link>
-                            )
-                        })}
-                    </div>
-                ))}
+                {navItems.map((section) => {
+                    // Restrict COMPRAS section to admin/coordinadora
+                    if (section.section === 'COMPRAS' && !['admin', 'coordinadora'].includes(role || '')) {
+                        return null
+                    }
+
+                    return (
+                        <div key={section.section}>
+                            {!collapsed && (
+                                <p className="sidebar-section-label">{section.section}</p>
+                            )}
+                            {section.items.map((item) => {
+                                const Icon = item.icon
+                                const active = pathname === item.href || pathname.startsWith(item.href + '/')
+                                return (
+                                    <Link
+                                        key={item.href + item.label}
+                                        href={item.href}
+                                        className={cn('sidebar-nav-item', active && 'active')}
+                                        title={collapsed ? item.label : undefined}
+                                    >
+                                        <Icon className="h-4 w-4 shrink-0" />
+                                        {!collapsed && (
+                                            <span className="text-sm whitespace-nowrap overflow-hidden animate-slide-in">
+                                                {item.label}
+                                            </span>
+                                        )}
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    )
+                })}
 
                 {isAdmin && (
                     <div>

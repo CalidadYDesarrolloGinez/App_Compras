@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gestión de Compras GínEZ
 
-## Getting Started
+Sistema integral para el control, seguimiento y gestión de requisiciones y entregas de materias primas.
 
-First, run the development server:
+## 🚀 Características Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 1. Administración de Requisiciones
+- **Control Total**: Creación, edición y eliminación de registros de requisiciones.
+- **Visibilidad Extendida**: Tabla de administración con seguimiento detallado del ciclo de vida:
+  - Fecha de Recepción
+  - Fecha Solicitada (Solicitud original)
+  - Fecha Confirmada (Acordada con proveedor)
+  - Cantidad Entregada y Fecha de Entrega Real
+- **Filtros Avanzados**: Búsqueda por proveedor, destino, estatus y rangos de fecha.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Calendario de Recepción
+- **Visualización Gráfica**: Calendario dinámico para el seguimiento visual de entregas programadas.
+- **Código de Colores**: Identificación inmediata del estatus de cada entrega (Pendiente, Confirmada, Entregada, etc.).
+- **Gestión Rápida**: Acceso a detalles, edición y eliminación directamente desde el calendario.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Seguridad y Auditoría
+- **Roles de Usuario**:
+  - **Admin**: Control total, incluyendo eliminación de registros.
+  - **Coordinadora**: Gestión de requisiciones y confirmación de fechas.
+  - **Consulta**: Acceso de solo lectura para monitoreo.
+- **Historial de Cambios**: Registro detallado (Audit Trail) de cada modificación realizada en las requisiciones, incluyendo quién cambió qué y cuándo.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Interfaz de Usuario Premium
+- **Diseño Moderno**: Basado en una estética profesional con modo claro/oscuro y componentes optimizados.
+- **Formularios Inteligentes**: Validación robusta de datos y manejo de campos dinámicos.
+- **Responsive**: Adaptado para una visualización clara en diferentes tamaños de pantalla.
 
-## Learn More
+## 🛠️ Stack Tecnológico
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: [Next.js 14+](https://nextjs.org/) (App Router)
+- **Lenguaje**: [TypeScript](https://www.typescriptlang.org/)
+- **Estilos**: [Tailwind CSS](https://tailwindcss.com/)
+- **Componentes**: [Shadcn UI](https://ui.shadcn.com/)
+- **Base de Datos y Auth**: [Supabase](https://supabase.com/)
+- **Validación**: [Zod](https://zod.dev/) & React Hook Form
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Configuración Local
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clonar el repositorio.
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Configurar variables de entorno en `.env.local`:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=tu_url_de_supabase
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_llave_anonima
+   ```
+4. Iniciar el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Desarrollado para la optimización del flujo de suministros de GínEZ.

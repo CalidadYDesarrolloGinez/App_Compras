@@ -15,21 +15,21 @@ export function useCatalogos() {
     })
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        async function fetchCatalogos() {
-            setLoading(true)
-            try {
-                const data = await getCatalogos()
-                setCatalogos(data)
-            } catch (error) {
-                console.error('Failed to load catalogs:', error)
-            } finally {
-                setLoading(false)
-            }
+    const fetchCatalogos = async () => {
+        setLoading(true)
+        try {
+            const data = await getCatalogos()
+            setCatalogos(data)
+        } catch (error) {
+            console.error('Failed to load catalogs:', error)
+        } finally {
+            setLoading(false)
         }
+    }
 
+    useEffect(() => {
         fetchCatalogos()
     }, [])
 
-    return { catalogos, loading }
+    return { catalogos, loading, refresh: fetchCatalogos }
 }

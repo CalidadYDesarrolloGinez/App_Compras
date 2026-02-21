@@ -62,6 +62,13 @@ export interface Requisicion {
     cantidad_solicitada: number
     unidad_cantidad_id: string
     numero_oc: string | null
+    requisicion_numero: string | null
+    fecha_oc: string | null
+    fecha_solicitada_entrega: string | null
+    fecha_confirmada: string | null
+    fecha_entregado: string | null
+    cantidad_entregada: number | null
+    factura_remision: string | null
     comentarios: string | null
     created_by: string
     created_at: string
@@ -113,8 +120,15 @@ export interface RequisicionFormData {
     estatus_id: string
     cantidad_solicitada: number
     unidad_cantidad_id: string
-    numero_oc?: string
-    comentarios?: string
+    numero_oc?: string | null
+    requisicion_numero?: string | null
+    fecha_oc?: string | null
+    fecha_solicitada_entrega?: string | null
+    fecha_confirmada?: string | null
+    fecha_entregado?: string | null
+    cantidad_entregada?: number | null
+    factura_remision?: string | null
+    comentarios?: string | null
 }
 
 // ============================================================

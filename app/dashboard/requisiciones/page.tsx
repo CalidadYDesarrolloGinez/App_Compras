@@ -49,7 +49,7 @@ export default function RequisicionesTablePage() {
     }, [filters])
 
     return (
-        <div className="flex flex-col h-full gap-4 max-w-7xl mx-auto">
+        <div className="flex flex-col h-full gap-4 w-full px-4 mx-auto">
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-[#1A2B4A]">Lista de Requisiciones</h1>
@@ -81,9 +81,14 @@ export default function RequisicionesTablePage() {
                     <Table>
                         <TableHeader className="bg-gray-50">
                             <TableRow>
-                                <TableHead className="w-[120px] font-semibold text-[#1A2B4A]">Fecha</TableHead>
+                                <TableHead className="w-[100px] font-semibold text-[#1A2B4A]"># Requi</TableHead>
+                                <TableHead className="w-[110px] font-semibold text-[#1A2B4A]">Fecha Rec.</TableHead>
                                 <TableHead className="font-semibold text-[#1A2B4A]">Proveedor</TableHead>
                                 <TableHead className="font-semibold text-[#1A2B4A]">Producto</TableHead>
+                                <TableHead className="font-semibold text-[#1A2B4A]">Fecha Sol.</TableHead>
+                                <TableHead className="font-semibold text-[#1A2B4A]">Fecha Conf.</TableHead>
+                                <TableHead className="font-semibold text-[#1A2B4A]">Cant. Ent.</TableHead>
+                                <TableHead className="font-semibold text-[#1A2B4A]">F. Entrega</TableHead>
                                 <TableHead className="font-semibold text-[#1A2B4A]">Estatus</TableHead>
                                 <TableHead className="font-semibold text-[#1A2B4A]">Destino</TableHead>
                                 <TableHead className="text-right font-semibold text-[#1A2B4A]">Acciones</TableHead>
@@ -93,9 +98,14 @@ export default function RequisicionesTablePage() {
                             {loading ? (
                                 Array.from({ length: 5 }).map((_, i) => (
                                     <TableRow key={i}>
+                                        <TableCell><Skeleton className="h-4 w-16" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-48" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                                         <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-32" /></TableCell>
                                         <TableCell><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
@@ -103,14 +113,17 @@ export default function RequisicionesTablePage() {
                                 ))
                             ) : requisiciones.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={6} className="h-24 text-center text-gray-500">
+                                    <TableCell colSpan={11} className="h-24 text-center text-gray-500">
                                         No se encontraron resultados para los filtros seleccionados.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 requisiciones.map((req) => (
                                     <TableRow key={req.id} className="hover:bg-blue-50/30">
-                                        <TableCell className="font-medium">
+                                        <TableCell className="font-mono text-xs text-gray-500">
+                                            {req.requisicion_numero || '---'}
+                                        </TableCell>
+                                        <TableCell className="font-medium whitespace-nowrap">
                                             {format(new Date(req.fecha_recepcion + 'T00:00:00'), 'dd/MMM/yy', { locale: es })}
                                         </TableCell>
                                         <TableCell>
@@ -121,6 +134,24 @@ export default function RequisicionesTablePage() {
                                             <div className="text-xs text-gray-500">
                                                 {Number(req.cantidad_solicitada).toLocaleString('es-MX')} {req.unidad_cantidad?.abreviatura} · {req.presentacion?.nombre}
                                             </div>
+                                        </TableCell>
+                                        <TableCell className="whitespace-nowrap text-sm text-gray-500">
+                                            {req.fecha_solicitada_entrega
+                                                ? format(new Date(req.fecha_solicitada_entrega + 'T00:00:00'), 'dd/MMM/yy', { locale: es })
+                                                : '---'}
+                                        </TableCell>
+                                        <TableCell className="whitespace-nowrap text-sm font-medium">
+                                            {req.fecha_confirmada
+                                                ? format(new Date(req.fecha_confirmada + 'T00:00:00'), 'dd/MMM/yy', { locale: es })
+                                                : '---'}
+                                        </TableCell>
+                                        <TableCell className="text-sm font-bold text-emerald-700">
+                                            {req.cantidad_entregada !== null ? `${req.cantidad_entregada} ${req.unidad_cantidad?.abreviatura}` : '---'}
+                                        </TableCell>
+                                        <TableCell className="whitespace-nowrap text-sm text-gray-500">
+                                            {req.fecha_entregado
+                                                ? format(new Date(req.fecha_entregado + 'T00:00:00'), 'dd/MMM/yy', { locale: es })
+                                                : '---'}
                                         </TableCell>
                                         <TableCell>
                                             <Badge
@@ -185,6 +216,7 @@ export default function RequisicionesTablePage() {
                     setSelectedReq(req)
                     setFormOpen(true)
                 }}
+                onSuccess={loadData}
             />
         </div>
     )
