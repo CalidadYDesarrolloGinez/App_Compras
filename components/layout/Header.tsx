@@ -45,7 +45,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                     <div key={i} className="flex items-center gap-1.5">
                         {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-gray-400" />}
                         <span className={i === breadcrumbs.length - 1
-                            ? 'font-medium text-[#1A2B4A]'
+                            ? 'font-medium text-[#0e0c9b]'
                             : 'text-gray-400 hover:text-gray-600 cursor-pointer'
                         }>
                             {crumb.label}
@@ -56,14 +56,6 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
 
             {/* Right side */}
             <div className="flex items-center gap-3">
-                {/* Notifications */}
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 text-gray-500">
-                    <Bell className="h-4 w-4" />
-                    <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                        3
-                    </span>
-                </Button>
-
                 {/* User menu */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -72,7 +64,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                                 <Skeleton className="h-8 w-8 rounded-full" />
                             ) : (
                                 <Avatar className="h-8 w-8">
-                                    <AvatarFallback className="bg-[#1B3D8F] text-white text-xs font-bold">
+                                    <AvatarFallback className="bg-[#0e0c9b] text-white text-xs font-bold">
                                         {initials}
                                     </AvatarFallback>
                                 </Avatar>
@@ -82,7 +74,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                                     <Skeleton className="h-3 w-24" />
                                 ) : (
                                     <>
-                                        <p className="text-xs font-semibold text-[#1A2B4A] leading-tight">
+                                        <p className="text-xs font-semibold text-[#0e0c9b] leading-tight">
                                             {profile?.nombre_completo ?? user?.email}
                                         </p>
                                         <p className="text-[10px] text-gray-400 leading-tight uppercase tracking-wide">

@@ -44,8 +44,8 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
 
     // Transform requisiciones to FullCalendar format
     const events: CalendarEvent[] = requisiciones.map(req => {
-        const eventColor = req.estatus?.color_hex || '#3b82f6'
-        const title = `${req.producto?.nombre || 'S/P'} - ${req.proveedor?.nombre || 'S/P'}`
+        const eventColor = req.estatus?.color_hex || '#0e0c9b'
+        const title = req.producto?.nombre || 'S/P'
         return {
             id: req.id,
             title,
@@ -65,11 +65,38 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
     const renderEventContent = (eventInfo: any) => {
         const { event } = eventInfo
         const props = event.extendedProps
+        const color = props.estatus_color || '#0e0c9b'
+
+        // Compute a lighter version for the background
+        const hexToRgb = (hex: string) => {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+            return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '14, 12, 155'
+        }
+
+        const rgb = hexToRgb(color)
 
         return (
-            <div className="flex flex-col gap-0.5 overflow-hidden w-full text-[10px] leading-tight px-1 py-0.5" title={`${event.title} - ${props.proveedor_nombre}`}>
-                <span className="font-bold truncate text-white">{event.title}</span>
-                <span className="truncate text-white/80">{props.proveedor_nombre}</span>
+            <div
+                className="flex flex-col w-full overflow-hidden rounded-[5px] cursor-pointer"
+                style={{
+                    background: `rgba(${rgb}, 0.10)`,
+                    borderLeft: `3px solid ${color}`,
+                    padding: '3px 6px',
+                }}
+                title={`${event.title} · ${props.proveedor_nombre}`}
+            >
+                <div
+                    className="font-semibold leading-tight truncate"
+                    style={{ fontSize: '0.7rem', color: color, letterSpacing: '-0.01em' }}
+                >
+                    {event.title}
+                </div>
+                <div
+                    className="truncate leading-snug"
+                    style={{ fontSize: '0.63rem', color: '#64748b', marginTop: '1px' }}
+                >
+                    {props.proveedor_nombre}
+                </div>
             </div>
         )
     }

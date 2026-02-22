@@ -1,11 +1,11 @@
 'use client'
 
+import React, { useState } from 'react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import {
     Dialog,
     DialogContent,
-    DialogHeader,
     DialogTitle,
     DialogFooter,
 } from '@/components/ui/dialog'
@@ -42,12 +42,13 @@ export function EventDetailModal({
     onSuccess,
 }: EventDetailModalProps) {
     const { canEdit, canDelete } = useAuthRole()
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     if (!requisicion) return null
 
     const handleDelete = async () => {
-        if (!confirm('¿Está seguro de que desea eliminar permanentemente esta requisición? Esta acción no se puede deshacer.')) return
-
+        setIsDeleting(true)
         const result = await deleteRequisicion(requisicion.id)
         if (result?.error) {
             toast.error('Error al eliminar', { description: result.error })
@@ -56,6 +57,8 @@ export function EventDetailModal({
             onOpenChange(false)
             onSuccess?.()
         }
+        setIsDeleting(false)
+        setShowConfirm(false)
     }
 
     return (
@@ -64,7 +67,7 @@ export function EventDetailModal({
                 {/* Header Ribbon */}
                 <div
                     className="px-6 py-5 pb-8 relative"
-                    style={{ backgroundColor: requisicion.estatus?.color_hex || '#1B3D8F' }}
+                    style={{ backgroundColor: requisicion.estatus?.color_hex || '#0e0c9b' }}
                 >
                     <div className="absolute top-0 right-0 p-4 opacity-20">
                         <Package className="h-24 w-24 text-white" />
@@ -145,11 +148,41 @@ export function EventDetailModal({
                 <DialogFooter className="px-6 py-4 bg-gray-50/80 border-t border-gray-100 flex items-center justify-between sm:justify-between">
                     <div className="flex gap-2">
                         {canDelete && (
-                            <Button variant="ghost" className="text-red-600 hover:bg-red-50 hover:text-red-700 px-3" onClick={handleDelete}>
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <div className="flex items-center gap-2">
+                                {showConfirm ? (
+                                    <div className="flex items-center gap-2 animate-in fade-in slide-in-from-left-2 duration-300">
+                                        <span className="text-[10px] font-bold text-[#c41f1a] uppercase tracking-tighter">¿Confirmar?</span>
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            className="h-8 px-3 text-xs bg-[#c41f1a] hover:bg-[#a31a16]"
+                                            onClick={handleDelete}
+                                            disabled={isDeleting}
+                                        >
+                                            {isDeleting ? 'Eliminando...' : 'Sí, borrar'}
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-8 px-2 text-xs text-gray-500 hover:bg-gray-200"
+                                            onClick={() => setShowConfirm(false)}
+                                            disabled={isDeleting}
+                                        >
+                                            Cancelar
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <Button
+                                        variant="ghost"
+                                        className="text-[#c41f1a] hover:bg-red-50 hover:text-[#a31a16] px-3 transition-colors"
+                                        onClick={() => setShowConfirm(true)}
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                )}
+                            </div>
                         )}
-                        {canEdit && (
+                        {canEdit && !showConfirm && (
                             <Button variant="outline" className="border-gray-200 text-gray-700 hover:bg-white" onClick={() => {
                                 onOpenChange(false)
                                 onEdit(requisicion)
@@ -159,9 +192,11 @@ export function EventDetailModal({
                             </Button>
                         )}
                     </div>
-                    <Button className="bg-[#1A2B4A] hover:bg-[#1B3D8F]" onClick={() => onOpenChange(false)}>
-                        Cerrar
-                    </Button>
+                    {!showConfirm && (
+                        <Button className="bg-[#0e0c9b] hover:bg-[#1614b5]" onClick={() => onOpenChange(false)}>
+                            Cerrar
+                        </Button>
+                    )}
                 </DialogFooter>
             </DialogContent>
         </Dialog>

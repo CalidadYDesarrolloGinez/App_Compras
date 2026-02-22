@@ -79,32 +79,39 @@ export async function updateRequisicion(
 }
 
 export async function deleteRequisicion(id: string) {
-    console.log('Iniciando eliminación de requisición:', id)
+    console.log('[Delete] Iniciando eliminación de requisición ID:', id)
     const supabase = await createClient()
     const profile = await getCurrentProfile()
 
-    console.log('Perfil obtenido para eliminación:', profile)
+    if (!profile) {
+        console.error('[Delete] No se encontró perfil de usuario')
+        return { error: 'Usuario no autenticado' }
+    }
 
-    if (!profile || profile.rol !== 'admin') {
-        console.error('Permiso denegado: el perfil no es admin o no existe')
+    console.log('[Delete] Perfil detectado:', { nombre: profile.nombre_completo, rol: profile.rol })
+
+    if (profile.rol !== 'admin') {
+        console.error('[Delete] Permiso denegado: el perfil no es admin')
         return { error: 'Solo el administrador puede eliminar requisiciones' }
     }
 
-    // Delete history first to avoid foreign key constraints
-    console.log('Eliminando historial para:', id)
-    const historyResult = await supabase.from('requisiciones_historial').delete().eq('requisicion_id', id)
-    if (historyResult.error) {
-        console.error('Error al eliminar historial:', historyResult.error)
-    }
+    // Rely on CASCADE deletion in DB for requisiciones_historial
+    // We use { count: 'exact' } to verify the deletion worked
+    const { error, count } = await supabase
+        .from('requisiciones')
+        .delete({ count: 'exact' })
+        .eq('id', id)
 
-    console.log('Eliminando requisición de la tabla principal...')
-    const { error, count } = await supabase.from('requisiciones').delete().eq('id', id).select()
-
-    console.log('Resultado de eliminación:', { error, count })
+    console.log('[Delete] Resultado DB:', { error, count })
 
     if (error) {
-        console.error('Error de base de datos al eliminar:', error)
+        console.error('[Delete] Error de base de datos:', error)
         return { error: error.message }
+    }
+
+    if (count === 0) {
+        console.warn('[Delete] No se eliminó ningún registro. El ID podría ser inválido o RLS lo bloqueó.')
+        return { error: 'No se pudo eliminar el registro. Es posible que ya no exista o no tengas permisos suficientes.' }
     }
 
     revalidatePath('/dashboard/calendar')

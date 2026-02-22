@@ -20,12 +20,17 @@ export async function signIn(formData: { email: string; password: string }) {
     redirect('/dashboard/calendar')
 }
 
-export async function signUp(formData: { email: string; password: string }) {
+export async function signUp(formData: { email: string; password: string; nombre_completo: string }) {
     const supabase = await createClient()
 
     const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
+        options: {
+            data: {
+                nombre_completo: formData.nombre_completo,
+            }
+        }
     })
 
     if (error) {
@@ -33,7 +38,7 @@ export async function signUp(formData: { email: string; password: string }) {
     }
 
     revalidatePath('/', 'layout')
-    redirect('/dashboard/calendar')
+    redirect('/dashboard/pendiente')
 }
 
 export async function signOut() {

@@ -29,6 +29,18 @@ export const loginSchema = z.object({
 
 export type LoginSchema = z.infer<typeof loginSchema>
 
+export const signUpSchema = z.object({
+    nombre_completo: z.string().min(2, 'Nombre requerido, mínimo 2 caracteres'),
+    email: z.string().email('Correo electrónico inválido'),
+    password: z.string().min(6, 'Mínimo 6 caracteres'),
+    confirm_password: z.string(),
+}).refine(data => data.password === data.confirm_password, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirm_password'],
+})
+
+export type SignUpSchema = z.infer<typeof signUpSchema>
+
 export const proveedorSchema = z.object({
     nombre: z.string().min(2, 'Nombre requerido, mínimo 2 caracteres'),
     activo: z.boolean().default(true),

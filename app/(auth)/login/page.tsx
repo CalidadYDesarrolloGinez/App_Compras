@@ -3,18 +3,17 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { loginSchema, type LoginSchema } from '@/lib/validations/schemas'
+import { loginSchema, signUpSchema, type LoginSchema, type SignUpSchema } from '@/lib/validations/schemas'
 import { signIn, signUp } from '@/lib/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, ShoppingCart, Lock, Mail } from 'lucide-react'
+import { Loader2, Lock, Mail, User, KeyRound } from 'lucide-react'
 import { toast } from 'sonner'
 
-export default function LoginPage() {
+// ─── Login Form ────────────────────────────────────────────
+function LoginForm() {
     const [loading, setLoading] = useState(false)
-    const [isSignUp, setIsSignUp] = useState(false)
-
     const form = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         defaultValues: { email: '', password: '' },
@@ -22,23 +21,150 @@ export default function LoginPage() {
 
     async function onSubmit(values: LoginSchema) {
         setLoading(true)
-        const result = isSignUp ? await signUp(values) : await signIn(values)
+        const result = await signIn(values)
         if (result?.error) {
-            toast.error(isSignUp ? 'Error al registrar' : 'Error de acceso', {
+            toast.error('Error de acceso', {
                 description: result.error === 'Invalid login credentials'
                     ? 'Correo o contraseña incorrectos'
                     : result.error,
             })
             setLoading(false)
         }
-        // On success, server action redirects
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #1A2B4A 0%, #243660 50%, #1B3D8F 100%)' }}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1.5">
+                <Label htmlFor="email" className="text-sm text-gray-700">Correo electrónico</Label>
+                <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input id="email" type="email" placeholder="usuario@empresa.com"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        {...form.register('email')} />
+                </div>
+                {form.formState.errors.email && <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>}
+            </div>
 
-            {/* Background pattern */}
+            <div className="space-y-1.5">
+                <Label htmlFor="password" className="text-sm text-gray-700">Contraseña</Label>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input id="password" type="password" placeholder="••••••••"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        {...form.register('password')} />
+                </div>
+                {form.formState.errors.password && <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>}
+            </div>
+
+            <Button type="submit" disabled={loading}
+                className="w-full mt-2 bg-[#0e0c9b] hover:bg-[#1614b5] text-white font-semibold py-5 rounded-xl transition-all">
+                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Procesando...</> : 'Ingresar al Sistema'}
+            </Button>
+        </form>
+    )
+}
+
+// ─── Sign Up Form ──────────────────────────────────────────
+function SignUpForm() {
+    const [loading, setLoading] = useState(false)
+    const [done, setDone] = useState(false)
+    const form = useForm<SignUpSchema>({
+        resolver: zodResolver(signUpSchema),
+        defaultValues: { nombre_completo: '', email: '', password: '', confirm_password: '' },
+    })
+
+    async function onSubmit(values: SignUpSchema) {
+        setLoading(true)
+        const result = await signUp({
+            nombre_completo: values.nombre_completo,
+            email: values.email,
+            password: values.password,
+        })
+        if (result?.error) {
+            toast.error('Error al registrar', { description: result.error })
+            setLoading(false)
+            return
+        }
+        setDone(true)
+    }
+
+    if (done) return (
+        <div className="text-center py-6">
+            <div className="w-14 h-14 rounded-full bg-amber-50 border-4 border-amber-100 flex items-center justify-center mx-auto mb-4">
+                <KeyRound className="h-6 w-6 text-amber-500" />
+            </div>
+            <p className="font-semibold text-gray-800 mb-1">¡Solicitud enviada!</p>
+            <p className="text-sm text-gray-500">Un administrador revisará tu cuenta y te asignará acceso.<br />Recibirás confirmación pronto.</p>
+        </div>
+    )
+
+    return (
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1.5">
+                <Label htmlFor="nombre_completo" className="text-sm text-gray-700">Nombre completo</Label>
+                <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input id="nombre_completo" type="text" placeholder="Nombre Apellido"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        {...form.register('nombre_completo')} />
+                </div>
+                {form.formState.errors.nombre_completo && <p className="text-xs text-red-500">{form.formState.errors.nombre_completo.message}</p>}
+            </div>
+
+            <div className="space-y-1.5">
+                <Label htmlFor="signup-email" className="text-sm text-gray-700">Correo electrónico</Label>
+                <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input id="signup-email" type="email" placeholder="usuario@empresa.com"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        {...form.register('email')} />
+                </div>
+                {form.formState.errors.email && <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>}
+            </div>
+
+            <div className="space-y-1.5">
+                <Label htmlFor="signup-password" className="text-sm text-gray-700">Contraseña</Label>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input id="signup-password" type="password" placeholder="Mínimo 6 caracteres"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        {...form.register('password')} />
+                </div>
+                {form.formState.errors.password && <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>}
+            </div>
+
+            <div className="space-y-1.5">
+                <Label htmlFor="confirm_password" className="text-sm text-gray-700">Confirmar contraseña</Label>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input id="confirm_password" type="password" placeholder="Repite tu contraseña"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        {...form.register('confirm_password')} />
+                </div>
+                {form.formState.errors.confirm_password && <p className="text-xs text-red-500">{form.formState.errors.confirm_password.message}</p>}
+            </div>
+
+            <p className="text-[11px] text-amber-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
+                ⚠️ Tu acceso será habilitado una vez que un administrador apruebe tu solicitud.
+            </p>
+
+            <Button type="submit" disabled={loading}
+                className="w-full mt-2 bg-[#0e0c9b] hover:bg-[#1614b5] text-white font-semibold py-5 rounded-xl transition-all">
+                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Enviando solicitud...</> : 'Solicitar Acceso'}
+            </Button>
+        </form>
+    )
+}
+
+// ─── Main Page ─────────────────────────────────────────────
+export default function LoginPage() {
+    const [isSignUp, setIsSignUp] = useState(false)
+
+    return (
+        <div className="min-h-screen flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #060559 0%, #0e0c9b 50%, #1614b5 100%)' }}>
+
+            {/* Background dot pattern */}
             <div className="absolute inset-0 opacity-5"
                 style={{ backgroundImage: 'radial-gradient(circle at 25px 25px, white 2px, transparent 0)', backgroundSize: '50px 50px' }} />
 
@@ -46,92 +172,30 @@ export default function LoginPage() {
                 {/* Card */}
                 <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
                     {/* Header band */}
-                    <div className="bg-gradient-to-r from-[#1A2B4A] to-[#1B3D8F] px-8 py-7 text-white text-center">
-                        <div className="flex items-center justify-center gap-3 mb-2">
-                            <div className="bg-white/20 rounded-xl p-2.5">
-                                <ShoppingCart className="h-6 w-6" />
-                            </div>
-                            <div className="text-left">
-                                <div className="text-xl font-bold tracking-tight">Compras</div>
-                                <div className="text-xs text-blue-200">Ginéz® Sistema Interno</div>
-                            </div>
-                        </div>
-                        <p className="text-sm text-blue-100 mt-3">
-                            Calendario de Recepción de Materias Primas
-                        </p>
+                    <div className="bg-gradient-to-r from-[#060559] to-[#0e0c9b] px-8 py-7 text-white text-center">
+                        <img src="/Logo.png" alt="GínEZ Logo" className="h-10 w-auto object-contain mx-auto mb-3 brightness-0 invert" />
+                        <p className="text-sm text-blue-200">Sistema de Gestión de Compras</p>
                     </div>
 
-                    {/* Form */}
+                    {/* Tab toggle */}
+                    <div className="flex border-b border-gray-100">
+                        <button
+                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${!isSignUp ? 'text-[#0e0c9b] border-b-2 border-[#0e0c9b]' : 'text-gray-400 hover:text-gray-600'}`}
+                            onClick={() => setIsSignUp(false)}
+                        >
+                            Iniciar Sesión
+                        </button>
+                        <button
+                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${isSignUp ? 'text-[#0e0c9b] border-b-2 border-[#0e0c9b]' : 'text-gray-400 hover:text-gray-600'}`}
+                            onClick={() => setIsSignUp(true)}
+                        >
+                            Solicitar Acceso
+                        </button>
+                    </div>
+
+                    {/* Form body */}
                     <div className="px-8 py-7">
-                        <h1 className="text-lg font-semibold text-[#1A2B4A] mb-6">
-                            {isSignUp ? 'Registrar Nueva Cuenta' : 'Iniciar Sesión'}
-                        </h1>
-
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="space-y-1.5">
-                                <Label htmlFor="email" className="text-sm text-gray-700">
-                                    Correo electrónico
-                                </Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="usuario@empresa.com"
-                                        className="pl-9 border-gray-200 focus-visible:ring-[#1B3D8F]"
-                                        {...form.register('email')}
-                                    />
-                                </div>
-                                {form.formState.errors.email && (
-                                    <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>
-                                )}
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <Label htmlFor="password" className="text-sm text-gray-700">
-                                    Contraseña
-                                </Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        placeholder="••••••••"
-                                        className="pl-9 border-gray-200 focus-visible:ring-[#1B3D8F]"
-                                        {...form.register('password')}
-                                    />
-                                </div>
-                                {form.formState.errors.password && (
-                                    <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>
-                                )}
-                            </div>
-
-                            <Button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full mt-2 bg-[#1B3D8F] hover:bg-[#1A2B4A] text-white font-semibold py-5 rounded-xl transition-all"
-                            >
-                                {loading ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Procesando...
-                                    </>
-                                ) : (
-                                    isSignUp ? 'Registrarse' : 'Ingresar al Sistema'
-                                )}
-                            </Button>
-                        </form>
-
-                        <div className="mt-4 text-center">
-                            <button
-                                type="button"
-                                onClick={() => setIsSignUp(!isSignUp)}
-                                className="text-sm border-none bg-transparent underline text-[#1B3D8F] hover:text-[#1A2B4A]"
-                            >
-                                {isSignUp ? '¿Ya tienes cuenta? Inicia sesión aquí' : '¿No tienes cuenta? Registrate aquí'}
-                            </button>
-                        </div>
-
+                        {isSignUp ? <SignUpForm /> : <LoginForm />}
                         <p className="text-xs text-center text-gray-400 mt-6">
                             Acceso restringido · Solo personal autorizado
                         </p>

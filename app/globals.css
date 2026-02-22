@@ -2,35 +2,40 @@
 
 @layer base {
   :root {
-    /* Ginéz color palette */
-    --navy:       #1A2B4A;
-    --navy-light: #243660;
-    --brand-red:  #E8192C;
-    --brand-blue: #1B3D8F;
-    --accent:     #F97316;
-    --foreground: #1A2B4A;
-    --muted:      #6B7280;
-    --border:     #E5E7EB;
-    --bg:         #F8F9FC;
-    --white:      #FFFFFF;
-    --card:       #FFFFFF;
-    --radius:     0.75rem;
+    /* Ginéz corporate color palette */
+    --navy: #0e0c9b;
+    /* Corporate Blue */
+    --navy-light: #1614b5;
+    --brand-red: #c41f1a;
+    /* Corporate Red */
+    --brand-blue: #0e0c9b;
+    /* Corporate Blue */
+    --accent: #c41f1a;
+    --foreground: #0e0c9b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --bg: #f8fafc;
+    --white: #FFFFFF;
+    --card: #FFFFFF;
+    --radius: 0.75rem;
 
     --background: 0 0% 100%;
-    --foreground-var: 222 47% 19%;
+    --foreground-var: 235 85% 32%;
     --card-bg: 0 0% 100%;
-    --card-foreground: 222 47% 19%;
-    --primary: 220 70% 32%;
+    --card-foreground: 235 85% 32%;
+    --primary: 235 85% 32%;
     --primary-foreground: 0 0% 100%;
-    --muted-bg: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --border-var: 220 13% 91%;
-    --ring: 220 70% 32%;
+    --muted-bg: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --border-var: 214 32% 91%;
+    --ring: 235 85% 32%;
   }
 }
 
 @layer base {
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+  }
 
   body {
     background-color: var(--bg);
@@ -39,16 +44,30 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
 }
 
 @layer components {
-  /* Sidebar */
+
+  /* Sidebar - Now Light Theme */
   .sidebar {
-    background-color: var(--navy);
+    background-color: #ffffff;
     height: 100vh;
     width: 220px;
     display: flex;
@@ -58,9 +77,13 @@
     top: 0;
     z-index: 40;
     transition: width 0.2s ease;
+    border-right: 1px solid var(--border);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.02);
   }
 
-  .sidebar.collapsed { width: 64px; }
+  .sidebar.collapsed {
+    width: 64px;
+  }
 
   .sidebar-nav-item {
     display: flex;
@@ -68,39 +91,40 @@
     gap: 0.75rem;
     padding: 0.6rem 1rem;
     border-radius: 0.5rem;
-    color: rgba(255,255,255,0.7);
+    color: #64748b;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    margin: 0.1rem 0.75rem;
+    margin: 0.15rem 0.75rem;
   }
 
   .sidebar-nav-item:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: #fff;
+    background-color: #f1f5f9;
+    color: var(--navy);
   }
 
   .sidebar-nav-item.active {
-    background-color: var(--brand-blue);
-    color: #fff;
+    background-color: #eef2ff;
+    color: var(--navy);
+    font-weight: 600;
   }
 
   .sidebar-section-label {
     font-size: 0.65rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+    color: #94a3b8;
     text-transform: uppercase;
-    padding: 1rem 1.75rem 0.25rem;
+    padding: 1.25rem 1.75rem 0.5rem;
   }
 
   /* Cards */
   .stat-card {
     background: var(--white);
     border-radius: var(--radius);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
     padding: 1.25rem 1.5rem;
   }
 
@@ -122,78 +146,272 @@
     letter-spacing: 0.025em;
   }
 
-  /* Calendar */
+  /* ═══════════════════════════════════════════════════
+     CALENDAR — Material Design Minimalist
+     Corporate: #0e0c9b (blue) · #c41f1a (red)
+     Harmonious complements: #4f46e5, #6366f1, #0369a1
+  ═══════════════════════════════════════════════════ */
+
   .fc {
     font-family: 'Inter', sans-serif !important;
+    --fc-border-color: #e8eaf6 !important;
+    --fc-today-bg-color: transparent !important;
+  }
+
+  /* ── Toolbar ── */
+  .fc .fc-toolbar {
+    padding: 0.5rem 0.25rem !important;
+    gap: 0.5rem !important;
+    flex-wrap: wrap !important;
   }
 
   .fc .fc-toolbar-title {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    color: var(--navy) !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #0e0c9b !important;
+    letter-spacing: -0.02em !important;
   }
 
+  /* ── Buttons – flat pill style ── */
   .fc .fc-button {
-    background-color: var(--navy) !important;
-    border-color: var(--navy) !important;
-    border-radius: 0.5rem !important;
-    font-size: 0.8rem !important;
-    padding: 0.35rem 0.75rem !important;
+    background: #f1f5f9 !important;
+    border: none !important;
+    border-radius: 20px !important;
+    font-size: 0.78rem !important;
+    padding: 0.35rem 0.9rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+    text-transform: capitalize !important;
   }
 
   .fc .fc-button:hover {
-    background-color: var(--brand-blue) !important;
-    border-color: var(--brand-blue) !important;
+    background: #e0e7ff !important;
+    color: #0e0c9b !important;
   }
 
-  .fc .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: var(--brand-blue) !important;
-    border-color: var(--brand-blue) !important;
+  .fc .fc-button-primary:not(:disabled).fc-button-active,
+  .fc .fc-button-primary:not(:disabled):focus {
+    background: #0e0c9b !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(14, 12, 155, 0.25) !important;
   }
 
-  .fc-event {
-    border-radius: 4px !important;
-    border: none !important;
-    font-size: 0.75rem !important;
-    padding: 2px 4px !important;
-    cursor: pointer !important;
+  /* prev/next arrows */
+  .fc .fc-prev-button,
+  .fc .fc-next-button {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
   }
 
-  .fc-daygrid-event-harness {
-    margin-top: 2px !important;
+  .fc .fc-prev-button:hover,
+  .fc .fc-next-button:hover {
+    background: #e0e7ff !important;
+    color: #0e0c9b !important;
   }
 
-  .fc th {
-    color: var(--muted) !important;
-    font-size: 0.75rem !important;
-    font-weight: 600 !important;
+  /* ── Day-of-week header row ── */
+  .fc-col-header-cell {
+    background: #f8f9fc !important;
+    border-bottom: 2px solid #e8eaf6 !important;
+    border-left: none !important;
+    border-right: none !important;
+    padding: 0.7rem 0 !important;
+  }
+
+  .fc-col-header-cell-cushion {
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    padding: 0.5rem 0 !important;
+    color: #94a3b8 !important;
+    text-decoration: none !important;
+    padding: 0 !important;
   }
 
-  .fc td.fc-day-today {
-    background-color: rgba(27, 61, 143, 0.04) !important;
+  /* Weekend header labels tinted */
+  .fc-day-sat .fc-col-header-cell-cushion,
+  .fc-day-sun .fc-col-header-cell-cushion {
+    color: #c41f1a !important;
+    opacity: 0.65 !important;
   }
 
-  .fc .fc-daygrid-day-number {
-    color: var(--navy) !important;
-    font-weight: 500 !important;
-    font-size: 0.85rem !important;
+  /* ── Day cells ── */
+  .fc-daygrid-day {
+    background: #ffffff !important;
+    transition: background 0.15s ease !important;
+    min-height: 90px !important;
+  }
+
+  .fc-daygrid-day:hover {
+    background: #fafbff !important;
+  }
+
+  /* Weekend columns get warm tint */
+  .fc-day-sat,
+  .fc-day-sun {
+    background: #fdf8f8 !important;
+  }
+
+  /* Cells outside current month */
+  .fc-day-other {
+    background: #f8f9fc !important;
+    opacity: 0.7 !important;
+  }
+
+  .fc-day-other .fc-daygrid-day-number {
+    color: #cbd5e1 !important;
+  }
+
+  /* ── Day number – Material circle ── */
+  .fc-daygrid-day-top {
+    padding: 6px 8px 2px !important;
+    justify-content: flex-end !important;
+  }
+
+  .fc-daygrid-day-number {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    text-decoration: none !important;
+    transition: background 0.15s ease !important;
+  }
+
+  .fc-daygrid-day-number:hover {
+    background: #e0e7ff !important;
+    color: #0e0c9b !important;
+  }
+
+  /* TODAY — filled royal blue circle */
+  .fc-day-today .fc-daygrid-day-number {
+    background: #0e0c9b !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
+
+  .fc-day-today .fc-daygrid-day-number:hover {
+    background: #1614b5 !important;
+    color: #ffffff !important;
+  }
+
+  /* Grid border lines – ultra thin */
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border-color: #e8eaf6 !important;
+  }
+
+  /* ── Event cards – Material flat card with left colored border ── */
+  .fc-event {
+    border-radius: 6px !important;
+    border: none !important;
+    border-left: 3px solid transparent !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    transition: box-shadow 0.15s ease, transform 0.1s ease !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+
+  .fc-event:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* The actual colored block inside the event */
+  .fc-daygrid-event-harness {
+    margin-top: 3px !important;
+    padding: 0 2px !important;
+  }
+
+  .fc-daygrid-block-event .fc-event-main {
+    color: inherit !important;
+  }
+
+  /* "+N more" link */
+  .fc-daygrid-more-link {
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    color: #6366f1 !important;
+    background: #eef2ff !important;
+    border-radius: 4px !important;
+    padding: 1px 6px !important;
+    margin-left: 4px !important;
+    text-decoration: none !important;
+    border: none !important;
+  }
+
+  .fc-daygrid-more-link:hover {
+    background: #e0e7ff !important;
+    color: #4f46e5 !important;
+  }
+
+  /* Popover for "+N more" */
+  .fc-popover {
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+    overflow: hidden !important;
+  }
+
+  .fc-popover-header {
+    background: #0e0c9b !important;
+    color: #fff !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  .fc-popover-body {
+    padding: 0.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
   }
 
   /* Animations */
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .animate-fade-in { animation: fade-in 0.2s ease-out; }
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+  }
 
   @keyframes slide-in {
-    from { opacity: 0; transform: translateX(-8px); }
-    to   { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
-  .animate-slide-in { animation: slide-in 0.15s ease-out; }
+  .animate-slide-in {
+    animation: slide-in 0.15s ease-out;
+  }
 }

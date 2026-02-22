@@ -97,11 +97,12 @@ export interface RequisicionHistorial {
 // AUTH / ROLES
 // ============================================================
 
-export type UserRole = 'admin' | 'coordinadora' | 'consulta'
+export type UserRole = 'admin' | 'coordinadora' | 'laboratorio' | 'cedis' | 'pendiente' | 'consulta'
 
 export interface Profile {
     id: string
     nombre_completo: string | null
+    email: string | null
     rol: UserRole
     created_at: string
     updated_at: string

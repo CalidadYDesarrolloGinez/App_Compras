@@ -42,8 +42,8 @@ export function UpcomingDeliveries() {
         return (
             <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-blue-50/30">
                 <CardHeader className="pb-3 border-b border-gray-100">
-                    <CardTitle className="text-sm font-bold text-[#1A2B4A] flex items-center gap-2">
-                        <Truck className="h-4 w-4 text-[#1B3D8F]" />
+                    <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[#0e0c9b]" />
                         Próximas Entregas (7 días)
                     </CardTitle>
                 </CardHeader>
@@ -57,18 +57,18 @@ export function UpcomingDeliveries() {
     }
 
     return (
-        <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-blue-50/30 relative overflow-hidden">
+        <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-slate-50 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                <Truck className="h-24 w-24 text-[#1A2B4A]" />
+                <Truck className="h-24 w-24 text-[#0e0c9b]" />
             </div>
 
             <CardHeader className="pb-3 border-b border-gray-100 bg-white/50 backdrop-blur-sm relative z-10">
                 <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-bold text-[#1A2B4A] flex items-center gap-2">
-                        <Truck className="h-4 w-4 text-[#1B3D8F]" />
+                    <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[#0e0c9b]" />
                         Próximas Entregas (7 días)
                     </CardTitle>
-                    <Badge className="bg-[#1B3D8F] hover:bg-[#1A2B4A]">
+                    <Badge className="bg-[#0e0c9b] hover:bg-[#1614b5]">
                         {upcoming.length}
                     </Badge>
                 </div>

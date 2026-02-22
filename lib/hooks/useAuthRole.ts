@@ -11,10 +11,16 @@ interface UseAuthRoleReturn {
     role: UserRole | null
     isAdmin: boolean
     isCoordinadora: boolean
+    isLaboratorio: boolean
+    isCedis: boolean
+    isPendiente: boolean
     isConsulta: boolean
     canCreate: boolean
     canEdit: boolean
     canDelete: boolean
+    canViewOnly: boolean
+    canManageUsers: boolean
+    canAccessAdmin: boolean
     loading: boolean
 }
 
@@ -67,10 +73,17 @@ export function useAuthRole(): UseAuthRoleReturn {
     const role = profile?.rol ?? null
     const isAdmin = role === 'admin'
     const isCoordinadora = role === 'coordinadora'
+    const isLaboratorio = role === 'laboratorio'
+    const isCedis = role === 'cedis'
+    const isPendiente = role === 'pendiente'
     const isConsulta = role === 'consulta'
+
     const canCreate = isAdmin || isCoordinadora
     const canEdit = isAdmin || isCoordinadora
     const canDelete = isAdmin
+    const canViewOnly = isLaboratorio || isCedis || isConsulta
+    const canManageUsers = isAdmin || isCoordinadora
+    const canAccessAdmin = isAdmin || isCoordinadora
 
     return {
         user,
@@ -78,10 +91,16 @@ export function useAuthRole(): UseAuthRoleReturn {
         role,
         isAdmin,
         isCoordinadora,
+        isLaboratorio,
+        isCedis,
+        isPendiente,
         isConsulta,
         canCreate,
         canEdit,
         canDelete,
+        canViewOnly,
+        canManageUsers,
+        canAccessAdmin,
         loading,
     }
 }
