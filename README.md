@@ -1,8 +1,8 @@
-# 📦 GínEZ | Gestión de Compras e Inventarios
+# 📦 GINEZ Calendario y Gestión de Requisiciones de Compras de MP
 
 Sistema empresarial avanzado para el control, seguimiento y gestión integral de requisiciones de materias primas, suministros y entregas logísticas.
 
-![Dashboard Preview](https://github.com/AlejandroMartinezG/App_Compras/blob/main/public/preview.png?raw=true "Vista previa opcional") *(Nota: Reemplazar con imagen real si está disponible)*
+![Dashboard Preview](public/dashboard-preview.png "Vista del Calendario de Recepción")
 
 ## 🎯 Propósito del Sistema
 Optimizar el flujo de suministros de **GínEZ**, permitiendo una comunicación fluida entre los departamentos de Compras, Laboratorio, CEDIS y los proveedores externos, garantizando que cada insumo llegue en el tiempo y forma solicitados.
