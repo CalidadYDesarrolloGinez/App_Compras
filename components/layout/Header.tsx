@@ -1,6 +1,7 @@
 'use client'
 
 import { Bell, LogOut, ChevronRight, User } from 'lucide-react'
+import Link from 'next/link'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -63,7 +64,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                             {loading ? (
                                 <Skeleton className="h-8 w-8 rounded-full" />
                             ) : (
-                                <Avatar className="h-8 w-8">
+                                <Avatar className="h-8 w-8 border border-gray-100">
                                     <AvatarFallback className="bg-[#0e0c9b] text-white text-xs font-bold">
                                         {initials}
                                     </AvatarFallback>
@@ -85,19 +86,23 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                             </div>
                         </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuLabel className="font-normal">
-                            <p className="text-sm font-medium">{profile?.nombre_completo}</p>
-                            <p className="text-xs text-gray-400">{user?.email}</p>
+                    <DropdownMenuContent align="end" className="w-56 bg-white opacity-100 shadow-xl border-gray-200">
+                        <DropdownMenuLabel className="font-normal py-3">
+                            <div className="flex flex-col gap-0.5">
+                                <p className="text-sm font-semibold text-gray-900">{profile?.nombre_completo}</p>
+                                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                            </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="gap-2 text-gray-600">
-                            <User className="h-4 w-4" />
-                            Mi perfil
-                        </DropdownMenuItem>
+                        <Link href="/dashboard/configuracion">
+                            <DropdownMenuItem className="gap-2 text-gray-700 cursor-pointer py-2.5">
+                                <User className="h-4 w-4" />
+                                Mi perfil
+                            </DropdownMenuItem>
+                        </Link>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            className="gap-2 text-red-600 focus:text-red-600 focus:bg-red-50"
+                            className="gap-2 text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer py-2.5"
                             onClick={() => signOut()}
                         >
                             <LogOut className="h-4 w-4" />

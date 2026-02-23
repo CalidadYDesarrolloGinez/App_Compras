@@ -38,7 +38,18 @@ export default function RequisicionesTablePage() {
         setLoading(true)
         const { data, error } = await getRequisiciones(filters)
         if (!error && data) {
-            setRequisiciones(data as Requisicion[])
+            // Sort: Recibido at the bottom, others at the top
+            const sortedData = [...(data as Requisicion[])].sort((a, b) => {
+                const isARecibido = a.estatus?.nombre === 'Recibido'
+                const isBRecibido = b.estatus?.nombre === 'Recibido'
+
+                if (isARecibido && !isBRecibido) return 1
+                if (!isARecibido && isBRecibido) return -1
+
+                // Secondary sort: by date
+                return new Date(a.fecha_recepcion).getTime() - new Date(b.fecha_recepcion).getTime()
+            })
+            setRequisiciones(sortedData)
         }
         setLoading(false)
     }
@@ -89,6 +100,7 @@ export default function RequisicionesTablePage() {
                                 <TableHead className="font-semibold text-[#0e0c9b]">Fecha Conf.</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">Cant. Ent.</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">F. Entrega</TableHead>
+                                <TableHead className="font-semibold text-[#0e0c9b]">Cant. Pend.</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">Estatus</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">Destino</TableHead>
                                 <TableHead className="text-right font-semibold text-[#0e0c9b]">Acciones</TableHead>
@@ -106,6 +118,7 @@ export default function RequisicionesTablePage() {
                                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                                         <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-32" /></TableCell>
                                         <TableCell><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
@@ -113,7 +126,7 @@ export default function RequisicionesTablePage() {
                                 ))
                             ) : requisiciones.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={11} className="h-24 text-center text-gray-500">
+                                    <TableCell colSpan={12} className="h-24 text-center text-gray-500">
                                         No se encontraron resultados para los filtros seleccionados.
                                     </TableCell>
                                 </TableRow>
@@ -152,6 +165,12 @@ export default function RequisicionesTablePage() {
                                             {req.fecha_entregado
                                                 ? format(new Date(req.fecha_entregado + 'T00:00:00'), 'dd/MMM/yy', { locale: es })
                                                 : '---'}
+                                        </TableCell>
+                                        <TableCell className="text-sm font-bold text-red-600">
+                                            {(() => {
+                                                const pendiente = Number(req.cantidad_solicitada) - Number(req.cantidad_entregada || 0)
+                                                return pendiente > 0 ? `${pendiente.toLocaleString('es-MX')} ${req.unidad_cantidad?.abreviatura}` : '---'
+                                            })()}
                                         </TableCell>
                                         <TableCell>
                                             <Badge

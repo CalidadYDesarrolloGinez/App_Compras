@@ -247,7 +247,9 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.proveedores.map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
+                                                {catalogos.proveedores
+                                                    .filter(p => p.activo || p.id === form.getValues('proveedor_id'))
+                                                    .map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                         <Button
@@ -270,7 +272,9 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.productos.map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
+                                                {catalogos.productos
+                                                    .filter(p => p.activo || p.id === form.getValues('producto_id'))
+                                                    .map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                         <Button
@@ -293,7 +297,9 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.presentaciones.map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
+                                                {catalogos.presentaciones
+                                                    .filter(p => p.activo || p.id === form.getValues('presentacion_id'))
+                                                    .map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                         <Button
@@ -316,7 +322,9 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.destinos.map(d => <SelectItem key={d.id} value={d.id}>{d.nombre}</SelectItem>)}
+                                                {catalogos.destinos
+                                                    .filter(d => d.activo || d.id === form.getValues('destino_id'))
+                                                    .map(d => <SelectItem key={d.id} value={d.id}>{d.nombre}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                         <Button
@@ -339,7 +347,9 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.estatus.map(e => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
+                                                {catalogos.estatus
+                                                    .filter(e => e.activo || e.id === form.getValues('estatus_id'))
+                                                    .map(e => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                         <Button
@@ -364,7 +374,9 @@ export function RequisicionFormModal({
                                             >
                                                 <SelectTrigger className="h-8 text-xs bg-white w-20"><SelectValue placeholder="UM" /></SelectTrigger>
                                                 <SelectContent>
-                                                    {catalogos.unidades.map(u => <SelectItem key={u.id} value={u.id}>{u.abreviatura}</SelectItem>)}
+                                                    {catalogos.unidades
+                                                        .filter(u => u.activo || u.id === form.getValues('unidad_cantidad_id'))
+                                                        .map(u => <SelectItem key={u.id} value={u.id}>{u.abreviatura}</SelectItem>)}
                                                 </SelectContent>
                                             </Select>
                                             <Button
