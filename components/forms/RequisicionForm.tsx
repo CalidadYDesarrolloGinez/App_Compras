@@ -122,9 +122,23 @@ export function RequisicionFormModal({
         }
     }, [open, initialData, form])
 
-    const onSubmit = async (values: RequisicionSchema) => {
+    const onSubmit = async (data: RequisicionSchema) => {
         setIsSubmitting(true)
         let result
+
+        // Sanitize values: empty strings to null for database compatibility
+        const values: RequisicionFormData = {
+            ...data,
+            fecha_oc: data.fecha_oc === '' ? null : data.fecha_oc,
+            fecha_solicitada_entrega: data.fecha_solicitada_entrega === '' ? null : data.fecha_solicitada_entrega,
+            fecha_confirmada: data.fecha_confirmada === '' ? null : data.fecha_confirmada,
+            fecha_entregado: data.fecha_entregado === '' ? null : data.fecha_entregado,
+            cantidad_entregada: (data.cantidad_entregada === null || isNaN(data.cantidad_entregada as number)) ? null : data.cantidad_entregada,
+            numero_oc: data.numero_oc === '' ? null : data.numero_oc,
+            requisicion_numero: data.requisicion_numero === '' ? null : data.requisicion_numero,
+            factura_remision: data.factura_remision === '' ? null : data.factura_remision,
+            comentarios: data.comentarios === '' ? null : data.comentarios,
+        }
 
         try {
             if (isEdit) {
@@ -150,7 +164,7 @@ export function RequisicionFormModal({
                 }
 
                 const modifications = Object.keys(values).reduce((acc, key) => {
-                    const k = key as keyof RequisicionSchema
+                    const k = key as keyof RequisicionFormData
                     const newVal = String(values[k] ?? '')
                     const oldVal = String(initialData[k as keyof Requisicion] ?? '')
 
@@ -164,9 +178,9 @@ export function RequisicionFormModal({
                     return acc
                 }, [] as Array<{ campo: string; anterior: string; nuevo: string }>)
 
-                result = await updateRequisicion(initialData.id, values as RequisicionFormData, modifications)
+                result = await updateRequisicion(initialData.id, values, modifications)
             } else {
-                result = await createRequisicion(values as RequisicionFormData)
+                result = await createRequisicion(values)
             }
 
             if (result?.error) {
