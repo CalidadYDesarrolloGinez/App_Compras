@@ -1,4 +1,4 @@
-# Gestión de Compras GínEZ
+# Gestión de Compras GINEZ
 
 Sistema integral para el control, seguimiento y gestión de requisiciones y entregas de materias primas.
 
