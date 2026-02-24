@@ -29,7 +29,28 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Loader2, Plus } from 'lucide-react'
+import {
+    Loader2,
+    Plus,
+    FileText,
+    Hash,
+    Calendar,
+    Barcode,
+    Clock,
+    CheckCircle,
+    FileCheck,
+    Package,
+    Factory,
+    Box,
+    Layers,
+    MapPin,
+    ClipboardList,
+    Scale,
+    Truck,
+    CalendarCheck,
+    Check,
+    MessageSquare
+} from 'lucide-react'
 import { QuickAddModal } from './QuickAddModal'
 import { createClient } from '@/lib/supabase/client'
 import { useAuthRole } from '@/lib/hooks/useAuthRole'
@@ -214,26 +235,44 @@ export function RequisicionFormModal({
                     <div className="space-y-6">
                         {/* Section 1: Manual Input Fields (Excel Style) */}
                         <div className="bg-white p-4 rounded-lg border border-gray-200">
-                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b pb-2">Datos de la Requisición</h3>
+                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b pb-2 flex items-center gap-2">
+                                <FileText className="h-4 w-4 text-[#1B3D8F]" />
+                                Datos de la Requisición
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">№ REQUI</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Hash className="h-3 w-3 text-gray-400" />
+                                        № REQUI
+                                    </Label>
                                     <Input {...form.register('requisicion_numero')} className="h-8 text-sm" placeholder="F0000" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">FECHA DE OC</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Calendar className="h-3 w-3 text-gray-400" />
+                                        FECHA DE OC
+                                    </Label>
                                     <Input type="date" {...form.register('fecha_oc')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">FOLIO OC</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Barcode className="h-3 w-3 text-gray-400" />
+                                        FOLIO OC
+                                    </Label>
                                     <Input {...form.register('numero_oc')} className="h-8 text-sm" placeholder="GG-01000" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">FECHA SOLICITADA</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Clock className="h-3 w-3 text-gray-400" />
+                                        FECHA SOLICITADA
+                                    </Label>
                                     <Input type="date" {...form.register('fecha_solicitada_entrega')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className={`text-xs font-semibold ${canEditConfirmedDate ? 'text-[#1B3D8F]' : 'text-gray-400'}`}>FECHA CONFIRMADA *</Label>
+                                    <Label className={`text-xs font-semibold flex items-center gap-1.5 ${canEditConfirmedDate ? 'text-[#1B3D8F]' : 'text-gray-400'}`}>
+                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[#1B3D8F]' : 'text-gray-400'}`} />
+                                        FECHA CONFIRMADA *
+                                    </Label>
                                     <Input
                                         type="date"
                                         {...form.register('fecha_confirmada')}
@@ -242,7 +281,10 @@ export function RequisicionFormModal({
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">FACTURA / REMISIÓN</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <FileCheck className="h-3 w-3 text-gray-400" />
+                                        FACTURA / REMISIÓN
+                                    </Label>
                                     <Input {...form.register('factura_remision')} className="h-8 text-sm" />
                                 </div>
                             </div>
@@ -250,10 +292,16 @@ export function RequisicionFormModal({
 
                         {/* Section 2: Catalog Selection */}
                         <div className="bg-blue-50/30 p-4 rounded-lg border border-blue-100">
-                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b border-blue-100 pb-2">Detalles del Material (Catálogo)</h3>
+                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b border-blue-100 pb-2 flex items-center gap-2">
+                                <Package className="h-4 w-4 text-[#1B3D8F]" />
+                                Detalles del Material (Catálogo)
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">PROVEEDOR *</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Factory className="h-3 w-3 text-gray-400" />
+                                        PROVEEDOR *
+                                    </Label>
                                     <div className="flex gap-1.5">
                                         <Select
                                             value={form.watch('proveedor_id')}
@@ -278,7 +326,10 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">PRODUCTO *</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Box className="h-3 w-3 text-gray-400" />
+                                        PRODUCTO *
+                                    </Label>
                                     <div className="flex gap-1.5">
                                         <Select
                                             value={form.watch('producto_id')}
@@ -303,7 +354,10 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">PRESENTACIÓN *</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Layers className="h-3 w-3 text-gray-400" />
+                                        PRESENTACIÓN *
+                                    </Label>
                                     <div className="flex gap-1.5">
                                         <Select
                                             value={form.watch('presentacion_id')}
@@ -328,7 +382,10 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">DESTINO *</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <MapPin className="h-3 w-3 text-gray-400" />
+                                        DESTINO *
+                                    </Label>
                                     <div className="flex gap-1.5">
                                         <Select
                                             value={form.watch('destino_id')}
@@ -353,7 +410,10 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">ESTATUS *</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <ClipboardList className="h-3 w-3 text-gray-400" />
+                                        ESTATUS *
+                                    </Label>
                                     <div className="flex gap-1.5">
                                         <Select
                                             value={form.watch('estatus_id')}
@@ -378,7 +438,10 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">CANTIDAD Y UNIDAD *</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Scale className="h-3 w-3 text-gray-400" />
+                                        CANTIDAD Y UNIDAD *
+                                    </Label>
                                     <div className="flex gap-2">
                                         <Input type="number" step="0.01" {...form.register('cantidad_solicitada', { valueAsNumber: true })} className="h-8 text-sm bg-white flex-1" />
                                         <div className="flex gap-1">
@@ -410,21 +473,33 @@ export function RequisicionFormModal({
 
                         {/* Delivery Information Section */}
                         <div className="bg-emerald-50/20 p-4 rounded-lg border border-emerald-100/50">
-                            <h3 className="text-sm font-bold text-[#065F46] mb-4 border-b border-emerald-100 pb-2">Información de Entrega (Cierre)</h3>
+                            <h3 className="text-sm font-bold text-[#065F46] mb-4 border-b border-emerald-100 pb-2 flex items-center gap-2">
+                                <Truck className="h-4 w-4 text-[#065F46]" />
+                                Información de Entrega (Cierre)
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">FECHA ENTREGADO</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <CalendarCheck className="h-3 w-3 text-gray-400" />
+                                        FECHA ENTREGADO
+                                    </Label>
                                     <Input type="date" {...form.register('fecha_entregado')} className="h-8 text-sm bg-white" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600">CANTIDAD ENTREGADA</Label>
+                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                        <Check className="h-3 w-3 text-gray-400" />
+                                        CANTIDAD ENTREGADA
+                                    </Label>
                                     <Input type="number" step="0.01" {...form.register('cantidad_entregada', { valueAsNumber: true })} className="h-8 text-sm bg-white" />
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label className="text-xs font-semibold text-gray-600">COMENTARIOS / NOTAS</Label>
+                            <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                                <MessageSquare className="h-3 w-3 text-gray-400" />
+                                COMENTARIOS / NOTAS
+                            </Label>
                             <Textarea
                                 className="bg-white resize-none h-20 text-sm"
                                 placeholder="Instrucciones adicionales..."

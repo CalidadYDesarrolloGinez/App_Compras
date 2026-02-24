@@ -4,7 +4,21 @@ import React from 'react'
 import { useCatalogos } from '@/lib/hooks/useCatalogos'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { Filter, X, Calendar as CalendarIcon } from 'lucide-react'
+import {
+    Filter,
+    X,
+    Calendar as CalendarIcon,
+    XCircle,
+    CheckCircle2,
+    Search,
+    Truck,
+    Clock,
+    PackageCheck,
+    AlertCircle,
+    LucideIcon,
+    ClipboardList,
+    Factory
+} from 'lucide-react'
 import type { RequisicionFilters } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,6 +26,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 interface SidebarFiltersProps {
     filters: RequisicionFilters
     onFilterChange: (filters: RequisicionFilters) => void
+}
+
+const STATUS_ICONS: Record<string, LucideIcon> = {
+    'cancelado': XCircle,
+    'confirmado': CheckCircle2,
+    'en revisión': Search,
+    'en revision': Search,
+    'en tránsito': Truck,
+    'en transito': Truck,
+    'pendiente': Clock,
+    'recibido': PackageCheck,
+}
+
+const getStatusIcon = (statusName: string = '') => {
+    return STATUS_ICONS[statusName.toLowerCase()] || AlertCircle
 }
 
 export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps) {
@@ -54,54 +83,44 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                     )}
                 </div>
             </CardHeader>
-            <CardContent className="p-4 space-y-4">
-                <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">Proveedor</label>
-                    <Select
-                        value={filters.proveedor_id || 'all'}
-                        onValueChange={(val) => handleChange('proveedor_id', val)}
-                        disabled={loading}
-                    >
-                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b]">
-                            <SelectValue placeholder="Todos los proveedores" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">Todos los proveedores</SelectItem>
-                            {catalogos.proveedores.map(p => (
-                                <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+            <CardContent className="p-3.5 space-y-4">
+                {/* Status Legend Guide */}
+                <div className="space-y-2 pb-3 border-b border-gray-100/80">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.1em] ml-1">Guía de Estatus</label>
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-2 px-1">
+                        {catalogos.estatus.map(e => {
+                            const Icon = getStatusIcon(e.nombre)
+                            return (
+                                <div key={e.id} className="flex items-center gap-1.5 mr-1">
+                                    <Icon
+                                        size={11}
+                                        style={{ color: e.color_hex }}
+                                        className="shrink-0"
+                                    />
+                                    <span className="text-[10px] font-semibold text-gray-600 truncate uppercase tracking-tighter">
+                                        {e.nombre}
+                                    </span>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">Destino</label>
-                    <Select
-                        value={filters.destino_id || 'all'}
-                        onValueChange={(val) => handleChange('destino_id', val)}
-                        disabled={loading}
-                    >
-                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b]">
-                            <SelectValue placeholder="Todos los destinos" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">Todos los destinos</SelectItem>
-                            {catalogos.destinos.map(d => (
-                                <SelectItem key={d.id} value={d.id}>{d.nombre}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">Estatus</label>
+                <div className="space-y-1.5 pt-1">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 flex items-center gap-1.5">
+                        <ClipboardList className="h-3 w-3 text-gray-400" />
+                        Estatus
+                    </label>
                     <Select
                         value={filters.estatus_id || 'all'}
                         onValueChange={(val) => handleChange('estatus_id', val)}
                         disabled={loading}
                     >
-                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b]">
-                            <SelectValue placeholder="Todos los estatus" />
+                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b] pl-2">
+                            <div className="flex items-center gap-2 overflow-hidden">
+                                <ClipboardList className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                                <SelectValue placeholder="Todos los estatus" />
+                            </div>
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">Todos los estatus</SelectItem>
@@ -118,8 +137,36 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                 </div>
 
                 <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">Desde Fecha</label>
-                    <div className="relative">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 flex items-center gap-1.5">
+                        <Factory className="h-3 w-3 text-gray-400" />
+                        Proveedor
+                    </label>
+                    <Select
+                        value={filters.proveedor_id || 'all'}
+                        onValueChange={(val) => handleChange('proveedor_id', val)}
+                        disabled={loading}
+                    >
+                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b] pl-2">
+                            <div className="flex items-center gap-2 overflow-hidden">
+                                <Factory className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                                <SelectValue placeholder="Todos los proveedores" />
+                            </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Todos los proveedores</SelectItem>
+                            {catalogos.proveedores.map(p => (
+                                <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 flex items-center gap-1.5">
+                        <CalendarIcon className="h-3 w-3 text-gray-400" />
+                        Desde Fecha
+                    </label>
+                    <div className="relative max-w-[140px]">
                         <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                         <Input
                             type="date"

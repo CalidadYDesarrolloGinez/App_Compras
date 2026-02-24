@@ -94,6 +94,7 @@ export default function RequisicionesTablePage() {
                             <TableRow>
                                 <TableHead className="w-[100px] font-semibold text-[#0e0c9b]"># Requi</TableHead>
                                 <TableHead className="w-[110px] font-semibold text-[#0e0c9b]">Fecha Rec.</TableHead>
+                                <TableHead className="w-[100px] font-semibold text-[#0e0c9b]">FOLIO OC</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">Proveedor</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">Producto</TableHead>
                                 <TableHead className="font-semibold text-[#0e0c9b]">Fecha Sol.</TableHead>
@@ -112,6 +113,7 @@ export default function RequisicionesTablePage() {
                                     <TableRow key={i}>
                                         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-16" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-32" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-48" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
@@ -126,7 +128,7 @@ export default function RequisicionesTablePage() {
                                 ))
                             ) : requisiciones.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={12} className="h-24 text-center text-gray-500">
+                                    <TableCell colSpan={13} className="h-24 text-center text-gray-500">
                                         No se encontraron resultados para los filtros seleccionados.
                                     </TableCell>
                                 </TableRow>
@@ -138,6 +140,9 @@ export default function RequisicionesTablePage() {
                                         </TableCell>
                                         <TableCell className="font-medium whitespace-nowrap">
                                             {format(new Date(req.fecha_recepcion + 'T00:00:00'), 'dd/MMM/yy', { locale: es })}
+                                        </TableCell>
+                                        <TableCell className="font-mono text-xs font-bold text-gray-700">
+                                            {req.numero_oc || '---'}
                                         </TableCell>
                                         <TableCell>
                                             <div className="font-medium text-gray-900">{req.proveedor?.nombre}</div>

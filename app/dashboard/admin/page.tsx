@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { getPendingUsers, getActiveUsers, approveUser, rejectUser, updateUserRole } from '@/lib/actions/users'
+import { getPendingUsers, getActiveUsers, approveUser, rejectUser, updateUserRole, deleteUser } from '@/lib/actions/users'
 import type { Profile, UserRole } from '@/types'
 import { useAuthRole } from '@/lib/hooks/useAuthRole'
 import { useRouter } from 'next/navigation'
@@ -15,6 +15,7 @@ import {
     AlertTriangle,
     Loader2,
     ChevronDown,
+    Trash2,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -165,8 +166,8 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
                                 key={r}
                                 onClick={() => setApproveModal(p => ({ ...p, role: r }))}
                                 className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all text-sm font-medium ${approveModal.role === r
-                                        ? 'border-[#0e0c9b] bg-indigo-50'
-                                        : 'border-gray-200 hover:border-gray-300'
+                                    ? 'border-[#0e0c9b] bg-indigo-50'
+                                    : 'border-gray-200 hover:border-gray-300'
                                     }`}
                             >
                                 <span
@@ -217,6 +218,7 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
     const [users, setUsers] = useState<Profile[]>([])
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState<string | null>(null)
+    const [deleteModal, setDeleteModal] = useState<{ open: boolean; user: Profile | null }>({ open: false, user: null })
 
     const load = useCallback(async () => {
         setLoading(true)
@@ -233,6 +235,17 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
         setSaving(null)
         if (error) { toast.error('Error al actualizar rol'); return }
         toast.success('Rol actualizado correctamente')
+        load()
+    }
+
+    const handleDelete = async () => {
+        if (!deleteModal.user) return
+        setSaving(deleteModal.user.id)
+        const { error } = await deleteUser(deleteModal.user.id)
+        setSaving(null)
+        setDeleteModal({ open: false, user: null })
+        if (error) { toast.error('Error al eliminar usuario'); return }
+        toast.success('Usuario eliminado permanentemente')
         load()
     }
 
@@ -264,28 +277,40 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
                                 {new Date(u.created_at).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })}
                             </td>
                             <td className="py-3 text-right">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" size="sm" className="text-xs h-7 gap-1.5" disabled={saving === u.id}>
-                                            {saving === u.id && <Loader2 className="h-3 w-3 animate-spin" />}
-                                            Cambiar <ChevronDown className="h-3 w-3" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        {ASSIGNABLE_ROLES.map(r => (
-                                            <DropdownMenuItem
-                                                key={r}
-                                                className="gap-2 text-xs"
-                                                onClick={() => handleRoleChange(u.id, r)}
-                                                disabled={u.rol === r}
-                                            >
-                                                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ROLE_META[r]?.bg }} />
-                                                {ROLE_META[r]?.label}
-                                                {u.rol === r && <span className="ml-auto text-[10px] text-gray-400">actual</span>}
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                <div className="flex items-center justify-end gap-2">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="outline" size="sm" className="text-xs h-7 gap-1.5" disabled={saving === u.id}>
+                                                {saving === u.id && <Loader2 className="h-3 w-3 animate-spin" />}
+                                                Cambiar <ChevronDown className="h-3 w-3" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-xl z-50">
+                                            {ASSIGNABLE_ROLES.map(r => (
+                                                <DropdownMenuItem
+                                                    key={r}
+                                                    className="gap-2 text-xs focus:bg-gray-100 cursor-pointer"
+                                                    onClick={() => handleRoleChange(u.id, r)}
+                                                    disabled={u.rol === r}
+                                                >
+                                                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ROLE_META[r]?.bg }} />
+                                                    {ROLE_META[r]?.label}
+                                                    {u.rol === r && <span className="ml-auto text-[10px] text-gray-400">actual</span>}
+                                                </DropdownMenuItem>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-7 w-7 text-gray-400 hover:text-red-600 hover:bg-red-50"
+                                        onClick={() => setDeleteModal({ open: true, user: u })}
+                                        disabled={saving === u.id}
+                                    >
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                    </Button>
+                                </div>
                             </td>
                         </tr>
                     ))}
@@ -294,6 +319,29 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
             {users.length === 0 && (
                 <p className="text-center text-gray-400 py-10">No hay usuarios activos registrados.</p>
             )}
+
+            {/* Delete Active User Modal */}
+            <Dialog open={deleteModal.open} onOpenChange={o => !o && setDeleteModal({ open: false, user: null })}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="text-[#c41f1a] flex items-center gap-2">
+                            <AlertTriangle className="h-5 w-5" />
+                            Eliminar usuario activo
+                        </DialogTitle>
+                        <DialogDescription>
+                            ¿Estás completamente seguro de eliminar a <strong>{deleteModal.user?.nombre_completo || deleteModal.user?.email}</strong>?<br /><br />
+                            Esta acción eliminará permanentemente la cuenta y el acceso del usuario. Esta operación no se puede deshacer.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setDeleteModal({ open: false, user: null })}>Cancelar</Button>
+                        <Button className="bg-[#c41f1a] hover:bg-[#a31a16]" onClick={handleDelete} disabled={!!saving}>
+                            {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                            Sí, eliminar usuario
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
@@ -329,8 +377,8 @@ export default function AdminPage() {
                     <button
                         onClick={() => setTab('pendientes')}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'pendientes'
-                                ? 'bg-[#0e0c9b] text-white shadow-sm'
-                                : 'text-gray-500 hover:bg-gray-50'
+                            ? 'bg-[#0e0c9b] text-white shadow-sm'
+                            : 'text-gray-500 hover:bg-gray-50'
                             }`}
                     >
                         <Clock className="h-4 w-4" />
@@ -339,8 +387,8 @@ export default function AdminPage() {
                     <button
                         onClick={() => setTab('activos')}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'activos'
-                                ? 'bg-[#0e0c9b] text-white shadow-sm'
-                                : 'text-gray-500 hover:bg-gray-50'
+                            ? 'bg-[#0e0c9b] text-white shadow-sm'
+                            : 'text-gray-500 hover:bg-gray-50'
                             }`}
                     >
                         <Users className="h-4 w-4" />

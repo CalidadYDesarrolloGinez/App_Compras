@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { BookOpen, Plus, Trash2 } from 'lucide-react'
+import { BookOpen, Plus, Trash2, Pencil, Factory, Package, Layers, MapPin, ClipboardList, Scale } from 'lucide-react'
 import { useCatalogos } from '@/lib/hooks/useCatalogos'
 import { useAuthRole } from '@/lib/hooks/useAuthRole'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -28,6 +28,7 @@ export default function CatalogosPage() {
     const { canCreate, isAdmin } = useAuthRole()
     const [activeTab, setActiveTab] = useState('proveedores')
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+    const [editingItem, setEditingItem] = useState<any | null>(null)
     const [actionLoading, setActionLoading] = useState<string | null>(null)
     const [deleteConfirm, setDeleteConfirm] = useState<{ id: string, name: string } | null>(null)
     const [showInactive, setShowInactive] = useState(false)
@@ -120,17 +121,33 @@ export default function CatalogosPage() {
                                     </button>
                                 </td>
                                 <td className="px-4 py-3 text-right">
-                                    {isAdmin && (
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
-                                            onClick={() => setDeleteConfirm({ id: item.id, name: item.nombre })}
-                                            disabled={actionLoading === item.id}
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    )}
+                                    <div className="flex justify-end gap-1">
+                                        {(isAdmin || canCreate) && (
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 text-gray-400 hover:text-blue-600 hover:bg-blue-50"
+                                                onClick={() => {
+                                                    setEditingItem(item)
+                                                    setIsAddModalOpen(true)
+                                                }}
+                                                disabled={actionLoading === item.id}
+                                            >
+                                                <Pencil className="h-3.5 w-3.5" />
+                                            </Button>
+                                        )}
+                                        {isAdmin && (
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
+                                                onClick={() => setDeleteConfirm({ id: item.id, name: item.nombre })}
+                                                disabled={actionLoading === item.id}
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -167,7 +184,10 @@ export default function CatalogosPage() {
                         />
                     </div>
                     <Button
-                        onClick={() => setIsAddModalOpen(true)}
+                        onClick={() => {
+                            setEditingItem(null)
+                            setIsAddModalOpen(true)
+                        }}
                         className="bg-[#1B3D8F] hover:bg-[#1A2B4A] text-white shadow-lg shadow-blue-900/20"
                     >
                         <Plus className="h-4 w-4 mr-2" />
@@ -175,15 +195,32 @@ export default function CatalogosPage() {
                     </Button>
                 </div>
             </div>
-
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="bg-gray-100/80 p-1 rounded-xl h-auto flex flex-wrap gap-1 mb-6 border border-gray-200/50">
-                    <TabsTrigger value="proveedores" className="rounded-lg py-2.5 px-4 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">Proveedores</TabsTrigger>
-                    <TabsTrigger value="productos" className="rounded-lg py-2.5 px-4 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">Productos</TabsTrigger>
-                    <TabsTrigger value="presentaciones" className="rounded-lg py-2.5 px-4 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">Presentaciones</TabsTrigger>
-                    <TabsTrigger value="destinos" className="rounded-lg py-2.5 px-4 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">Destinos</TabsTrigger>
-                    <TabsTrigger value="estatus" className="rounded-lg py-2.5 px-4 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">Estatus</TabsTrigger>
-                    <TabsTrigger value="unidades" className="rounded-lg py-2.5 px-4 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">Unidades</TabsTrigger>
+                    <TabsTrigger value="proveedores" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                        <Factory className="h-4 w-4" />
+                        Proveedores
+                    </TabsTrigger>
+                    <TabsTrigger value="productos" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                        <Package className="h-4 w-4" />
+                        Productos
+                    </TabsTrigger>
+                    <TabsTrigger value="presentaciones" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                        <Layers className="h-4 w-4" />
+                        Presentaciones
+                    </TabsTrigger>
+                    <TabsTrigger value="destinos" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                        <MapPin className="h-4 w-4" />
+                        Destinos
+                    </TabsTrigger>
+                    <TabsTrigger value="estatus" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                        <ClipboardList className="h-4 w-4" />
+                        Estatus
+                    </TabsTrigger>
+                    <TabsTrigger value="unidades" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                        <Scale className="h-4 w-4" />
+                        Unidades
+                    </TabsTrigger>
                 </TabsList>
 
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 min-h-[500px]">
@@ -224,9 +261,13 @@ export default function CatalogosPage() {
 
             <QuickAddModal
                 open={isAddModalOpen}
-                onOpenChange={setIsAddModalOpen}
+                onOpenChange={(open) => {
+                    setIsAddModalOpen(open)
+                    if (!open) setEditingItem(null)
+                }}
                 title={title}
                 table={table}
+                initialData={editingItem}
                 onSuccess={() => {
                     refresh()
                     setIsAddModalOpen(false)

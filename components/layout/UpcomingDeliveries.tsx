@@ -16,21 +16,37 @@ export function UpcomingDeliveries() {
 
     useEffect(() => {
         async function load() {
-            // Fetch next 7 days using date filters
-            const today = startOfDay(new Date())
-            const nextWeek = addDays(today, 7)
-
-            const { data, error } = await getRequisiciones({
-                fecha_desde: format(today, 'yyyy-MM-dd'),
-                fecha_hasta: format(nextWeek, 'yyyy-MM-dd')
-            })
+            // Fetch all recent requisitions (we'll filter the window in memory)
+            // This ensures that if a requisition was requested long ago but confirmed for TODAY, it shows up.
+            // And if it was requested for today but moved to next month, it disappears from this list.
+            const { data, error } = await getRequisiciones({})
 
             if (!error && data) {
-                // Sort by date ascending
-                const sorted = (data as Requisicion[]).sort((a, b) =>
-                    new Date(a.fecha_recepcion).getTime() - new Date(b.fecha_recepcion).getTime()
-                )
-                setUpcoming(sorted.slice(0, 5)) // Take top 5
+                const today = startOfDay(new Date())
+                const endRange = addDays(today, 5)
+
+                const processed = (data as Requisicion[])
+                    .filter(req => {
+                        // 1. Exclude finished statuses
+                        const estatus = req.estatus?.nombre?.toLowerCase() || ''
+                        if (['recibido', 'cancelado'].includes(estatus)) return false
+
+                        // 2. Use confirmed date if available, else requested date
+                        const activeDateStr = req.fecha_confirmada || req.fecha_recepcion
+                        if (!activeDateStr) return false
+
+                        const activeDate = new Date(activeDateStr + 'T00:00:00')
+
+                        // 3. Match ONLY the 6-day window
+                        return activeDate >= today && activeDate <= endRange
+                    })
+                    .sort((a, b) => {
+                        const dateA = new Date((a.fecha_confirmada || a.fecha_recepcion) + 'T00:00:00').getTime()
+                        const dateB = new Date((b.fecha_confirmada || b.fecha_recepcion) + 'T00:00:00').getTime()
+                        return dateA - dateB
+                    })
+
+                setUpcoming(processed)
             }
             setLoading(false)
         }
@@ -44,7 +60,7 @@ export function UpcomingDeliveries() {
                 <CardHeader className="pb-3 border-b border-gray-100">
                     <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
                         <Truck className="h-4 w-4 text-[#0e0c9b]" />
-                        Próximas Entregas (7 días)
+                        Próximas Entregas (6 días)
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 space-y-3">
@@ -66,7 +82,7 @@ export function UpcomingDeliveries() {
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
                         <Truck className="h-4 w-4 text-[#0e0c9b]" />
-                        Próximas Entregas (7 días)
+                        Próximas Entregas (6 días)
                     </CardTitle>
                     <Badge className="bg-[#0e0c9b] hover:bg-[#1614b5]">
                         {upcoming.length}
@@ -78,31 +94,46 @@ export function UpcomingDeliveries() {
                 {upcoming.length === 0 ? (
                     <div className="p-6 text-center text-sm text-gray-500 flex flex-col items-center gap-2">
                         <AlertCircle className="h-8 w-8 text-gray-300 mb-1" />
-                        No hay entregas programadas<br />para los próximos 7 días.
+                        No hay entregas programadas<br />para los próximos 6 días.
                     </div>
                 ) : (
-                    <div className="divide-y divide-gray-100">
+                    <div className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
                         {upcoming.map(req => {
-                            const reqDate = new Date(req.fecha_recepcion + 'T00:00:00')
+                            const dateToUse = req.fecha_confirmada || req.fecha_recepcion
+                            const reqDate = new Date(dateToUse + 'T00:00:00')
                             const isToday = format(reqDate, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd')
 
                             return (
-                                <div key={req.id} className="p-4 hover:bg-white/60 transition-colors flex items-center justify-between group">
-                                    <div className="overflow-hidden pr-4">
-                                        <p className="font-semibold text-sm text-gray-900 truncate group-hover:text-[#1B3D8F] transition-colors">
-                                            {req.producto?.nombre}
-                                        </p>
-                                        <p className="text-xs text-gray-500 truncate mt-0.5">
-                                            {req.proveedor?.nombre}
-                                        </p>
-                                    </div>
-                                    <div className="text-right shrink-0">
-                                        <div className={`text-xs font-bold ${isToday ? 'text-red-500' : 'text-gray-700'}`}>
-                                            {isToday ? 'Hoy' : format(reqDate, 'EEEE dd', { locale: es })}
+                                <div key={req.id} className="p-4 hover:bg-white/60 transition-colors flex flex-col gap-1 group">
+                                    <div className="flex items-center justify-between">
+                                        <div className="overflow-hidden min-w-0">
+                                            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Material:</p>
+                                            <p className="font-bold text-sm text-[#0e0c9b] truncate group-hover:text-[#1B3D8F] transition-colors leading-tight">
+                                                {req.producto?.nombre}
+                                            </p>
                                         </div>
-                                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 mt-1" style={{ borderColor: req.estatus?.color_hex, color: req.estatus?.color_hex }}>
-                                            {req.estatus?.nombre}
-                                        </Badge>
+                                        <div className="text-right shrink-0 ml-2">
+                                            <Badge variant="outline" className="text-[10px] px-1.5 py-0" style={{ backgroundColor: req.estatus?.color_hex + '10', borderColor: req.estatus?.color_hex, color: req.estatus?.color_hex }}>
+                                                {req.estatus?.nombre}
+                                            </Badge>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2 mt-1">
+                                        <div>
+                                            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Proveedor:</p>
+                                            <p className="text-xs text-gray-600 truncate font-medium">
+                                                {req.proveedor?.nombre}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                                                {req.fecha_confirmada ? 'Fecha Confirmada:' : 'Fecha Solicitada:'}
+                                            </p>
+                                            <p className={`text-xs font-bold leading-tight ${isToday ? 'text-red-600' : 'text-gray-700'}`}>
+                                                {isToday ? `Hoy (${format(reqDate, 'eee dd', { locale: es })})` : format(reqDate, 'eeee dd', { locale: es })}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             )

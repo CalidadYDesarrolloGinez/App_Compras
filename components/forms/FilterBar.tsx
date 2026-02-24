@@ -3,7 +3,7 @@
 import { useCatalogos } from '@/lib/hooks/useCatalogos'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { Filter, X, Search } from 'lucide-react'
+import { Filter, X, Search, Factory, MapPin, ClipboardList } from 'lucide-react'
 import type { RequisicionFilters } from '@/types'
 import { Button } from '@/components/ui/button'
 
@@ -44,8 +44,11 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                     onValueChange={(val) => handleChange('proveedor_id', val)}
                     disabled={loading}
                 >
-                    <SelectTrigger className="bg-gray-50/50 border-gray-200">
-                        <SelectValue placeholder="Proveedor..." />
+                    <SelectTrigger className="bg-gray-50/50 border-gray-200 pl-2">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                            <Factory className="h-4 w-4 text-gray-400 shrink-0" />
+                            <SelectValue placeholder="Proveedor..." />
+                        </div>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">Todos los proveedores</SelectItem>
@@ -60,8 +63,11 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                     onValueChange={(val) => handleChange('destino_id', val)}
                     disabled={loading}
                 >
-                    <SelectTrigger className="bg-gray-50/50 border-gray-200">
-                        <SelectValue placeholder="Destino..." />
+                    <SelectTrigger className="bg-gray-50/50 border-gray-200 pl-2">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                            <MapPin className="h-4 w-4 text-gray-400 shrink-0" />
+                            <SelectValue placeholder="Destino..." />
+                        </div>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">Todos los destinos</SelectItem>
@@ -76,8 +82,11 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                     onValueChange={(val) => handleChange('estatus_id', val)}
                     disabled={loading}
                 >
-                    <SelectTrigger className="bg-gray-50/50 border-gray-200">
-                        <SelectValue placeholder="Estatus..." />
+                    <SelectTrigger className="bg-gray-50/50 border-gray-200 pl-2">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                            <ClipboardList className="h-4 w-4 text-gray-400 shrink-0" />
+                            <SelectValue placeholder="Estatus..." />
+                        </div>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">Todos los estatus</SelectItem>

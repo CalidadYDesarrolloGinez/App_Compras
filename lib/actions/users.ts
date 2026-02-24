@@ -66,6 +66,14 @@ export async function rejectUser(userId: string) {
     return { error: error?.message }
 }
 
+export async function deleteUser(userId: string) {
+    const adminClient = await getAdminClient()
+    const { error } = await adminClient.auth.admin.deleteUser(userId)
+
+    revalidatePath('/dashboard/admin')
+    return { error: error?.message }
+}
+
 export async function updateUserRole(userId: string, newRole: UserRole) {
     const supabase = await createClient()
     const { error } = await supabase

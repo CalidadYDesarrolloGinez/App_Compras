@@ -8,6 +8,33 @@ import interactionPlugin from '@fullcalendar/interaction'
 import esLocale from '@fullcalendar/core/locales/es'
 import type { Requisicion, CalendarEvent } from '@/types'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useCatalogos } from '@/lib/hooks/useCatalogos'
+import {
+    XCircle,
+    CheckCircle2,
+    Search,
+    Truck,
+    Clock,
+    PackageCheck,
+    AlertCircle,
+    LucideIcon
+} from 'lucide-react'
+
+// Map status names to Lucide icons
+const STATUS_ICONS: Record<string, LucideIcon> = {
+    'cancelado': XCircle,
+    'confirmado': CheckCircle2,
+    'en revisión': Search,
+    'en revision': Search,
+    'en tránsito': Truck,
+    'en transito': Truck,
+    'pendiente': Clock,
+    'recibido': PackageCheck,
+}
+
+const getStatusIcon = (statusName: string = '') => {
+    return STATUS_ICONS[statusName.toLowerCase()] || AlertCircle
+}
 
 interface CalendarViewProps {
     requisiciones: Requisicion[]
@@ -16,6 +43,7 @@ interface CalendarViewProps {
 }
 
 export function CalendarView({ requisiciones, isLoading, onEventClick }: CalendarViewProps) {
+    const { catalogos } = useCatalogos()
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -74,6 +102,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
         }
 
         const rgb = hexToRgb(color)
+        const StatusIcon = getStatusIcon(props.estatus_nombre)
 
         return (
             <div
@@ -83,17 +112,23 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
                     borderLeft: `3px solid ${color}`,
                     padding: '3px 6px',
                 }}
-                title={`${event.title} · ${props.proveedor_nombre}`}
+                title={`${event.title} · ${props.proveedor_nombre} (${props.estatus_nombre})`}
             >
-                <div
-                    className="font-semibold leading-tight truncate"
-                    style={{ fontSize: '0.7rem', color: color, letterSpacing: '-0.01em' }}
-                >
-                    {event.title}
+                <div className="flex items-center gap-1 min-w-0">
+                    <StatusIcon
+                        className="shrink-0"
+                        style={{ width: '10px', height: '10px', color: color }}
+                    />
+                    <div
+                        className="font-semibold leading-tight truncate"
+                        style={{ fontSize: '0.7rem', color: color, letterSpacing: '-0.01em' }}
+                    >
+                        {event.title}
+                    </div>
                 </div>
                 <div
                     className="truncate leading-snug"
-                    style={{ fontSize: '0.63rem', color: '#64748b', marginTop: '1px' }}
+                    style={{ fontSize: '0.63rem', color: '#64748b', marginTop: '1px', paddingLeft: '11px' }}
                 >
                     {props.proveedor_nombre}
                 </div>

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Save } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -40,9 +40,10 @@ interface QuickAddModalProps {
     title: string
     table: string
     onSuccess: (newItem: any) => void
+    initialData?: any | null
 }
 
-import { createCatalogEntry } from '@/lib/actions/catalogos'
+import { createCatalogEntry, updateCatalogEntry } from '@/lib/actions/catalogos'
 
 export function QuickAddModal({
     open,
@@ -50,8 +51,10 @@ export function QuickAddModal({
     title,
     table,
     onSuccess,
+    initialData,
 }: QuickAddModalProps) {
     const [loading, setLoading] = useState(false)
+    const isEditing = !!initialData?.id
 
     const form = useForm<QuickAddSchema>({
         resolver: zodResolver(quickAddSchema),
@@ -63,6 +66,25 @@ export function QuickAddModal({
         },
     })
 
+    // Update form when initialData changes
+    useEffect(() => {
+        if (initialData) {
+            form.reset({
+                nombre: initialData.nombre || '',
+                descripcion: initialData.descripcion || '',
+                abreviatura: initialData.abreviatura || '',
+                color_hex: initialData.color_hex || '#3b82f6',
+            })
+        } else {
+            form.reset({
+                nombre: '',
+                descripcion: '',
+                abreviatura: '',
+                color_hex: '#3b82f6',
+            })
+        }
+    }, [initialData, form, open])
+
     const onSubmit = async (values: QuickAddSchema) => {
         setLoading(true)
         try {
@@ -72,16 +94,18 @@ export function QuickAddModal({
             if (table === 'unidades') data.abreviatura = values.abreviatura
             if (table === 'estatus') data.color_hex = values.color_hex
 
-            const result = await createCatalogEntry(table, data)
+            const result = isEditing
+                ? await updateCatalogEntry(table, initialData.id, data)
+                : await createCatalogEntry(table, data)
 
             if (result.error) throw new Error(result.error)
 
-            toast.success(`${title} agregado correctamente`)
+            toast.success(`${title} ${isEditing ? 'actualizado' : 'agregado'} correctamente`)
             onSuccess(result.data)
-            form.reset()
+            if (!isEditing) form.reset()
             onOpenChange(false)
         } catch (error: any) {
-            toast.error('Error al agregar: ' + error.message)
+            toast.error(`Error al ${isEditing ? 'actualizar' : 'agregar'}: ` + error.message)
         } finally {
             setLoading(false)
         }
@@ -91,7 +115,9 @@ export function QuickAddModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[400px] bg-white border-none shadow-2xl">
                 <DialogHeader className="border-b pb-4">
-                    <DialogTitle className="text-[#1A2B4A]">Agregar {title}</DialogTitle>
+                    <DialogTitle className="text-[#1A2B4A]">
+                        {isEditing ? 'Editar' : 'Agregar'} {title}
+                    </DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
@@ -171,8 +197,14 @@ export function QuickAddModal({
                                 Cancelar
                             </Button>
                             <Button type="submit" disabled={loading} className="bg-[#1B3D8F] hover:bg-[#1A2B4A] text-white">
-                                {loading && <Plus className="mr-2 h-4 w-4 animate-spin" />}
-                                Guardar Registro
+                                {loading ? (
+                                    <Plus className="mr-2 h-4 w-4 animate-spin" />
+                                ) : isEditing ? (
+                                    <Save className="mr-2 h-4 w-4" />
+                                ) : (
+                                    <Plus className="mr-2 h-4 w-4" />
+                                )}
+                                {isEditing ? 'Actualizar' : 'Guardar'} Registro
                             </Button>
                         </DialogFooter>
                     </form>
