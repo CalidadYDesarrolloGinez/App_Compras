@@ -58,8 +58,8 @@ export function UpcomingDeliveries() {
         return (
             <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-blue-50/30">
                 <CardHeader className="pb-3 border-b border-gray-100">
-                    <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
-                        <Truck className="h-4 w-4 text-[#0e0c9b]" />
+                    <CardTitle className="text-sm font-bold text-[#4266ac] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[#4266ac]" />
                         Próximas Entregas (6 días)
                     </CardTitle>
                 </CardHeader>
@@ -75,16 +75,16 @@ export function UpcomingDeliveries() {
     return (
         <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-slate-50 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                <Truck className="h-24 w-24 text-[#0e0c9b]" />
+                <Truck className="h-24 w-24 text-[#4266ac]" />
             </div>
 
             <CardHeader className="pb-3 border-b border-gray-100 bg-white/50 backdrop-blur-sm relative z-10">
                 <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
-                        <Truck className="h-4 w-4 text-[#0e0c9b]" />
+                    <CardTitle className="text-sm font-bold text-[#4266ac] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[#4266ac]" />
                         Próximas Entregas (6 días)
                     </CardTitle>
-                    <Badge className="bg-[#0e0c9b] hover:bg-[#1614b5]">
+                    <Badge className="bg-[#4266ac] hover:bg-[#62a4dc]">
                         {upcoming.length}
                     </Badge>
                 </div>
@@ -108,7 +108,7 @@ export function UpcomingDeliveries() {
                                     <div className="flex items-center justify-between">
                                         <div className="overflow-hidden min-w-0">
                                             <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Material:</p>
-                                            <p className="font-bold text-sm text-[#0e0c9b] truncate group-hover:text-[#1B3D8F] transition-colors leading-tight">
+                                            <p className="font-bold text-sm text-[#4266ac] truncate group-hover:text-[#3558a0] transition-colors leading-tight">
                                                 {req.producto?.nombre}
                                             </p>
                                         </div>

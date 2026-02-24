@@ -1,18 +1,47 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'AvenirNext';
+  src: url('/fonts/AvenirNextLTPro-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvenirNext';
+  src: url('/fonts/AvenirNextLTPro-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvenirNext';
+  src: url('/fonts/AvenirNextLTPro-Demi.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvenirNext';
+  src: url('/fonts/AvenirNextLTPro-It.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
 @layer base {
   :root {
-    /* Ginéz corporate color palette */
-    --navy: #0e0c9b;
+    /* Cloro de Hidalgo corporate color palette */
+    --navy: #4266ac;
     /* Corporate Blue */
-    --navy-light: #1614b5;
-    --brand-red: #c41f1a;
-    /* Corporate Red */
-    --brand-blue: #0e0c9b;
-    /* Corporate Blue */
-    --accent: #c41f1a;
-    --foreground: #0e0c9b;
-    --muted: #64748b;
+    --navy-light: #62a4dc;
+    /* Light Blue */
+    --accent: #ecbe37;
+    /* Yellow */
+    --gray-brand: #5a5a59;
+    /* Brand Gray */
+    --brand-blue: #4266ac;
+    --foreground: #4266ac;
+    --muted: #5a5a59;
     --border: #e2e8f0;
     --bg: #f8fafc;
     --white: #FFFFFF;
@@ -20,15 +49,15 @@
     --radius: 0.75rem;
 
     --background: 0 0% 100%;
-    --foreground-var: 235 85% 32%;
+    --foreground-var: 221 46% 47%;
     --card-bg: 0 0% 100%;
-    --card-foreground: 235 85% 32%;
-    --primary: 235 85% 32%;
+    --card-foreground: 221 46% 47%;
+    --primary: 221 46% 47%;
     --primary-foreground: 0 0% 100%;
     --muted-bg: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 0 0% 35%;
     --border-var: 214 32% 91%;
-    --ring: 235 85% 32%;
+    --ring: 221 46% 47%;
   }
 }
 
@@ -40,7 +69,7 @@
   body {
     background-color: var(--bg);
     color: var(--foreground);
-    font-family: 'Inter', sans-serif;
+    font-family: 'AvenirNext', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -65,7 +94,7 @@
 
 @layer components {
 
-  /* Sidebar - Now Light Theme */
+  /* ── Sidebar ── */
   .sidebar {
     background-color: #ffffff;
     height: 100vh;
@@ -91,7 +120,7 @@
     gap: 0.75rem;
     padding: 0.6rem 1rem;
     border-radius: 0.5rem;
-    color: #64748b;
+    color: var(--gray-brand);
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -101,12 +130,12 @@
   }
 
   .sidebar-nav-item:hover {
-    background-color: #f1f5f9;
+    background-color: #dce8f4;
     color: var(--navy);
   }
 
   .sidebar-nav-item.active {
-    background-color: #eef2ff;
+    background-color: #dce8f4;
     color: var(--navy);
     font-weight: 600;
   }
@@ -120,7 +149,7 @@
     padding: 1.25rem 1.75rem 0.5rem;
   }
 
-  /* Cards */
+  /* ── Cards ── */
   .stat-card {
     background: var(--white);
     border-radius: var(--radius);
@@ -135,7 +164,7 @@
     padding: 1.5rem;
   }
 
-  /* Badges */
+  /* ── Badges ── */
   .status-badge {
     display: inline-flex;
     align-items: center;
@@ -147,14 +176,13 @@
   }
 
   /* ═══════════════════════════════════════════════════
-     CALENDAR — Material Design Minimalist
-     Corporate: #0e0c9b (blue) · #c41f1a (red)
-     Harmonious complements: #4f46e5, #6366f1, #0369a1
+     CALENDAR — Cloro de Hidalgo
+     Primary: #4266ac · Light: #62a4dc · Accent: #ecbe37 · Gray: #5a5a59
   ═══════════════════════════════════════════════════ */
 
   .fc {
-    font-family: 'Inter', sans-serif !important;
-    --fc-border-color: #e8eaf6 !important;
+    font-family: 'AvenirNext', sans-serif !important;
+    --fc-border-color: #dce8f4 !important;
     --fc-today-bg-color: transparent !important;
   }
 
@@ -168,11 +196,11 @@
   .fc .fc-toolbar-title {
     font-size: 1.15rem !important;
     font-weight: 700 !important;
-    color: #0e0c9b !important;
+    color: #4266ac !important;
     letter-spacing: -0.02em !important;
   }
 
-  /* ── Buttons – flat pill style ── */
+  /* ── Buttons ── */
   .fc .fc-button {
     background: #f1f5f9 !important;
     border: none !important;
@@ -180,25 +208,24 @@
     font-size: 0.78rem !important;
     padding: 0.35rem 0.9rem !important;
     font-weight: 600 !important;
-    color: #475569 !important;
+    color: #5a5a59 !important;
     box-shadow: none !important;
     transition: all 0.2s ease !important;
     text-transform: capitalize !important;
   }
 
   .fc .fc-button:hover {
-    background: #e0e7ff !important;
-    color: #0e0c9b !important;
+    background: #dce8f4 !important;
+    color: #4266ac !important;
   }
 
   .fc .fc-button-primary:not(:disabled).fc-button-active,
   .fc .fc-button-primary:not(:disabled):focus {
-    background: #0e0c9b !important;
+    background: #4266ac !important;
     color: #fff !important;
-    box-shadow: 0 2px 8px rgba(14, 12, 155, 0.25) !important;
+    box-shadow: 0 2px 8px rgba(66, 102, 172, 0.30) !important;
   }
 
-  /* prev/next arrows */
   .fc .fc-prev-button,
   .fc .fc-next-button {
     width: 32px !important;
@@ -209,19 +236,19 @@
     justify-content: center !important;
     border-radius: 50% !important;
     background: #f1f5f9 !important;
-    color: #475569 !important;
+    color: #5a5a59 !important;
   }
 
   .fc .fc-prev-button:hover,
   .fc .fc-next-button:hover {
-    background: #e0e7ff !important;
-    color: #0e0c9b !important;
+    background: #dce8f4 !important;
+    color: #4266ac !important;
   }
 
-  /* ── Day-of-week header row ── */
+  /* ── Day-of-week header ── */
   .fc-col-header-cell {
-    background: #f8f9fc !important;
-    border-bottom: 2px solid #e8eaf6 !important;
+    background: #f0f5fb !important;
+    border-bottom: 2px solid #dce8f4 !important;
     border-left: none !important;
     border-right: none !important;
     padding: 0.7rem 0 !important;
@@ -237,11 +264,10 @@
     padding: 0 !important;
   }
 
-  /* Weekend header labels tinted */
   .fc-day-sat .fc-col-header-cell-cushion,
   .fc-day-sun .fc-col-header-cell-cushion {
-    color: #c41f1a !important;
-    opacity: 0.65 !important;
+    color: #62a4dc !important;
+    opacity: 0.75 !important;
   }
 
   /* ── Day cells ── */
@@ -252,16 +278,14 @@
   }
 
   .fc-daygrid-day:hover {
-    background: #fafbff !important;
+    background: #f7fafd !important;
   }
 
-  /* Weekend columns get warm tint */
   .fc-day-sat,
   .fc-day-sun {
-    background: #fdf8f8 !important;
+    background: #f4f8fd !important;
   }
 
-  /* Cells outside current month */
   .fc-day-other {
     background: #f8f9fc !important;
     opacity: 0.7 !important;
@@ -271,7 +295,7 @@
     color: #cbd5e1 !important;
   }
 
-  /* ── Day number – Material circle ── */
+  /* ── Day numbers ── */
   .fc-daygrid-day-top {
     padding: 6px 8px 2px !important;
     justify-content: flex-end !important;
@@ -292,29 +316,28 @@
   }
 
   .fc-daygrid-day-number:hover {
-    background: #e0e7ff !important;
-    color: #0e0c9b !important;
+    background: #dce8f4 !important;
+    color: #4266ac !important;
   }
 
-  /* TODAY — filled royal blue circle */
+  /* TODAY */
   .fc-day-today .fc-daygrid-day-number {
-    background: #0e0c9b !important;
+    background: #4266ac !important;
     color: #ffffff !important;
     font-weight: 700 !important;
   }
 
   .fc-day-today .fc-daygrid-day-number:hover {
-    background: #1614b5 !important;
+    background: #62a4dc !important;
     color: #ffffff !important;
   }
 
-  /* Grid border lines – ultra thin */
   .fc-theme-standard td,
   .fc-theme-standard th {
-    border-color: #e8eaf6 !important;
+    border-color: #dce8f4 !important;
   }
 
-  /* ── Event cards – Material flat card with left colored border ── */
+  /* ── Event cards ── */
   .fc-event {
     border-radius: 6px !important;
     border: none !important;
@@ -331,7 +354,6 @@
     transform: translateY(-1px) !important;
   }
 
-  /* The actual colored block inside the event */
   .fc-daygrid-event-harness {
     margin-top: 3px !important;
     padding: 0 2px !important;
@@ -345,8 +367,8 @@
   .fc-daygrid-more-link {
     font-size: 0.68rem !important;
     font-weight: 700 !important;
-    color: #6366f1 !important;
-    background: #eef2ff !important;
+    color: #4266ac !important;
+    background: #dce8f4 !important;
     border-radius: 4px !important;
     padding: 1px 6px !important;
     margin-left: 4px !important;
@@ -355,11 +377,11 @@
   }
 
   .fc-daygrid-more-link:hover {
-    background: #e0e7ff !important;
-    color: #4f46e5 !important;
+    background: #62a4dc !important;
+    color: #fff !important;
   }
 
-  /* Popover for "+N more" */
+  /* Popover */
   .fc-popover {
     border: none !important;
     border-radius: 12px !important;
@@ -368,7 +390,7 @@
   }
 
   .fc-popover-header {
-    background: #0e0c9b !important;
+    background: #4266ac !important;
     color: #fff !important;
     font-size: 0.78rem !important;
     font-weight: 700 !important;
@@ -382,7 +404,7 @@
     gap: 3px !important;
   }
 
-  /* Animations */
+  /* ── Animations ── */
   @keyframes fade-in {
     from {
       opacity: 0;

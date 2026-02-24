@@ -63,7 +63,7 @@ export default function RequisicionesTablePage() {
         <div className="flex flex-col h-full gap-4 w-full px-4 mx-auto">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#0e0c9b]">Lista de Requisiciones</h1>
+                    <h1 className="text-2xl font-bold text-[#4266ac]">Lista de Requisiciones</h1>
                     <p className="text-sm text-gray-500 mt-1">
                         Vista tabular de todas las entregas programadas.
                     </p>
@@ -71,7 +71,7 @@ export default function RequisicionesTablePage() {
 
                 {canCreate && (
                     <Button
-                        className="bg-[#0e0c9b] hover:bg-[#1614b5] text-white"
+                        className="bg-[#4266ac] hover:bg-[#62a4dc] text-white"
                         onClick={() => {
                             setSelectedReq(null)
                             setFormOpen(true)
@@ -92,19 +92,19 @@ export default function RequisicionesTablePage() {
                     <Table>
                         <TableHeader className="bg-gray-50">
                             <TableRow>
-                                <TableHead className="w-[100px] font-semibold text-[#0e0c9b]"># Requi</TableHead>
-                                <TableHead className="w-[110px] font-semibold text-[#0e0c9b]">Fecha Rec.</TableHead>
-                                <TableHead className="w-[100px] font-semibold text-[#0e0c9b]">FOLIO OC</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Proveedor</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Producto</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Fecha Sol.</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Fecha Conf.</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Cant. Ent.</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">F. Entrega</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Cant. Pend.</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Estatus</TableHead>
-                                <TableHead className="font-semibold text-[#0e0c9b]">Destino</TableHead>
-                                <TableHead className="text-right font-semibold text-[#0e0c9b]">Acciones</TableHead>
+                                <TableHead className="w-[100px] font-semibold text-[#4266ac]"># Requi</TableHead>
+                                <TableHead className="w-[110px] font-semibold text-[#4266ac]">Fecha Rec.</TableHead>
+                                <TableHead className="w-[100px] font-semibold text-[#4266ac]">FOLIO OC</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Proveedor</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Producto</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Fecha Sol.</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Fecha Conf.</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Cant. Ent.</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">F. Entrega</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Cant. Pend.</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Estatus</TableHead>
+                                <TableHead className="font-semibold text-[#4266ac]">Destino</TableHead>
+                                <TableHead className="text-right font-semibold text-[#4266ac]">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -148,7 +148,7 @@ export default function RequisicionesTablePage() {
                                             <div className="font-medium text-gray-900">{req.proveedor?.nombre}</div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="font-medium text-[#0e0c9b]">{req.producto?.nombre}</div>
+                                            <div className="font-medium text-[#4266ac]">{req.producto?.nombre}</div>
                                             <div className="text-xs text-gray-500">
                                                 {Number(req.cantidad_solicitada).toLocaleString('es-MX')} {req.unidad_cantidad?.abreviatura} · {req.presentacion?.nombre}
                                             </div>
@@ -212,7 +212,7 @@ export default function RequisicionesTablePage() {
                                                             setFormOpen(true)
                                                         }}
                                                     >
-                                                        <Pencil className="h-4 w-4 text-[#0e0c9b]" />
+                                                        <Pencil className="h-4 w-4 text-[#4266ac]" />
                                                     </Button>
                                                 )}
                                             </div>

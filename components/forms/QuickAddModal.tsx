@@ -196,7 +196,7 @@ export function QuickAddModal({
                             >
                                 Cancelar
                             </Button>
-                            <Button type="submit" disabled={loading} className="bg-[#1B3D8F] hover:bg-[#1A2B4A] text-white">
+                            <Button type="submit" disabled={loading} className="bg-[#3558a0] hover:bg-[#1A2B4A] text-white">
                                 {loading ? (
                                     <Plus className="mr-2 h-4 w-4 animate-spin" />
                                 ) : isEditing ? (

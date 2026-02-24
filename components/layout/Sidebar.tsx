@@ -58,15 +58,15 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             )}>
                 {collapsed ? (
                     <img
-                        src="/logo-small.png"
-                        alt="GínEZ Small"
-                        className="h-7 w-auto object-contain animate-in fade-in duration-300"
+                        src="/logoCloroH_small.png"
+                        alt="Cloro H Small"
+                        className="h-8 w-auto object-contain animate-in fade-in duration-300"
                     />
                 ) : (
                     <img
-                        src="/Logo.png"
-                        alt="GínEZ Logo"
-                        className="w-full h-auto max-h-12 object-contain animate-in zoom-in-95 duration-500"
+                        src="/LogoCH.png"
+                        alt="Cloro H Logo"
+                        className="w-full h-auto max-h-14 object-contain animate-in zoom-in-95 duration-500"
                     />
                 )}
             </div>
@@ -122,7 +122,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <div className="border-t border-gray-100 p-3">
                 <button
                     onClick={onToggle}
-                    className="flex items-center justify-center w-full p-2 rounded-lg text-gray-400 hover:text-[#0e0c9b] hover:bg-gray-50 transition-all"
+                    className="flex items-center justify-center w-full p-2 rounded-lg text-gray-400 hover:text-[#4266ac] hover:bg-gray-50 transition-all"
                 >
                     {collapsed
                         ? <ChevronRight className="h-4 w-4" />

@@ -67,7 +67,7 @@ export function EventDetailModal({
                 {/* Header Ribbon */}
                 <div
                     className="px-6 py-5 pb-8 relative"
-                    style={{ backgroundColor: requisicion.estatus?.color_hex || '#0e0c9b' }}
+                    style={{ backgroundColor: requisicion.estatus?.color_hex || '#4266ac' }}
                 >
                     <div className="absolute top-0 right-0 p-4 opacity-20">
                         <Package className="h-24 w-24 text-white" />
@@ -193,7 +193,7 @@ export function EventDetailModal({
                         )}
                     </div>
                     {!showConfirm && (
-                        <Button className="bg-[#0e0c9b] hover:bg-[#1614b5]" onClick={() => onOpenChange(false)}>
+                        <Button className="bg-[#4266ac] hover:bg-[#62a4dc]" onClick={() => onOpenChange(false)}>
                             Cerrar
                         </Button>
                     )}

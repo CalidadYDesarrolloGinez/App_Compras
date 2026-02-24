@@ -236,7 +236,7 @@ export function RequisicionFormModal({
                         {/* Section 1: Manual Input Fields (Excel Style) */}
                         <div className="bg-white p-4 rounded-lg border border-gray-200">
                             <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b pb-2 flex items-center gap-2">
-                                <FileText className="h-4 w-4 text-[#1B3D8F]" />
+                                <FileText className="h-4 w-4 text-[#3558a0]" />
                                 Datos de la Requisición
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -269,14 +269,14 @@ export function RequisicionFormModal({
                                     <Input type="date" {...form.register('fecha_solicitada_entrega')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className={`text-xs font-semibold flex items-center gap-1.5 ${canEditConfirmedDate ? 'text-[#1B3D8F]' : 'text-gray-400'}`}>
-                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[#1B3D8F]' : 'text-gray-400'}`} />
+                                    <Label className={`text-xs font-semibold flex items-center gap-1.5 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-gray-400'}`}>
+                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-gray-400'}`} />
                                         FECHA CONFIRMADA *
                                     </Label>
                                     <Input
                                         type="date"
                                         {...form.register('fecha_confirmada')}
-                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[#1B3D8F]' : 'bg-gray-50 cursor-not-allowed'}`}
+                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[#3558a0]' : 'bg-gray-50 cursor-not-allowed'}`}
                                         disabled={!canEditConfirmedDate}
                                     />
                                 </div>
@@ -293,7 +293,7 @@ export function RequisicionFormModal({
                         {/* Section 2: Catalog Selection */}
                         <div className="bg-blue-50/30 p-4 rounded-lg border border-blue-100">
                             <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b border-blue-100 pb-2 flex items-center gap-2">
-                                <Package className="h-4 w-4 text-[#1B3D8F]" />
+                                <Package className="h-4 w-4 text-[#3558a0]" />
                                 Detalles del Material (Catálogo)
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -318,7 +318,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Proveedor', table: 'proveedores', field: 'proveedor_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -346,7 +346,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Producto', table: 'productos', field: 'producto_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -374,7 +374,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Presentación', table: 'presentaciones', field: 'presentacion_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -402,7 +402,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Destino', table: 'destinos', field: 'destino_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -430,7 +430,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Estatus', table: 'estatus', field: 'estatus_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -460,7 +460,7 @@ export function RequisicionFormModal({
                                                 type="button"
                                                 variant="outline"
                                                 size="icon"
-                                                className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#1B3D8F] hover:text-[#1B3D8F]"
+                                                className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
                                                 onClick={() => setQuickAdd({ open: true, title: 'Unidad', table: 'unidades', field: 'unidad_cantidad_id' })}
                                             >
                                                 <Plus className="h-3 w-3" />
@@ -519,7 +519,7 @@ export function RequisicionFormModal({
                         </Button>
                         <Button
                             type="submit"
-                            className="bg-[#1B3D8F] hover:bg-[#1A2B4A] text-white"
+                            className="bg-[#3558a0] hover:bg-[#1A2B4A] text-white"
                             disabled={isSubmitting}
                         >
                             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

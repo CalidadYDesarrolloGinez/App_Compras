@@ -72,7 +72,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
 
     // Transform requisiciones to FullCalendar format
     const events: CalendarEvent[] = requisiciones.map(req => {
-        const eventColor = req.estatus?.color_hex || '#0e0c9b'
+        const eventColor = req.estatus?.color_hex || '#4266ac'
         const title = req.producto?.nombre || 'S/P'
         return {
             id: req.id,
@@ -93,7 +93,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
     const renderEventContent = (eventInfo: any) => {
         const { event } = eventInfo
         const props = event.extendedProps
-        const color = props.estatus_color || '#0e0c9b'
+        const color = props.estatus_color || '#4266ac'
 
         // Compute a lighter version for the background
         const hexToRgb = (hex: string) => {

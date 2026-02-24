@@ -66,8 +66,8 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
         <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-gray-50/50">
             <CardHeader className="pb-3 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
                 <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-bold text-[#0e0c9b] flex items-center gap-2">
-                        <Filter className="h-4 w-4 text-[#0e0c9b]" />
+                    <CardTitle className="text-sm font-bold text-[#4266ac] flex items-center gap-2">
+                        <Filter className="h-4 w-4 text-[#4266ac]" />
                         Filtrar Vista
                     </CardTitle>
                     {hasFilters && (
@@ -116,7 +116,7 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                         onValueChange={(val) => handleChange('estatus_id', val)}
                         disabled={loading}
                     >
-                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b] pl-2">
+                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#4266ac] pl-2">
                             <div className="flex items-center gap-2 overflow-hidden">
                                 <ClipboardList className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                                 <SelectValue placeholder="Todos los estatus" />
@@ -146,7 +146,7 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                         onValueChange={(val) => handleChange('proveedor_id', val)}
                         disabled={loading}
                     >
-                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b] pl-2">
+                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#4266ac] pl-2">
                             <div className="flex items-center gap-2 overflow-hidden">
                                 <Factory className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                                 <SelectValue placeholder="Todos los proveedores" />
@@ -170,7 +170,7 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                         <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                         <Input
                             type="date"
-                            className="h-9 pl-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#0e0c9b]"
+                            className="h-9 pl-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#4266ac]"
                             value={filters.fecha_desde || ''}
                             onChange={(e) => handleChange('fecha_desde', e.target.value || 'all')}
                         />

@@ -30,7 +30,7 @@ type PasswordForm = z.infer<typeof passwordSchema>
 
 // ─── Role display label map ─────────────────────────────────
 const ROLE_LABELS: Record<string, { label: string; color: string; bg: string }> = {
-    admin: { label: 'Administrador', color: '#fff', bg: '#0e0c9b' },
+    admin: { label: 'Administrador', color: '#fff', bg: '#4266ac' },
     coordinadora: { label: 'Coordinadora', color: '#fff', bg: '#7c3aed' },
     laboratorio: { label: 'Laboratorio', color: '#fff', bg: '#0891b2' },
     cedis: { label: 'CEDIS', color: '#fff', bg: '#059669' },
@@ -44,7 +44,7 @@ function Section({ title, icon: Icon, children }: { title: string; icon: React.E
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
                 <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center">
-                    <Icon className="h-4 w-4 text-[#0e0c9b]" />
+                    <Icon className="h-4 w-4 text-[#4266ac]" />
                 </div>
                 <h2 className="font-semibold text-gray-800 text-sm">{title}</h2>
             </div>
@@ -108,12 +108,12 @@ export default function ConfiguracionPage() {
         <div className="max-w-xl mx-auto flex flex-col gap-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-[#0e0c9b]">Configuración de Perfil</h1>
+                <h1 className="text-2xl font-bold text-[#4266ac]">Configuración de Perfil</h1>
                 <p className="text-sm text-gray-500 mt-1">Administra tu información personal y contraseña.</p>
             </div>
 
             {/* Identity card */}
-            <div className="bg-gradient-to-r from-[#060559] to-[#0e0c9b] rounded-xl p-6 text-white flex items-center gap-5">
+            <div className="bg-gradient-to-r from-[#2d4a80] to-[#4266ac] rounded-xl p-6 text-white flex items-center gap-5">
                 <div className="h-16 w-16 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold shrink-0">
                     {(profile?.nombre_completo ?? user?.email ?? 'U').charAt(0).toUpperCase()}
                 </div>
@@ -139,7 +139,7 @@ export default function ConfiguracionPage() {
                         <Input
                             id="nombre_completo"
                             placeholder="Tu nombre completo"
-                            className="border-gray-200 focus-visible:ring-[#0e0c9b]"
+                            className="border-gray-200 focus-visible:ring-[#4266ac]"
                             {...profileForm.register('nombre_completo')}
                         />
                         {profileForm.formState.errors.nombre_completo && (
@@ -161,7 +161,7 @@ export default function ConfiguracionPage() {
                     <Button
                         type="submit"
                         disabled={savingProfile}
-                        className="bg-[#0e0c9b] hover:bg-[#1614b5] text-white"
+                        className="bg-[#4266ac] hover:bg-[#62a4dc] text-white"
                     >
                         {savingProfile && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                         Guardar cambios
@@ -178,7 +178,7 @@ export default function ConfiguracionPage() {
                             id="new_password"
                             type="password"
                             placeholder="Mínimo 6 caracteres"
-                            className="border-gray-200 focus-visible:ring-[#0e0c9b]"
+                            className="border-gray-200 focus-visible:ring-[#4266ac]"
                             {...passwordForm.register('new_password')}
                         />
                         {passwordForm.formState.errors.new_password && (
@@ -191,7 +191,7 @@ export default function ConfiguracionPage() {
                             id="confirm_password"
                             type="password"
                             placeholder="Repite la nueva contraseña"
-                            className="border-gray-200 focus-visible:ring-[#0e0c9b]"
+                            className="border-gray-200 focus-visible:ring-[#4266ac]"
                             {...passwordForm.register('confirm_password')}
                         />
                         {passwordForm.formState.errors.confirm_password && (
@@ -202,7 +202,7 @@ export default function ConfiguracionPage() {
                         type="submit"
                         disabled={savingPwd}
                         variant="outline"
-                        className="border-[#0e0c9b] text-[#0e0c9b] hover:bg-indigo-50"
+                        className="border-[#4266ac] text-[#4266ac] hover:bg-indigo-50"
                     >
                         {savingPwd && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                         Cambiar contraseña

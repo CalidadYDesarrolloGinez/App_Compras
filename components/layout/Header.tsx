@@ -46,7 +46,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                     <div key={i} className="flex items-center gap-1.5">
                         {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-gray-400" />}
                         <span className={i === breadcrumbs.length - 1
-                            ? 'font-medium text-[#0e0c9b]'
+                            ? 'font-medium text-[#4266ac]'
                             : 'text-gray-400 hover:text-gray-600 cursor-pointer'
                         }>
                             {crumb.label}
@@ -65,7 +65,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                                 <Skeleton className="h-8 w-8 rounded-full" />
                             ) : (
                                 <Avatar className="h-8 w-8 border border-gray-100">
-                                    <AvatarFallback className="bg-[#0e0c9b] text-white text-xs font-bold">
+                                    <AvatarFallback className="bg-[#4266ac] text-white text-xs font-bold">
                                         {initials}
                                     </AvatarFallback>
                                 </Avatar>
@@ -75,7 +75,7 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                                     <Skeleton className="h-3 w-24" />
                                 ) : (
                                     <>
-                                        <p className="text-xs font-semibold text-[#0e0c9b] leading-tight">
+                                        <p className="text-xs font-semibold text-[#4266ac] leading-tight">
                                             {profile?.nombre_completo ?? user?.email}
                                         </p>
                                         <p className="text-[10px] text-gray-400 leading-tight uppercase tracking-wide">

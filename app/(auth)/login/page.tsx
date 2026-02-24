@@ -39,7 +39,7 @@ function LoginForm() {
                 <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input id="email" type="email" placeholder="usuario@empresa.com"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
                         {...form.register('email')} />
                 </div>
                 {form.formState.errors.email && <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>}
@@ -50,14 +50,14 @@ function LoginForm() {
                 <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input id="password" type="password" placeholder="••••••••"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
                         {...form.register('password')} />
                 </div>
                 {form.formState.errors.password && <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>}
             </div>
 
             <Button type="submit" disabled={loading}
-                className="w-full mt-2 bg-[#0e0c9b] hover:bg-[#1614b5] text-white font-semibold py-5 rounded-xl transition-all">
+                className="w-full mt-2 bg-[#4266ac] hover:bg-[#62a4dc] text-white font-semibold py-5 rounded-xl transition-all">
                 {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Procesando...</> : 'Ingresar al Sistema'}
             </Button>
         </form>
@@ -105,7 +105,7 @@ function SignUpForm() {
                 <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input id="nombre_completo" type="text" placeholder="Nombre Apellido"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
                         {...form.register('nombre_completo')} />
                 </div>
                 {form.formState.errors.nombre_completo && <p className="text-xs text-red-500">{form.formState.errors.nombre_completo.message}</p>}
@@ -116,7 +116,7 @@ function SignUpForm() {
                 <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input id="signup-email" type="email" placeholder="usuario@empresa.com"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
                         {...form.register('email')} />
                 </div>
                 {form.formState.errors.email && <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>}
@@ -127,7 +127,7 @@ function SignUpForm() {
                 <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input id="signup-password" type="password" placeholder="Mínimo 6 caracteres"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
                         {...form.register('password')} />
                 </div>
                 {form.formState.errors.password && <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>}
@@ -138,7 +138,7 @@ function SignUpForm() {
                 <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input id="confirm_password" type="password" placeholder="Repite tu contraseña"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#0e0c9b]"
+                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
                         {...form.register('confirm_password')} />
                 </div>
                 {form.formState.errors.confirm_password && <p className="text-xs text-red-500">{form.formState.errors.confirm_password.message}</p>}
@@ -149,7 +149,7 @@ function SignUpForm() {
             </p>
 
             <Button type="submit" disabled={loading}
-                className="w-full mt-2 bg-[#0e0c9b] hover:bg-[#1614b5] text-white font-semibold py-5 rounded-xl transition-all">
+                className="w-full mt-2 bg-[#4266ac] hover:bg-[#62a4dc] text-white font-semibold py-5 rounded-xl transition-all">
                 {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Enviando solicitud...</> : 'Solicitar Acceso'}
             </Button>
         </form>
@@ -162,7 +162,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #060559 0%, #0e0c9b 50%, #1614b5 100%)' }}>
+            style={{ background: 'linear-gradient(135deg, #2d4a80 0%, #4266ac 50%, #62a4dc 100%)' }}>
 
             {/* Background dot pattern */}
             <div className="absolute inset-0 opacity-5"
@@ -172,21 +172,21 @@ export default function LoginPage() {
                 {/* Card */}
                 <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
                     {/* Header band */}
-                    <div className="bg-gradient-to-r from-[#060559] to-[#0e0c9b] px-8 py-7 text-white text-center">
-                        <img src="/Logo.png" alt="GínEZ Logo" className="h-10 w-auto object-contain mx-auto mb-3 brightness-0 invert" />
-                        <p className="text-sm text-blue-200">Sistema de Gestión de Compras</p>
+                    <div className="bg-white border-b border-gray-100 px-8 py-6 text-center">
+                        <img src="/LogoCH.png" alt="Cloro de Hidalgo Logo" className="h-14 w-auto object-contain mx-auto mb-2" />
+                        <p className="text-sm text-[#5a5a59] font-medium">Sistema de Gestión de Compras</p>
                     </div>
 
                     {/* Tab toggle */}
                     <div className="flex border-b border-gray-100">
                         <button
-                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${!isSignUp ? 'text-[#0e0c9b] border-b-2 border-[#0e0c9b]' : 'text-gray-400 hover:text-gray-600'}`}
+                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${!isSignUp ? 'text-[#4266ac] border-b-2 border-[#4266ac]' : 'text-gray-400 hover:text-gray-600'}`}
                             onClick={() => setIsSignUp(false)}
                         >
                             Iniciar Sesión
                         </button>
                         <button
-                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${isSignUp ? 'text-[#0e0c9b] border-b-2 border-[#0e0c9b]' : 'text-gray-400 hover:text-gray-600'}`}
+                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${isSignUp ? 'text-[#4266ac] border-b-2 border-[#4266ac]' : 'text-gray-400 hover:text-gray-600'}`}
                             onClick={() => setIsSignUp(true)}
                         >
                             Solicitar Acceso
@@ -203,7 +203,7 @@ export default function LoginPage() {
                 </div>
 
                 <p className="text-center text-xs text-white/40 mt-4">
-                    © {new Date().getFullYear()} Ginéz® · Sistema de Compras v1.0
+                    © 2026. Cloro de Hidalgo S.A. de C.V. Sistema de Compras.
                 </p>
             </div>
         </div>

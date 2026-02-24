@@ -15,12 +15,12 @@ export default function PendientePage() {
 
                 {/* Logo */}
                 <img
-                    src="/Logo.png"
-                    alt="GínEZ"
-                    className="h-8 w-auto object-contain mx-auto mb-6"
+                    src="/LogoCH.png"
+                    alt="Cloro de Hidalgo"
+                    className="h-10 w-auto object-contain mx-auto mb-6"
                 />
 
-                <h1 className="text-xl font-bold text-[#0e0c9b] mb-2">
+                <h1 className="text-xl font-bold text-[#4266ac] mb-2">
                     Solicitud en revisión
                 </h1>
                 <p className="text-gray-500 text-sm leading-relaxed mb-8">

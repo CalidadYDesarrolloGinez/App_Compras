@@ -164,7 +164,7 @@ export default function CatalogosPage() {
         <div className="flex flex-col h-full gap-6 max-w-7xl mx-auto p-4 md:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="bg-[#1B3D8F] p-3 rounded-xl shadow-lg shadow-blue-900/10">
+                    <div className="bg-[#3558a0] p-3 rounded-xl shadow-lg shadow-blue-900/10">
                         <BookOpen className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -174,13 +174,13 @@ export default function CatalogosPage() {
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="flex items-center space-x-2 bg-gray-100/50 px-3 py-1.5 rounded-lg border border-gray-200/50">
-                        {showInactive ? <Eye className="h-4 w-4 text-[#1B3D8F]" /> : <EyeOff className="h-4 w-4 text-gray-400" />}
+                        {showInactive ? <Eye className="h-4 w-4 text-[#3558a0]" /> : <EyeOff className="h-4 w-4 text-gray-400" />}
                         <Label htmlFor="show-inactive" className="text-xs font-medium text-gray-600 cursor-pointer">Ver Inactivos</Label>
                         <Switch
                             id="show-inactive"
                             checked={showInactive}
                             onCheckedChange={setShowInactive}
-                            className="scale-75 data-[state=checked]:bg-[#1B3D8F]"
+                            className="scale-75 data-[state=checked]:bg-[#3558a0]"
                         />
                     </div>
                     <Button
@@ -188,7 +188,7 @@ export default function CatalogosPage() {
                             setEditingItem(null)
                             setIsAddModalOpen(true)
                         }}
-                        className="bg-[#1B3D8F] hover:bg-[#1A2B4A] text-white shadow-lg shadow-blue-900/20"
+                        className="bg-[#3558a0] hover:bg-[#1A2B4A] text-white shadow-lg shadow-blue-900/20"
                     >
                         <Plus className="h-4 w-4 mr-2" />
                         Nuevo {title}
@@ -197,27 +197,27 @@ export default function CatalogosPage() {
             </div>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="bg-gray-100/80 p-1 rounded-xl h-auto flex flex-wrap gap-1 mb-6 border border-gray-200/50">
-                    <TabsTrigger value="proveedores" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                    <TabsTrigger value="proveedores" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#3558a0] data-[state=active]:shadow-md transition-all">
                         <Factory className="h-4 w-4" />
                         Proveedores
                     </TabsTrigger>
-                    <TabsTrigger value="productos" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                    <TabsTrigger value="productos" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#3558a0] data-[state=active]:shadow-md transition-all">
                         <Package className="h-4 w-4" />
                         Productos
                     </TabsTrigger>
-                    <TabsTrigger value="presentaciones" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                    <TabsTrigger value="presentaciones" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#3558a0] data-[state=active]:shadow-md transition-all">
                         <Layers className="h-4 w-4" />
                         Presentaciones
                     </TabsTrigger>
-                    <TabsTrigger value="destinos" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                    <TabsTrigger value="destinos" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#3558a0] data-[state=active]:shadow-md transition-all">
                         <MapPin className="h-4 w-4" />
                         Destinos
                     </TabsTrigger>
-                    <TabsTrigger value="estatus" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                    <TabsTrigger value="estatus" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#3558a0] data-[state=active]:shadow-md transition-all">
                         <ClipboardList className="h-4 w-4" />
                         Estatus
                     </TabsTrigger>
-                    <TabsTrigger value="unidades" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#1B3D8F] data-[state=active]:shadow-md transition-all">
+                    <TabsTrigger value="unidades" className="rounded-lg py-2.5 px-4 flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-[#3558a0] data-[state=active]:shadow-md transition-all">
                         <Scale className="h-4 w-4" />
                         Unidades
                     </TabsTrigger>

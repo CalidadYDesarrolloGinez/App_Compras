@@ -37,7 +37,7 @@ export default function CalendarPage() {
         <div className="flex flex-col h-full gap-4 w-full px-4 mx-auto">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#0e0c9b]">Calendario de Recepción</h1>
+                    <h1 className="text-2xl font-bold text-[#4266ac]">Calendario de Recepción</h1>
                     <p className="text-sm text-gray-500 mt-1">
                         Visualiza y gestiona las entregas programadas de materias primas.
                     </p>

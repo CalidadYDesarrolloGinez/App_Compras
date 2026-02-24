@@ -38,7 +38,7 @@ import { toast } from 'sonner'
 
 // ─── Role metadata ─────────────────────────────────────────
 const ROLE_META: Record<string, { label: string; color: string; bg: string }> = {
-    admin: { label: 'Admin', color: '#ffffff', bg: '#0e0c9b' },
+    admin: { label: 'Admin', color: '#ffffff', bg: '#4266ac' },
     coordinadora: { label: 'Coordinadora', color: '#ffffff', bg: '#7c3aed' },
     laboratorio: { label: 'Laboratorio', color: '#ffffff', bg: '#0891b2' },
     cedis: { label: 'CEDIS', color: '#ffffff', bg: '#059669' },
@@ -131,7 +131,7 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
                         <div className="flex gap-2 shrink-0 ml-4">
                             <Button
                                 size="sm"
-                                className="bg-[#0e0c9b] hover:bg-[#1614b5] text-white text-xs"
+                                className="bg-[#4266ac] hover:bg-[#62a4dc] text-white text-xs"
                                 onClick={() => setApproveModal({ open: true, user: u, role: 'laboratorio' })}
                             >
                                 <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
@@ -166,7 +166,7 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
                                 key={r}
                                 onClick={() => setApproveModal(p => ({ ...p, role: r }))}
                                 className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all text-sm font-medium ${approveModal.role === r
-                                    ? 'border-[#0e0c9b] bg-indigo-50'
+                                    ? 'border-[#4266ac] bg-indigo-50'
                                     : 'border-gray-200 hover:border-gray-300'
                                     }`}
                             >
@@ -180,7 +180,7 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
                     </div>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setApproveModal(p => ({ ...p, open: false }))}>Cancelar</Button>
-                        <Button className="bg-[#0e0c9b] hover:bg-[#1614b5]" onClick={handleApprove} disabled={saving}>
+                        <Button className="bg-[#4266ac] hover:bg-[#62a4dc]" onClick={handleApprove} disabled={saving}>
                             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                             Confirmar aprobación
                         </Button>
@@ -260,11 +260,11 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
             <table className="w-full text-sm">
                 <thead>
                     <tr className="text-left border-b border-gray-100">
-                        <th className="pb-3 font-semibold text-[#0e0c9b] pr-4">Nombre</th>
-                        <th className="pb-3 font-semibold text-[#0e0c9b] pr-4">Email</th>
-                        <th className="pb-3 font-semibold text-[#0e0c9b] pr-4">Rol Actual</th>
-                        <th className="pb-3 font-semibold text-[#0e0c9b] pr-4">Alta</th>
-                        <th className="pb-3 font-semibold text-[#0e0c9b] text-right">Cambiar Rol</th>
+                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Nombre</th>
+                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Email</th>
+                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Rol Actual</th>
+                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Alta</th>
+                        <th className="pb-3 font-semibold text-[#4266ac] text-right">Cambiar Rol</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -365,7 +365,7 @@ export default function AdminPage() {
         <div className="flex flex-col gap-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-[#0e0c9b]">Administración de Usuarios</h1>
+                <h1 className="text-2xl font-bold text-[#4266ac]">Administración de Usuarios</h1>
                 <p className="text-sm text-gray-500 mt-1">
                     Aprueba solicitudes de acceso y gestiona los roles del equipo.
                 </p>
@@ -377,7 +377,7 @@ export default function AdminPage() {
                     <button
                         onClick={() => setTab('pendientes')}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'pendientes'
-                            ? 'bg-[#0e0c9b] text-white shadow-sm'
+                            ? 'bg-[#4266ac] text-white shadow-sm'
                             : 'text-gray-500 hover:bg-gray-50'
                             }`}
                     >
@@ -387,7 +387,7 @@ export default function AdminPage() {
                     <button
                         onClick={() => setTab('activos')}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'activos'
-                            ? 'bg-[#0e0c9b] text-white shadow-sm'
+                            ? 'bg-[#4266ac] text-white shadow-sm'
                             : 'text-gray-500 hover:bg-gray-50'
                             }`}
                     >
