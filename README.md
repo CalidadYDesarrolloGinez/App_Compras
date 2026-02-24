@@ -1,11 +1,16 @@
-# 📦 GINEZ Calendario y Gestión de Requisiciones de Compras de MP
+# 📦 Purchase Tracking Cloro de Hidalgo
+## Calendario y Gestión de Requisiciones de Compras de MP
 
-Sistema empresarial avanzado para el control, seguimiento y gestión integral de requisiciones de materias primas, suministros y entregas logísticas.
+Sistema empresarial avanzado para el control, seguimiento y gestión integral de requisiciones de materias primas, suministros y entregas logísticas de **Cloro de Hidalgo**.
 
-![Dashboard Preview](https://github.com/AlejandroMartinezG/App_Compras/raw/main/public/dashboard-preview.png "Vista del Calendario de Recepción")
+### 🔐 Pantalla de Acceso
+![Login Screen](https://github.com/AlejandroMartinezG/App_Compras/raw/main/public/loggin_panel.png "Acceso al Sistema Cloro de Hidalgo")
+
+### 📅 Vista del Calendario
+![Calendar Dashboard](https://github.com/AlejandroMartinezG/App_Compras/raw/main/public/calendario_dashboard.png "Vista del Calendario de Recepción")
 
 ## 🎯 Propósito del Sistema
-Optimizar el flujo de suministros de **GínEZ**, permitiendo una comunicación fluida entre los departamentos de Compras, Laboratorio, CEDIS y los proveedores externos, garantizando que cada insumo llegue en el tiempo y forma solicitados.
+Optimizar el flujo de suministros de **Cloro de Hidalgo**, permitiendo una comunicación fluida entre los departamentos de Compras, Laboratorio, CEDIS y los proveedores externos, garantizando que cada insumo llegue en el tiempo y forma solicitados.
 
 ---
 
@@ -30,7 +35,7 @@ Estandarización de información crítica para evitar errores de captura:
 - **Productos**: Inventario maestro de materias primas y suministros.
 - **Presentaciones**: Tipos de envase, empaque y unidades de carga.
 - **Unidades de Medida**: Estandarización de pesos y volúmenes (kg, L, piezas, etc.).
-- **Destinos y Plantas**: Gestión de puntos de recepción (Plantas GínEZ, CEDIS).
+- **Destinos y Plantas**: Gestión de puntos de recepción (Plantas Cloro de Hidalgo, CEDIS).
 
 ### 4. 🔐 Seguridad y Control de Acceso
 Sistema basado en roles con jerarquías claras:
@@ -50,6 +55,7 @@ Sistema basado en roles con jerarquías claras:
 | **Backend / DB** | [Supabase](https://supabase.com/) (PostgreSQL + Realtime) |
 | **Autenticación** | Supabase Auth (Manejo de sesiones y roles) |
 | **Estilos** | [Tailwind CSS 4](https://tailwindcss.com/) (Modern CSS engine) |
+| **Tipografía** | Avenir Next LT Pro (Fuentes Corporativas) |
 | **Componentes UI** | [Shadcn UI](https://ui.shadcn.com/) (Radix UI) |
 | **Formularios** | React Hook Form + Zod |
 | **Tabla de Datos** | TanStack Table (v8) |
@@ -95,6 +101,7 @@ Sistema basado en roles con jerarquías claras:
 - `/lib`: Lógica de negocio, hooks personalizados y acciones de Supabase.
 - `/types`: Definiciones de interfaces y tipos TypeScript.
 - `/supabase`: Configuraciones y esquemas de base de datos.
+- `/public`: Activos estáticos, logos y fuentes corporativas.
 
 ---
-© 2026 **GínEZ** - Calidad y Desarrollo.
+© 2026 **Cloro de Hidalgo S.A. de C.V.** - Calidad y Desarrollo.
