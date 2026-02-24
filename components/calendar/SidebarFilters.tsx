@@ -64,10 +64,10 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
 
     return (
         <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-gray-50/50">
-            <CardHeader className="pb-3 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
-                <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-bold text-[#4266ac] flex items-center gap-2">
-                        <Filter className="h-4 w-4 text-[#4266ac]" />
+            <CardHeader className="pt-2 pb-0 px-3.5 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
+                <div className="flex items-center justify-between mb-1.5">
+                    <CardTitle className="text-[13px] font-bold text-[#4266ac] flex items-center gap-2">
+                        <Filter className="h-3.5 w-3.5 text-[#4266ac]" />
                         Filtrar Vista
                     </CardTitle>
                     {hasFilters && (
@@ -75,29 +75,29 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                             variant="ghost"
                             size="icon"
                             onClick={handleClear}
-                            className="h-6 w-6 text-[#c41f1a] hover:text-red-700 hover:bg-red-50 rounded-full"
+                            className="h-5 w-5 text-[#c41f1a] hover:text-red-700 hover:bg-red-50 rounded-full"
                             title="Limpiar filtros"
                         >
-                            <X className="h-3.5 w-3.5" />
+                            <X className="h-3 w-3" />
                         </Button>
                     )}
                 </div>
             </CardHeader>
-            <CardContent className="p-3.5 space-y-4">
+            <CardContent className="p-3 pt-0 space-y-3">
                 {/* Status Legend Guide */}
-                <div className="space-y-2 pb-3 border-b border-gray-100/80">
-                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.1em] ml-1">Guía de Estatus</label>
-                    <div className="grid grid-cols-2 gap-x-2 gap-y-2 px-1">
+                <div className="space-y-1 pt-0 pb-2 border-b border-gray-100/80">
+                    <label className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.1em] ml-0.5">Guía de Estatus</label>
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 px-0.5">
                         {catalogos.estatus.map(e => {
                             const Icon = getStatusIcon(e.nombre)
                             return (
-                                <div key={e.id} className="flex items-center gap-1.5 mr-1">
+                                <div key={e.id} className="flex items-center gap-1.5">
                                     <Icon
-                                        size={11}
+                                        size={10}
                                         style={{ color: e.color_hex }}
                                         className="shrink-0"
                                     />
-                                    <span className="text-[10px] font-semibold text-gray-600 truncate uppercase tracking-tighter">
+                                    <span className="text-[9px] font-semibold text-gray-600 truncate uppercase tracking-tighter">
                                         {e.nombre}
                                     </span>
                                 </div>
@@ -106,8 +106,8 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                     </div>
                 </div>
 
-                <div className="space-y-1.5 pt-1">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 flex items-center gap-1.5">
+                <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
                         <ClipboardList className="h-3 w-3 text-gray-400" />
                         Estatus
                     </label>
@@ -136,8 +136,8 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                     </Select>
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 flex items-center gap-1.5">
+                <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
                         <Factory className="h-3 w-3 text-gray-400" />
                         Proveedor
                     </label>
@@ -161,8 +161,8 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                     </Select>
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 flex items-center gap-1.5">
+                <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
                         <CalendarIcon className="h-3 w-3 text-gray-400" />
                         Desde Fecha
                     </label>
