@@ -4,10 +4,10 @@
 Sistema empresarial avanzado para el control, seguimiento y gestión integral de requisiciones de materias primas, suministros y entregas logísticas de **Cloro de Hidalgo**.
 
 ### 🔐 Pantalla de Acceso
-![Login Screen](https://github.com/AlejandroMartinezG/App_Compras/raw/main/public/loggin_panel.png "Acceso al Sistema Cloro de Hidalgo")
+![Login Screen](./public/loggin_panel.png "Acceso al Sistema Cloro de Hidalgo")
 
 ### 📅 Vista del Calendario
-![Calendar Dashboard](https://github.com/AlejandroMartinezG/App_Compras/raw/main/public/calendario_dashboard.png "Vista del Calendario de Recepción")
+![Calendar Dashboard](./public/calendario_dashboard.png "Vista del Calendario de Recepción")
 
 ## 🎯 Propósito del Sistema
 Optimizar el flujo de suministros de **Cloro de Hidalgo**, permitiendo una comunicación fluida entre los departamentos de Compras, Laboratorio, CEDIS y los proveedores externos, garantizando que cada insumo llegue en el tiempo y forma solicitados.
