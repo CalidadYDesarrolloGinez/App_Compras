@@ -8,6 +8,7 @@ import { SidebarFilters } from '@/components/calendar/SidebarFilters'
 import { RequisicionFormModal } from '@/components/forms/RequisicionForm'
 import { EventDetailModal } from '@/components/calendar/EventModal'
 import { UpcomingDeliveries } from '@/components/layout/UpcomingDeliveries'
+import { StatusLegend } from '@/components/calendar/StatusLegend'
 
 export default function CalendarPage() {
     const [requisiciones, setRequisiciones] = useState<Requisicion[]>([])
@@ -42,6 +43,7 @@ export default function CalendarPage() {
                         Visualiza y gestiona las entregas programadas de materias primas.
                     </p>
                 </div>
+                <StatusLegend filters={filters} onFilterChange={setFilters} />
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 flex-1 min-h-0 container-calendar-main">

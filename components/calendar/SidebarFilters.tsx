@@ -63,9 +63,9 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
     const hasFilters = Object.keys(filters).length > 0
 
     return (
-        <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-gray-50/50">
-            <CardHeader className="pt-2 pb-0 px-3.5 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
-                <div className="flex items-center justify-between mb-1.5">
+        <Card className="gap-0 py-0 shadow-sm border-gray-100 bg-gradient-to-br from-white to-gray-50/50 overflow-hidden">
+            <CardHeader className="pt-3 pb-3 px-3.5 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
+                <div className="flex items-center justify-between">
                     <CardTitle className="text-[13px] font-bold text-[#4266ac] flex items-center gap-2">
                         <Filter className="h-3.5 w-3.5 text-[#4266ac]" />
                         Filtrar Vista
@@ -83,58 +83,7 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                     )}
                 </div>
             </CardHeader>
-            <CardContent className="p-3 pt-0 space-y-3">
-                {/* Status Legend Guide */}
-                <div className="space-y-1 pt-0 pb-2 border-b border-gray-100/80">
-                    <label className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.1em] ml-0.5">Guía de Estatus</label>
-                    <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 px-0.5">
-                        {catalogos.estatus.map(e => {
-                            const Icon = getStatusIcon(e.nombre)
-                            return (
-                                <div key={e.id} className="flex items-center gap-1.5">
-                                    <Icon
-                                        size={10}
-                                        style={{ color: e.color_hex }}
-                                        className="shrink-0"
-                                    />
-                                    <span className="text-[9px] font-semibold text-gray-600 truncate uppercase tracking-tighter">
-                                        {e.nombre}
-                                    </span>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-
-                <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
-                        <ClipboardList className="h-3 w-3 text-gray-400" />
-                        Estatus
-                    </label>
-                    <Select
-                        value={filters.estatus_id || 'all'}
-                        onValueChange={(val) => handleChange('estatus_id', val)}
-                        disabled={loading}
-                    >
-                        <SelectTrigger className="h-9 bg-white border-gray-200 text-xs shadow-sm focus:ring-[#4266ac] pl-2">
-                            <div className="flex items-center gap-2 overflow-hidden">
-                                <ClipboardList className="h-3.5 w-3.5 text-gray-400 shrink-0" />
-                                <SelectValue placeholder="Todos los estatus" />
-                            </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">Todos los estatus</SelectItem>
-                            {catalogos.estatus.map(e => (
-                                <SelectItem key={e.id} value={e.id}>
-                                    <div className="flex items-center gap-2">
-                                        <div className="h-2 w-2 rounded-full" style={{ backgroundColor: e.color_hex }} />
-                                        {e.nombre}
-                                    </div>
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
+            <CardContent className="p-3 pt-4 space-y-4">
 
                 <div className="space-y-1">
                     <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
@@ -177,6 +126,6 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                     </div>
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     )
 }
