@@ -39,15 +39,15 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
         : (user?.email?.[0] ?? 'U').toUpperCase()
 
     return (
-        <header className="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-6 shrink-0">
+        <header className="h-14 bg-[var(--card)] border-b border-[var(--border)] flex items-center justify-between px-6 shrink-0">
             {/* Breadcrumbs */}
             <div className="flex items-center gap-1.5 text-sm">
                 {breadcrumbs.map((crumb, i) => (
                     <div key={i} className="flex items-center gap-1.5">
-                        {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-gray-400" />}
+                        {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-[var(--muted)]" />}
                         <span className={i === breadcrumbs.length - 1
-                            ? 'font-medium text-[#4266ac]'
-                            : 'text-gray-400 hover:text-gray-600 cursor-pointer'
+                            ? 'font-medium text-[var(--navy)]'
+                            : 'text-[var(--muted)] hover:text-[var(--muted)] cursor-pointer'
                         }>
                             {crumb.label}
                         </span>
@@ -60,11 +60,11 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                 {/* User menu */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className="flex items-center gap-2.5 hover:bg-gray-50 rounded-lg px-2 py-1.5 transition-all">
+                        <button className="flex items-center gap-2.5 hover:bg-[var(--bg)] rounded-lg px-2 py-1.5 transition-all">
                             {loading ? (
                                 <Skeleton className="h-8 w-8 rounded-full" />
                             ) : (
-                                <Avatar className="h-8 w-8 border border-gray-100">
+                                <Avatar className="h-8 w-8 border border-[var(--border)]">
                                     <AvatarFallback className="bg-[#4266ac] text-white text-xs font-bold">
                                         {initials}
                                     </AvatarFallback>
@@ -75,10 +75,10 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                                     <Skeleton className="h-3 w-24" />
                                 ) : (
                                     <>
-                                        <p className="text-xs font-semibold text-[#4266ac] leading-tight">
+                                        <p className="text-xs font-semibold text-[var(--navy)] leading-tight">
                                             {profile?.nombre_completo ?? user?.email}
                                         </p>
-                                        <p className="text-[10px] text-gray-400 leading-tight uppercase tracking-wide">
+                                        <p className="text-[10px] text-[var(--muted)] leading-tight uppercase tracking-wide">
                                             {ROL_LABELS[profile?.rol ?? ''] ?? profile?.rol}
                                         </p>
                                     </>
@@ -86,16 +86,16 @@ export function Header({ breadcrumbs = [] }: HeaderProps) {
                             </div>
                         </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 bg-white opacity-100 shadow-xl border-gray-200">
+                    <DropdownMenuContent align="end" className="w-56 bg-[var(--card)] opacity-100 shadow-xl border-[var(--border)]">
                         <DropdownMenuLabel className="font-normal py-3">
                             <div className="flex flex-col gap-0.5">
-                                <p className="text-sm font-semibold text-gray-900">{profile?.nombre_completo}</p>
-                                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                                <p className="text-sm font-semibold text-[var(--foreground)]">{profile?.nombre_completo}</p>
+                                <p className="text-xs text-[var(--muted)] truncate">{user?.email}</p>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <Link href="/dashboard/configuracion">
-                            <DropdownMenuItem className="gap-2 text-gray-700 cursor-pointer py-2.5">
+                            <DropdownMenuItem className="gap-2 text-[var(--foreground)] cursor-pointer py-2.5">
                                 <User className="h-4 w-4" />
                                 Mi perfil
                             </DropdownMenuItem>

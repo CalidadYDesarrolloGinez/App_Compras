@@ -56,10 +56,10 @@ export function UpcomingDeliveries() {
 
     if (loading) {
         return (
-            <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-blue-50/30">
-                <CardHeader className="pb-3 border-b border-gray-100">
-                    <CardTitle className="text-sm font-bold text-[#4266ac] flex items-center gap-2">
-                        <Truck className="h-4 w-4 text-[#4266ac]" />
+            <Card className="shadow-sm border-[var(--border)] bg-[var(--card)]">
+                <CardHeader className="pb-3 border-b border-[var(--border)]">
+                    <CardTitle className="text-sm font-bold text-[var(--navy)] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[var(--navy)]" />
                         Próximas Entregas (6 días)
                     </CardTitle>
                 </CardHeader>
@@ -73,15 +73,15 @@ export function UpcomingDeliveries() {
     }
 
     return (
-        <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-white to-slate-50 relative overflow-hidden">
+        <Card className="shadow-sm border-[var(--border)] bg-[var(--card)] relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                <Truck className="h-24 w-24 text-[#4266ac]" />
+                <Truck className="h-24 w-24 text-[var(--navy)]" />
             </div>
 
-            <CardHeader className="pb-3 border-b border-gray-100 bg-white/50 backdrop-blur-sm relative z-10">
+            <CardHeader className="pb-3 border-b border-[var(--border)] bg-[var(--card)] opacity-95 backdrop-blur-sm relative z-10">
                 <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-bold text-[#4266ac] flex items-center gap-2">
-                        <Truck className="h-4 w-4 text-[#4266ac]" />
+                    <CardTitle className="text-sm font-bold text-[var(--navy)] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[var(--navy)]" />
                         Próximas Entregas (6 días)
                     </CardTitle>
                     <Badge className="bg-[#4266ac] hover:bg-[#62a4dc]">
@@ -92,23 +92,23 @@ export function UpcomingDeliveries() {
 
             <CardContent className="p-0 relative z-10">
                 {upcoming.length === 0 ? (
-                    <div className="p-6 text-center text-sm text-gray-500 flex flex-col items-center gap-2">
+                    <div className="p-6 text-center text-sm text-[var(--muted)] flex flex-col items-center gap-2">
                         <AlertCircle className="h-8 w-8 text-gray-300 mb-1" />
                         No hay entregas programadas<br />para los próximos 6 días.
                     </div>
                 ) : (
-                    <div className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+                    <div className="divide-y divide-[var(--border)] max-h-[500px] overflow-y-auto">
                         {upcoming.map(req => {
                             const dateToUse = req.fecha_confirmada || req.fecha_recepcion
                             const reqDate = new Date(dateToUse + 'T00:00:00')
                             const isToday = format(reqDate, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd')
 
                             return (
-                                <div key={req.id} className="p-4 hover:bg-white/60 transition-colors flex flex-col gap-1 group">
+                                <div key={req.id} className="p-4 hover:bg-[var(--bg)] transition-colors flex flex-col gap-1 group">
                                     <div className="flex items-center justify-between">
                                         <div className="overflow-hidden min-w-0">
-                                            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Material:</p>
-                                            <p className="font-bold text-sm text-[#4266ac] truncate group-hover:text-[#3558a0] transition-colors leading-tight">
+                                            <p className="text-[10px] uppercase font-bold text-[var(--muted)] tracking-wider opacity-80">Material:</p>
+                                            <p className="font-bold text-sm text-[var(--navy)] truncate group-hover:text-[var(--navy-light)] transition-colors leading-tight">
                                                 {req.producto?.nombre}
                                             </p>
                                         </div>
@@ -121,16 +121,16 @@ export function UpcomingDeliveries() {
 
                                     <div className="grid grid-cols-2 gap-2 mt-1">
                                         <div>
-                                            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Proveedor:</p>
-                                            <p className="text-xs text-gray-600 truncate font-medium">
+                                            <p className="text-[10px] uppercase font-bold text-[var(--muted)] tracking-wider opacity-80">Proveedor:</p>
+                                            <p className="text-xs text-[var(--muted)] truncate font-medium">
                                                 {req.proveedor?.nombre}
                                             </p>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                                            <p className="text-[10px] uppercase font-bold text-[var(--muted)] tracking-wider opacity-80">
                                                 {req.fecha_confirmada ? 'Fecha Confirmada:' : 'Fecha Solicitada:'}
                                             </p>
-                                            <p className={`text-xs font-bold leading-tight ${isToday ? 'text-red-600' : 'text-gray-700'}`}>
+                                            <p className={`text-xs font-bold leading-tight ${isToday ? 'text-red-600 dark:text-red-400' : 'text-[var(--foreground)]'}`}>
                                                 {isToday ? `Hoy (${format(reqDate, 'eee dd', { locale: es })})` : format(reqDate, 'eeee dd', { locale: es })}
                                             </p>
                                         </div>

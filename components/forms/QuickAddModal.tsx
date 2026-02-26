@@ -113,7 +113,7 @@ export function QuickAddModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[400px] bg-white border-none shadow-2xl">
+            <DialogContent className="sm:max-w-[400px] bg-[var(--card)] border-none shadow-2xl">
                 <DialogHeader className="border-b pb-4">
                     <DialogTitle className="text-[#1A2B4A]">
                         {isEditing ? 'Editar' : 'Agregar'} {title}
@@ -126,7 +126,7 @@ export function QuickAddModal({
                             name="nombre"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-xs font-bold text-gray-600 uppercase">Nombre</FormLabel>
+                                    <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Nombre</FormLabel>
                                     <FormControl>
                                         <Input placeholder={`Ej: ${title === 'Proveedor' ? 'Distribuidora X' : 'Nombre'}`} {...field} className="h-9" />
                                     </FormControl>
@@ -141,7 +141,7 @@ export function QuickAddModal({
                                 name="descripcion"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-xs font-bold text-gray-600 uppercase">Descripción</FormLabel>
+                                        <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Descripción</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Descripción breve..." {...field} className="h-9" />
                                         </FormControl>
@@ -157,7 +157,7 @@ export function QuickAddModal({
                                 name="abreviatura"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-xs font-bold text-gray-600 uppercase">Abreviatura</FormLabel>
+                                        <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Abreviatura</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Ej: KG, LT, PZ" {...field} className="h-9" />
                                         </FormControl>
@@ -173,7 +173,7 @@ export function QuickAddModal({
                                 name="color_hex"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-xs font-bold text-gray-600 uppercase">Color distintivo</FormLabel>
+                                        <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Color distintivo</FormLabel>
                                         <FormControl>
                                             <div className="flex gap-2">
                                                 <Input type="color" {...field} className="h-9 w-12 p-1" />
@@ -192,7 +192,7 @@ export function QuickAddModal({
                                 variant="ghost"
                                 onClick={() => onOpenChange(false)}
                                 disabled={loading}
-                                className="text-gray-500"
+                                className="text-[var(--muted)]"
                             >
                                 Cancelar
                             </Button>

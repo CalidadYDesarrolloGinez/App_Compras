@@ -109,9 +109,9 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
     )
 
     if (users.length === 0) return (
-        <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
+        <div className="flex flex-col items-center justify-center py-16 text-center text-[var(--muted)]">
             <CheckCircle2 className="h-12 w-12 mb-3 text-emerald-300" />
-            <p className="font-semibold text-gray-600">Sin solicitudes pendientes</p>
+            <p className="font-semibold text-[var(--muted)]">Sin solicitudes pendientes</p>
             <p className="text-sm mt-1">Todos los usuarios están aprobados.</p>
         </div>
     )
@@ -120,11 +120,11 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
         <>
             <div className="space-y-3">
                 {users.map(u => (
-                    <div key={u.id} className="flex items-center justify-between bg-amber-50 border border-amber-100 rounded-xl px-5 py-4">
+                    <div key={u.id} className="flex items-center justify-between bg-amber-50 dark:bg-[var(--card)] border border-amber-100 dark:border-[var(--border)] rounded-xl px-5 py-4">
                         <div className="min-w-0">
-                            <p className="font-semibold text-gray-900 truncate">{u.nombre_completo || '(sin nombre)'}</p>
-                            <p className="text-xs text-gray-500 truncate">{u.email}</p>
-                            <p className="text-[10px] text-gray-400 mt-0.5">
+                            <p className="font-semibold text-[var(--foreground)] truncate">{u.nombre_completo || '(sin nombre)'}</p>
+                            <p className="text-xs text-[var(--muted)] truncate">{u.email}</p>
+                            <p className="text-[10px] text-[var(--muted)] mt-0.5">
                                 Registro: {new Date(u.created_at).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })}
                             </p>
                         </div>
@@ -167,7 +167,7 @@ function PendingUsersSection({ onRefresh }: { onRefresh: () => void }) {
                                 onClick={() => setApproveModal(p => ({ ...p, role: r }))}
                                 className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all text-sm font-medium ${approveModal.role === r
                                     ? 'border-[#4266ac] bg-indigo-50'
-                                    : 'border-gray-200 hover:border-gray-300'
+                                    : 'border-[var(--border)] hover:border-[var(--border)]'
                                     }`}
                             >
                                 <span
@@ -259,21 +259,21 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
         <div className="overflow-x-auto">
             <table className="w-full text-sm">
                 <thead>
-                    <tr className="text-left border-b border-gray-100">
-                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Nombre</th>
-                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Email</th>
-                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Rol Actual</th>
-                        <th className="pb-3 font-semibold text-[#4266ac] pr-4">Alta</th>
-                        <th className="pb-3 font-semibold text-[#4266ac] text-right">Cambiar Rol</th>
+                    <tr className="text-left border-b border-[var(--border)]">
+                        <th className="pb-3 font-semibold text-[var(--navy)] pr-4">Nombre</th>
+                        <th className="pb-3 font-semibold text-[var(--navy)] pr-4">Email</th>
+                        <th className="pb-3 font-semibold text-[var(--navy)] pr-4">Rol Actual</th>
+                        <th className="pb-3 font-semibold text-[var(--navy)] pr-4">Alta</th>
+                        <th className="pb-3 font-semibold text-[var(--navy)] text-right">Cambiar Rol</th>
                     </tr>
                 </thead>
                 <tbody>
                     {users.map(u => (
-                        <tr key={u.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                            <td className="py-3 pr-4 font-medium text-gray-900">{u.nombre_completo || '—'}</td>
-                            <td className="py-3 pr-4 text-gray-500 text-xs">{u.email}</td>
+                        <tr key={u.id} className="border-b border-gray-50 hover:bg-[var(--bg)] opacity-95 transition-colors">
+                            <td className="py-3 pr-4 font-medium text-[var(--foreground)]">{u.nombre_completo || '—'}</td>
+                            <td className="py-3 pr-4 text-[var(--muted)] text-xs">{u.email}</td>
                             <td className="py-3 pr-4"><RoleBadge rol={u.rol} /></td>
-                            <td className="py-3 pr-4 text-xs text-gray-400">
+                            <td className="py-3 pr-4 text-xs text-[var(--muted)]">
                                 {new Date(u.created_at).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })}
                             </td>
                             <td className="py-3 text-right">
@@ -285,17 +285,17 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
                                                 Cambiar <ChevronDown className="h-3 w-3" />
                                             </Button>
                                         </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-xl z-50">
+                                        <DropdownMenuContent align="end" className="bg-[var(--card)] border border-[var(--border)] shadow-xl z-50">
                                             {ASSIGNABLE_ROLES.map(r => (
                                                 <DropdownMenuItem
                                                     key={r}
-                                                    className="gap-2 text-xs focus:bg-gray-100 cursor-pointer"
+                                                    className="gap-2 text-xs focus:bg-[var(--bg)] cursor-pointer"
                                                     onClick={() => handleRoleChange(u.id, r)}
                                                     disabled={u.rol === r}
                                                 >
                                                     <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ROLE_META[r]?.bg }} />
                                                     {ROLE_META[r]?.label}
-                                                    {u.rol === r && <span className="ml-auto text-[10px] text-gray-400">actual</span>}
+                                                    {u.rol === r && <span className="ml-auto text-[10px] text-[var(--muted)]">actual</span>}
                                                 </DropdownMenuItem>
                                             ))}
                                         </DropdownMenuContent>
@@ -304,7 +304,7 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-7 w-7 text-gray-400 hover:text-red-600 hover:bg-red-50"
+                                        className="h-7 w-7 text-[var(--muted)] hover:text-red-600 hover:bg-red-50"
                                         onClick={() => setDeleteModal({ open: true, user: u })}
                                         disabled={saving === u.id}
                                     >
@@ -317,7 +317,7 @@ function ActiveUsersSection({ refresh }: { refresh: number }) {
                 </tbody>
             </table>
             {users.length === 0 && (
-                <p className="text-center text-gray-400 py-10">No hay usuarios activos registrados.</p>
+                <p className="text-center text-[var(--muted)] py-10">No hay usuarios activos registrados.</p>
             )}
 
             {/* Delete Active User Modal */}
@@ -365,20 +365,20 @@ export default function AdminPage() {
         <div className="flex flex-col gap-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-[#4266ac]">Administración de Usuarios</h1>
-                <p className="text-sm text-gray-500 mt-1">
+                <h1 className="text-2xl font-bold text-[var(--navy)]">Administración de Usuarios</h1>
+                <p className="text-sm text-[var(--muted)] mt-1">
                     Aprueba solicitudes de acceso y gestiona los roles del equipo.
                 </p>
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-                <div className="flex gap-1 p-1 border-b border-gray-100">
+            <div className="bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)]">
+                <div className="flex gap-1 p-1 border-b border-[var(--border)]">
                     <button
                         onClick={() => setTab('pendientes')}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'pendientes'
                             ? 'bg-[#4266ac] text-white shadow-sm'
-                            : 'text-gray-500 hover:bg-gray-50'
+                            : 'text-[var(--muted)] hover:bg-[var(--bg)]'
                             }`}
                     >
                         <Clock className="h-4 w-4" />
@@ -388,7 +388,7 @@ export default function AdminPage() {
                         onClick={() => setTab('activos')}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'activos'
                             ? 'bg-[#4266ac] text-white shadow-sm'
-                            : 'text-gray-500 hover:bg-gray-50'
+                            : 'text-[var(--muted)] hover:bg-[var(--bg)]'
                             }`}
                     >
                         <Users className="h-4 w-4" />

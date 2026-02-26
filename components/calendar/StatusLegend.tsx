@@ -61,23 +61,23 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
     const currentEstatus = filters.estatus_id || 'all'
 
     return (
-        <div className="flex items-center gap-2 bg-white px-2 py-1.5 rounded-full border border-gray-200 shadow-sm ml-auto">
+        <div className="flex items-center gap-2 bg-[var(--card)] px-2 py-1.5 rounded-full border border-[var(--border)] shadow-sm ml-auto">
             <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
                 {/* Botón de TODOS */}
                 <button
                     onClick={() => handleStatusClick('all')}
                     className={`flex items-center justify-center gap-2 px-4 py-1.5 rounded-full transition-all duration-200 ${currentEstatus === 'all'
-                        ? 'bg-gray-100 text-gray-800 shadow-sm border border-gray-200 font-bold'
-                        : 'hover:bg-gray-50 text-gray-500 font-semibold border border-transparent'
+                        ? 'bg-[var(--bg)] text-[var(--foreground)] shadow-sm border border-[var(--border)] font-bold'
+                        : 'hover:bg-[var(--bg)] text-[var(--muted)] font-semibold border border-transparent'
                         }`}
                 >
-                    <Layers size={16} className={currentEstatus === 'all' ? 'text-gray-700' : 'text-gray-400'} />
+                    <Layers size={16} className={currentEstatus === 'all' ? 'text-[var(--navy)]' : 'text-[var(--muted)]'} />
                     <span className="text-[12px] whitespace-nowrap tracking-wide">
                         TODOS
                     </span>
                 </button>
 
-                <div className="w-px h-5 bg-gray-200 mx-1 hidden md:block"></div>
+                <div className="w-px h-5 bg-[var(--border)] mx-1 hidden md:block"></div>
 
                 {/* Lista de Estados */}
                 {catalogos.estatus.map(e => {
@@ -90,7 +90,7 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
                             onClick={() => handleStatusClick(e.id)}
                             className={`flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full transition-all duration-200 ${isSelected
                                 ? 'shadow-sm'
-                                : 'hover:bg-gray-50 border border-transparent'
+                                : 'hover:bg-[var(--bg)] border border-transparent'
                                 }`}
                             style={isSelected ? {
                                 backgroundColor: `${e.color_hex}1A`, // 10% opacity
@@ -103,8 +103,9 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
                                 className={`transition-all ${isSelected ? 'scale-110' : 'opacity-80 hover:opacity-100'}`}
                             />
                             <span
-                                className={`text-[12px] whitespace-nowrap tracking-wide ${isSelected ? 'font-bold text-gray-900' : 'font-semibold text-gray-500'
+                                className={`text-[12px] whitespace-nowrap tracking-wide ${isSelected ? 'font-bold' : 'font-semibold text-[var(--muted)]'
                                     }`}
+                                style={isSelected ? { color: e.color_hex } : {}}
                             >
                                 {e.nombre}
                             </span>

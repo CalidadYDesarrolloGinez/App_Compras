@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
   font-family: 'AvenirNext';
@@ -59,6 +60,46 @@
     --border-var: 214 32% 91%;
     --ring: 221 46% 47%;
   }
+
+  .dark {
+    --navy: #62a4dc;
+    /* Lighter blue for dark mode */
+    --navy-light: #93c5fd;
+    --foreground: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #334155;
+    --bg: #0f172a;
+    --white: #1e293b;
+    --card: #1e293b;
+    --gray-brand: #cbd5e1;
+
+    --background: 222.2 84% 4.9%;
+    --foreground-var: 210 40% 98%;
+    --card-bg: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --muted-bg: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border-var: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    /* Tailwind V4 Magic Overrides to flip palette without editing components */
+    --color-white: var(--card);
+    --color-gray-50: var(--bg);
+    --color-gray-100: var(--border);
+    --color-gray-200: #334155;
+    --color-gray-300: #475569;
+    --color-gray-400: #64748b;
+    --color-gray-500: #94a3b8;
+    --color-gray-600: #cbd5e1;
+    --color-gray-700: #e2e8f0;
+    --color-gray-800: #f1f5f9;
+    --color-gray-900: #f8fafc;
+
+    /* Target the exact hex used globally */
+    --color-\[\#4266ac\]: var(--navy);
+  }
 }
 
 @layer base {
@@ -96,7 +137,7 @@
 
   /* ── Sidebar ── */
   .sidebar {
-    background-color: #ffffff;
+    background-color: var(--card);
     height: 100vh;
     width: 220px;
     display: flex;
@@ -107,7 +148,7 @@
     z-index: 40;
     transition: width 0.2s ease;
     border-right: 1px solid var(--border);
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.02);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
   }
 
   .sidebar.collapsed {
@@ -130,12 +171,12 @@
   }
 
   .sidebar-nav-item:hover {
-    background-color: #dce8f4;
+    background-color: var(--border);
     color: var(--navy);
   }
 
   .sidebar-nav-item.active {
-    background-color: #dce8f4;
+    background-color: var(--border);
     color: var(--navy);
     font-weight: 600;
   }
@@ -182,7 +223,7 @@
 
   .fc {
     font-family: 'AvenirNext', sans-serif !important;
-    --fc-border-color: #dce8f4 !important;
+    --fc-border-color: var(--border) !important;
     --fc-today-bg-color: transparent !important;
   }
 
@@ -196,32 +237,32 @@
   .fc .fc-toolbar-title {
     font-size: 1.15rem !important;
     font-weight: 700 !important;
-    color: #4266ac !important;
+    color: var(--navy) !important;
     letter-spacing: -0.02em !important;
   }
 
   /* ── Buttons ── */
   .fc .fc-button {
-    background: #f1f5f9 !important;
+    background: var(--bg) !important;
     border: none !important;
     border-radius: 20px !important;
     font-size: 0.78rem !important;
     padding: 0.35rem 0.9rem !important;
     font-weight: 600 !important;
-    color: #5a5a59 !important;
+    color: var(--muted) !important;
     box-shadow: none !important;
     transition: all 0.2s ease !important;
     text-transform: capitalize !important;
   }
 
   .fc .fc-button:hover {
-    background: #dce8f4 !important;
-    color: #4266ac !important;
+    background: var(--border) !important;
+    color: var(--navy) !important;
   }
 
   .fc .fc-button-primary:not(:disabled).fc-button-active,
   .fc .fc-button-primary:not(:disabled):focus {
-    background: #4266ac !important;
+    background: var(--navy) !important;
     color: #fff !important;
     box-shadow: 0 2px 8px rgba(66, 102, 172, 0.30) !important;
   }
@@ -235,20 +276,20 @@
     align-items: center !important;
     justify-content: center !important;
     border-radius: 50% !important;
-    background: #f1f5f9 !important;
-    color: #5a5a59 !important;
+    background: var(--bg) !important;
+    color: var(--muted) !important;
   }
 
   .fc .fc-prev-button:hover,
   .fc .fc-next-button:hover {
-    background: #dce8f4 !important;
-    color: #4266ac !important;
+    background: var(--border) !important;
+    color: var(--navy) !important;
   }
 
   /* ── Day-of-week header ── */
   .fc-col-header-cell {
-    background: #f0f5fb !important;
-    border-bottom: 2px solid #dce8f4 !important;
+    background: var(--bg) !important;
+    border-bottom: 2px solid var(--border) !important;
     border-left: none !important;
     border-right: none !important;
     padding: 0.7rem 0 !important;
@@ -259,40 +300,40 @@
     font-weight: 700 !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    color: #94a3b8 !important;
+    color: var(--muted) !important;
     text-decoration: none !important;
     padding: 0 !important;
   }
 
   .fc-day-sat .fc-col-header-cell-cushion,
   .fc-day-sun .fc-col-header-cell-cushion {
-    color: #62a4dc !important;
+    color: var(--navy-light) !important;
     opacity: 0.75 !important;
   }
 
   /* ── Day cells ── */
   .fc-daygrid-day {
-    background: #ffffff !important;
+    background: var(--card) !important;
     transition: background 0.15s ease !important;
     min-height: 90px !important;
   }
 
   .fc-daygrid-day:hover {
-    background: #f7fafd !important;
+    background: var(--bg) !important;
   }
 
   .fc-day-sat,
   .fc-day-sun {
-    background: #f4f8fd !important;
+    background: var(--bg) !important;
   }
 
   .fc-day-other {
-    background: #f8f9fc !important;
+    background: color-mix(in srgb, var(--bg) 80%, black) !important;
     opacity: 0.7 !important;
   }
 
   .fc-day-other .fc-daygrid-day-number {
-    color: #cbd5e1 !important;
+    color: var(--muted) !important;
   }
 
   /* ── Day numbers ── */
@@ -310,31 +351,31 @@
     justify-content: center !important;
     font-size: 0.78rem !important;
     font-weight: 600 !important;
-    color: #334155 !important;
+    color: var(--foreground) !important;
     text-decoration: none !important;
     transition: background 0.15s ease !important;
   }
 
   .fc-daygrid-day-number:hover {
-    background: #dce8f4 !important;
-    color: #4266ac !important;
+    background: var(--border) !important;
+    color: var(--navy) !important;
   }
 
   /* TODAY */
   .fc-day-today .fc-daygrid-day-number {
-    background: #4266ac !important;
+    background: var(--navy) !important;
     color: #ffffff !important;
     font-weight: 700 !important;
   }
 
   .fc-day-today .fc-daygrid-day-number:hover {
-    background: #62a4dc !important;
+    background: var(--navy-light) !important;
     color: #ffffff !important;
   }
 
   .fc-theme-standard td,
   .fc-theme-standard th {
-    border-color: #dce8f4 !important;
+    border-color: var(--border) !important;
   }
 
   /* ── Event cards ── */
@@ -367,8 +408,8 @@
   .fc-daygrid-more-link {
     font-size: 0.68rem !important;
     font-weight: 700 !important;
-    color: #4266ac !important;
-    background: #dce8f4 !important;
+    color: var(--navy) !important;
+    background: var(--border) !important;
     border-radius: 4px !important;
     padding: 1px 6px !important;
     margin-left: 4px !important;
@@ -377,20 +418,21 @@
   }
 
   .fc-daygrid-more-link:hover {
-    background: #62a4dc !important;
+    background: var(--navy-light) !important;
     color: #fff !important;
   }
 
   /* Popover */
   .fc-popover {
-    border: none !important;
+    border: 1px solid var(--border) !important;
     border-radius: 12px !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
     overflow: hidden !important;
+    background: var(--card) !important;
   }
 
   .fc-popover-header {
-    background: #4266ac !important;
+    background: var(--navy) !important;
     color: #fff !important;
     font-size: 0.78rem !important;
     font-weight: 700 !important;
@@ -435,5 +477,43 @@
 
   .animate-slide-in {
     animation: slide-in 0.15s ease-out;
+  }
+
+  /* ── Dynamic Colors (Adapts to Dark / Light) ── */
+  .dynamic-text {
+    color: var(--dynamic-color);
+  }
+
+  .dynamic-bg {
+    background-color: color-mix(in srgb, var(--dynamic-color) 10%, transparent);
+    border-color: color-mix(in srgb, var(--dynamic-color) 30%, transparent);
+  }
+
+  .dynamic-bg-strong {
+    background-color: color-mix(in srgb, var(--dynamic-color) 10%, transparent);
+    border-color: color-mix(in srgb, var(--dynamic-color) 25%, transparent);
+  }
+
+  .dynamic-border {
+    border-color: var(--dynamic-color);
+  }
+
+  /* In dark mode we lighten the colors by pulling them towards white so they can be read on dark surfaces */
+  .dark .dynamic-text {
+    color: color-mix(in srgb, var(--dynamic-color) 60%, white);
+  }
+
+  .dark .dynamic-bg {
+    background-color: color-mix(in srgb, var(--dynamic-color) 20%, transparent);
+    border-color: color-mix(in srgb, var(--dynamic-color) 45%, transparent);
+  }
+
+  .dark .dynamic-bg-strong {
+    background-color: color-mix(in srgb, var(--dynamic-color) 20%, transparent);
+    border-color: color-mix(in srgb, var(--dynamic-color) 40%, transparent);
+  }
+
+  .dark .dynamic-border {
+    border-color: color-mix(in srgb, var(--dynamic-color) 60%, white);
   }
 }

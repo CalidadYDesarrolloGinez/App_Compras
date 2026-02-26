@@ -41,12 +41,12 @@ const ROLE_LABELS: Record<string, { label: string; color: string; bg: string }> 
 // ─── Section card wrapper ───────────────────────────────────
 function Section({ title, icon: Icon, children }: { title: string; icon: React.ElementType; children: React.ReactNode }) {
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)] overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
                 <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center">
-                    <Icon className="h-4 w-4 text-[#4266ac]" />
+                    <Icon className="h-4 w-4 text-[var(--navy)]" />
                 </div>
-                <h2 className="font-semibold text-gray-800 text-sm">{title}</h2>
+                <h2 className="font-semibold text-[var(--foreground)] text-sm">{title}</h2>
             </div>
             <div className="px-6 py-5">{children}</div>
         </div>
@@ -108,13 +108,13 @@ export default function ConfiguracionPage() {
         <div className="max-w-xl mx-auto flex flex-col gap-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-[#4266ac]">Configuración de Perfil</h1>
-                <p className="text-sm text-gray-500 mt-1">Administra tu información personal y contraseña.</p>
+                <h1 className="text-2xl font-bold text-[var(--navy)]">Configuración de Perfil</h1>
+                <p className="text-sm text-[var(--muted)] mt-1">Administra tu información personal y contraseña.</p>
             </div>
 
             {/* Identity card */}
             <div className="bg-gradient-to-r from-[#2d4a80] to-[#4266ac] rounded-xl p-6 text-white flex items-center gap-5">
-                <div className="h-16 w-16 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold shrink-0">
+                <div className="h-16 w-16 rounded-full bg-[var(--card)] opacity-95 flex items-center justify-center text-2xl font-bold shrink-0">
                     {(profile?.nombre_completo ?? user?.email ?? 'U').charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0">
@@ -135,11 +135,11 @@ export default function ConfiguracionPage() {
             <Section title="Información Personal" icon={User}>
                 <form onSubmit={profileForm.handleSubmit(onSubmitProfile)} className="space-y-4">
                     <div className="space-y-1.5">
-                        <Label htmlFor="nombre_completo" className="text-sm text-gray-700">Nombre completo</Label>
+                        <Label htmlFor="nombre_completo" className="text-sm text-[var(--foreground)]">Nombre completo</Label>
                         <Input
                             id="nombre_completo"
                             placeholder="Tu nombre completo"
-                            className="border-gray-200 focus-visible:ring-[#4266ac]"
+                            className="border-[var(--border)] focus-visible:ring-[#4266ac]"
                             {...profileForm.register('nombre_completo')}
                         />
                         {profileForm.formState.errors.nombre_completo && (
@@ -147,16 +147,16 @@ export default function ConfiguracionPage() {
                         )}
                     </div>
                     <div className="space-y-1.5">
-                        <Label className="text-sm text-gray-700">Correo electrónico</Label>
+                        <Label className="text-sm text-[var(--foreground)]">Correo electrónico</Label>
                         <div className="relative">
                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-300" />
                             <Input
                                 value={user?.email ?? ''}
                                 disabled
-                                className="pl-9 bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed"
+                                className="pl-9 bg-[var(--bg)] text-[var(--muted)] border-[var(--border)] cursor-not-allowed"
                             />
                         </div>
-                        <p className="text-[11px] text-gray-400">El correo electrónico no se puede modificar.</p>
+                        <p className="text-[11px] text-[var(--muted)]">El correo electrónico no se puede modificar.</p>
                     </div>
                     <Button
                         type="submit"
@@ -173,12 +173,12 @@ export default function ConfiguracionPage() {
             <Section title="Cambiar Contraseña" icon={Lock}>
                 <form onSubmit={passwordForm.handleSubmit(onSubmitPassword)} className="space-y-4">
                     <div className="space-y-1.5">
-                        <Label htmlFor="new_password" className="text-sm text-gray-700">Nueva contraseña</Label>
+                        <Label htmlFor="new_password" className="text-sm text-[var(--foreground)]">Nueva contraseña</Label>
                         <Input
                             id="new_password"
                             type="password"
                             placeholder="Mínimo 6 caracteres"
-                            className="border-gray-200 focus-visible:ring-[#4266ac]"
+                            className="border-[var(--border)] focus-visible:ring-[#4266ac]"
                             {...passwordForm.register('new_password')}
                         />
                         {passwordForm.formState.errors.new_password && (
@@ -186,12 +186,12 @@ export default function ConfiguracionPage() {
                         )}
                     </div>
                     <div className="space-y-1.5">
-                        <Label htmlFor="confirm_password" className="text-sm text-gray-700">Confirmar contraseña</Label>
+                        <Label htmlFor="confirm_password" className="text-sm text-[var(--foreground)]">Confirmar contraseña</Label>
                         <Input
                             id="confirm_password"
                             type="password"
                             placeholder="Repite la nueva contraseña"
-                            className="border-gray-200 focus-visible:ring-[#4266ac]"
+                            className="border-[var(--border)] focus-visible:ring-[#4266ac]"
                             {...passwordForm.register('confirm_password')}
                         />
                         {passwordForm.formState.errors.confirm_password && (
@@ -202,7 +202,7 @@ export default function ConfiguracionPage() {
                         type="submit"
                         disabled={savingPwd}
                         variant="outline"
-                        className="border-[#4266ac] text-[#4266ac] hover:bg-indigo-50"
+                        className="border-[#4266ac] text-[var(--navy)] hover:bg-indigo-50"
                     >
                         {savingPwd && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                         Cambiar contraseña
@@ -219,7 +219,7 @@ export default function ConfiguracionPage() {
                     >
                         {roleMeta.label}
                     </span>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-[var(--muted)]">
                         Tu rol es asignado por un administrador y define a qué secciones tienes acceso.
                     </p>
                 </div>

@@ -137,7 +137,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
     }
 
     return (
-        <div className="h-full w-full bg-white rounded-lg">
+        <div className="h-full w-full bg-[var(--card)] rounded-lg">
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"

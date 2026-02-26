@@ -16,6 +16,8 @@ import {
 import { cn } from '@/lib/utils'
 import { useAuthRole } from '@/lib/hooks/useAuthRole'
 
+import { ThemeToggle } from '@/components/theme-toggle'
+
 interface SidebarProps {
     collapsed: boolean
     onToggle: () => void
@@ -53,7 +55,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         >
             {/* Logo */}
             <div className={cn(
-                "flex items-center border-b border-gray-100 overflow-hidden bg-white",
+                "flex items-center border-b border-[var(--border)] overflow-hidden bg-transparent transition-colors",
                 collapsed ? "px-4 py-5 justify-center" : "px-4 py-6 justify-center"
             )}>
                 {collapsed ? (
@@ -118,11 +120,13 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 </div>
             </nav>
 
-            {/* Collapse toggle */}
-            <div className="border-t border-gray-100 p-3">
+            {/* Footer / Toggles */}
+            <div className="border-t border-[var(--border)] p-3 space-y-1 transition-colors">
+                <ThemeToggle collapsed={collapsed} />
+
                 <button
                     onClick={onToggle}
-                    className="flex items-center justify-center w-full p-2 rounded-lg text-gray-400 hover:text-[#4266ac] hover:bg-gray-50 transition-all"
+                    className="flex items-center justify-center w-full p-2 rounded-lg text-[var(--muted)] hover:text-[var(--navy)] hover:bg-[var(--border)] transition-all"
                 >
                     {collapsed
                         ? <ChevronRight className="h-4 w-4" />

@@ -234,55 +234,55 @@ export function RequisicionFormModal({
                 <form onSubmit={form.handleSubmit(onSubmit)} className="px-6 py-4 overflow-y-auto flex-1">
                     <div className="space-y-6">
                         {/* Section 1: Manual Input Fields (Excel Style) */}
-                        <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <div className="bg-[var(--card)] p-4 rounded-lg border border-[var(--border)]">
                             <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b pb-2 flex items-center gap-2">
                                 <FileText className="h-4 w-4 text-[#3558a0]" />
                                 Datos de la Requisición
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Hash className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Hash className="h-3 w-3 text-[var(--muted)]" />
                                         № REQUI
                                     </Label>
                                     <Input {...form.register('requisicion_numero')} className="h-8 text-sm" placeholder="F0000" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Calendar className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Calendar className="h-3 w-3 text-[var(--muted)]" />
                                         FECHA DE OC
                                     </Label>
                                     <Input type="date" {...form.register('fecha_oc')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Barcode className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Barcode className="h-3 w-3 text-[var(--muted)]" />
                                         FOLIO OC
                                     </Label>
                                     <Input {...form.register('numero_oc')} className="h-8 text-sm" placeholder="GG-01000" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Clock className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Clock className="h-3 w-3 text-[var(--muted)]" />
                                         FECHA SOLICITADA
                                     </Label>
                                     <Input type="date" {...form.register('fecha_solicitada_entrega')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className={`text-xs font-semibold flex items-center gap-1.5 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-gray-400'}`}>
-                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-gray-400'}`} />
+                                    <Label className={`text-xs font-semibold flex items-center gap-1.5 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-[var(--muted)]'}`}>
+                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-[var(--muted)]'}`} />
                                         FECHA CONFIRMADA *
                                     </Label>
                                     <Input
                                         type="date"
                                         {...form.register('fecha_confirmada')}
-                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[#3558a0]' : 'bg-gray-50 cursor-not-allowed'}`}
+                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[#3558a0]' : 'bg-[var(--bg)] cursor-not-allowed'}`}
                                         disabled={!canEditConfirmedDate}
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <FileCheck className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <FileCheck className="h-3 w-3 text-[var(--muted)]" />
                                         FACTURA / REMISIÓN
                                     </Label>
                                     <Input {...form.register('factura_remision')} className="h-8 text-sm" />
@@ -298,8 +298,8 @@ export function RequisicionFormModal({
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Factory className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Factory className="h-3 w-3 text-[var(--muted)]" />
                                         PROVEEDOR *
                                     </Label>
                                     <div className="flex gap-1.5">
@@ -307,7 +307,7 @@ export function RequisicionFormModal({
                                             value={form.watch('proveedor_id')}
                                             onValueChange={(val) => form.setValue('proveedor_id', val, { shouldValidate: true })}
                                         >
-                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
                                                 {catalogos.proveedores
                                                     .filter(p => p.activo || p.id === form.getValues('proveedor_id'))
@@ -318,7 +318,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Proveedor', table: 'proveedores', field: 'proveedor_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -326,8 +326,8 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Box className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Box className="h-3 w-3 text-[var(--muted)]" />
                                         PRODUCTO *
                                     </Label>
                                     <div className="flex gap-1.5">
@@ -335,7 +335,7 @@ export function RequisicionFormModal({
                                             value={form.watch('producto_id')}
                                             onValueChange={(val) => form.setValue('producto_id', val, { shouldValidate: true })}
                                         >
-                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
                                                 {catalogos.productos
                                                     .filter(p => p.activo || p.id === form.getValues('producto_id'))
@@ -346,7 +346,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Producto', table: 'productos', field: 'producto_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -354,8 +354,8 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Layers className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Layers className="h-3 w-3 text-[var(--muted)]" />
                                         PRESENTACIÓN *
                                     </Label>
                                     <div className="flex gap-1.5">
@@ -363,7 +363,7 @@ export function RequisicionFormModal({
                                             value={form.watch('presentacion_id')}
                                             onValueChange={(val) => form.setValue('presentacion_id', val, { shouldValidate: true })}
                                         >
-                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
                                                 {catalogos.presentaciones
                                                     .filter(p => p.activo || p.id === form.getValues('presentacion_id'))
@@ -374,7 +374,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Presentación', table: 'presentaciones', field: 'presentacion_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -382,8 +382,8 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <MapPin className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <MapPin className="h-3 w-3 text-[var(--muted)]" />
                                         DESTINO *
                                     </Label>
                                     <div className="flex gap-1.5">
@@ -391,7 +391,7 @@ export function RequisicionFormModal({
                                             value={form.watch('destino_id')}
                                             onValueChange={(val) => form.setValue('destino_id', val, { shouldValidate: true })}
                                         >
-                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
                                                 {catalogos.destinos
                                                     .filter(d => d.activo || d.id === form.getValues('destino_id'))
@@ -402,7 +402,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Destino', table: 'destinos', field: 'destino_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -410,8 +410,8 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <ClipboardList className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <ClipboardList className="h-3 w-3 text-[var(--muted)]" />
                                         ESTATUS *
                                     </Label>
                                     <div className="flex gap-1.5">
@@ -419,7 +419,7 @@ export function RequisicionFormModal({
                                             value={form.watch('estatus_id')}
                                             onValueChange={(val) => form.setValue('estatus_id', val, { shouldValidate: true })}
                                         >
-                                            <SelectTrigger className="h-8 text-sm bg-white flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                            <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
                                                 {catalogos.estatus
                                                     .filter(e => e.activo || e.id === form.getValues('estatus_id'))
@@ -430,7 +430,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Estatus', table: 'estatus', field: 'estatus_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -438,18 +438,18 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Scale className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Scale className="h-3 w-3 text-[var(--muted)]" />
                                         CANTIDAD Y UNIDAD *
                                     </Label>
                                     <div className="flex gap-2">
-                                        <Input type="number" step="0.01" {...form.register('cantidad_solicitada', { valueAsNumber: true })} className="h-8 text-sm bg-white flex-1" />
+                                        <Input type="number" step="0.01" {...form.register('cantidad_solicitada', { valueAsNumber: true })} className="h-8 text-sm bg-[var(--card)] flex-1" />
                                         <div className="flex gap-1">
                                             <Select
                                                 value={form.watch('unidad_cantidad_id')}
                                                 onValueChange={(val) => form.setValue('unidad_cantidad_id', val, { shouldValidate: true })}
                                             >
-                                                <SelectTrigger className="h-8 text-xs bg-white w-20"><SelectValue placeholder="UM" /></SelectTrigger>
+                                                <SelectTrigger className="h-8 text-xs bg-[var(--card)] w-20"><SelectValue placeholder="UM" /></SelectTrigger>
                                                 <SelectContent>
                                                     {catalogos.unidades
                                                         .filter(u => u.activo || u.id === form.getValues('unidad_cantidad_id'))
@@ -460,7 +460,7 @@ export function RequisicionFormModal({
                                                 type="button"
                                                 variant="outline"
                                                 size="icon"
-                                                className="h-8 w-8 shrink-0 border-dashed border-gray-300 hover:border-[#3558a0] hover:text-[#3558a0]"
+                                                className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
                                                 onClick={() => setQuickAdd({ open: true, title: 'Unidad', table: 'unidades', field: 'unidad_cantidad_id' })}
                                             >
                                                 <Plus className="h-3 w-3" />
@@ -479,36 +479,36 @@ export function RequisicionFormModal({
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <CalendarCheck className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <CalendarCheck className="h-3 w-3 text-[var(--muted)]" />
                                         FECHA ENTREGADO
                                     </Label>
-                                    <Input type="date" {...form.register('fecha_entregado')} className="h-8 text-sm bg-white" />
+                                    <Input type="date" {...form.register('fecha_entregado')} className="h-8 text-sm bg-[var(--card)]" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                        <Check className="h-3 w-3 text-gray-400" />
+                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                        <Check className="h-3 w-3 text-[var(--muted)]" />
                                         CANTIDAD ENTREGADA
                                     </Label>
-                                    <Input type="number" step="0.01" {...form.register('cantidad_entregada', { valueAsNumber: true })} className="h-8 text-sm bg-white" />
+                                    <Input type="number" step="0.01" {...form.register('cantidad_entregada', { valueAsNumber: true })} className="h-8 text-sm bg-[var(--card)]" />
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-                                <MessageSquare className="h-3 w-3 text-gray-400" />
+                            <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                <MessageSquare className="h-3 w-3 text-[var(--muted)]" />
                                 COMENTARIOS / NOTAS
                             </Label>
                             <Textarea
-                                className="bg-white resize-none h-20 text-sm"
+                                className="bg-[var(--card)] resize-none h-20 text-sm"
                                 placeholder="Instrucciones adicionales..."
                                 {...form.register('comentarios')}
                             />
                         </div>
                     </div>
 
-                    <DialogFooter className="mt-6 border-t border-gray-200 pt-4">
+                    <DialogFooter className="mt-6 border-t border-[var(--border)] pt-4">
                         <Button
                             type="button"
                             variant="outline"

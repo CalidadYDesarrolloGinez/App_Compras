@@ -63,7 +63,7 @@ export function EventDetailModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md bg-white border-0 shadow-2xl p-0 overflow-hidden">
+            <DialogContent className="max-w-md bg-[var(--card)] border-0 shadow-2xl p-0 overflow-hidden">
                 {/* Header Ribbon */}
                 <div
                     className="px-6 py-5 pb-8 relative"
@@ -73,7 +73,7 @@ export function EventDetailModal({
                         <Package className="h-24 w-24 text-white" />
                     </div>
                     <div className="relative z-10">
-                        <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 border-0 mb-3 shadow-none">
+                        <Badge variant="secondary" className="bg-[var(--card)] opacity-95 text-white hover:bg-[var(--card)] opacity-95 border-0 mb-3 shadow-none">
                             {requisicion.estatus?.nombre}
                         </Badge>
                         <DialogTitle className="text-white text-xl font-bold leading-tight shadow-sm">
@@ -86,66 +86,66 @@ export function EventDetailModal({
                 </div>
 
                 {/* Details Grid */}
-                <div className="px-6 py-5 -mt-4 relative z-20 bg-white rounded-t-2xl flex flex-col gap-4">
+                <div className="px-6 py-5 -mt-4 relative z-20 bg-[var(--card)] rounded-t-2xl flex flex-col gap-4">
 
                     <div className="grid grid-cols-2 gap-y-4 gap-x-6">
                         <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
                                 <CalendarIcon className="h-3.5 w-3.5" /> Fecha
                             </div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-sm font-medium text-[var(--foreground)]">
                                 {format(new Date(requisicion.fecha_recepcion + 'T00:00:00'), "dd 'de' MMMM, yyyy", { locale: es })}
                             </p>
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
                                 <Package className="h-3.5 w-3.5" /> Cantidad
                             </div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-sm font-medium text-[var(--foreground)]">
                                 {Number(requisicion.cantidad_solicitada).toLocaleString('es-MX')} {requisicion.unidad_cantidad?.abreviatura}
                             </p>
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
                                 <Truck className="h-3.5 w-3.5" /> Presentación
                             </div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-sm font-medium text-[var(--foreground)]">
                                 {requisicion.presentacion?.nombre}
                             </p>
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
                                 <MapPin className="h-3.5 w-3.5" /> Destino
                             </div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-sm font-medium text-[var(--foreground)]">
                                 {requisicion.destino?.nombre}
                             </p>
                         </div>
 
                         <div className="flex flex-col gap-1 col-span-2">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
                                 <Hash className="h-3.5 w-3.5" /> Orden de Compra
                             </div>
-                            <p className="text-sm font-medium text-gray-900">
-                                {requisicion.numero_oc || <span className="text-gray-400 italic">No especificada</span>}
+                            <p className="text-sm font-medium text-[var(--foreground)]">
+                                {requisicion.numero_oc || <span className="text-[var(--muted)] italic">No especificada</span>}
                             </p>
                         </div>
 
-                        <div className="flex flex-col gap-1 col-span-2 bg-gray-50 p-3 rounded-lg border border-gray-100 mt-2">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        <div className="flex flex-col gap-1 col-span-2 bg-[var(--bg)] p-3 rounded-lg border border-[var(--border)] mt-2">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider mb-1">
                                 <FileText className="h-3.5 w-3.5" /> Comentarios
                             </div>
-                            <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
-                                {requisicion.comentarios || <span className="text-gray-400 italic">Sin comentarios.</span>}
+                            <p className="text-sm text-[var(--foreground)] whitespace-pre-wrap leading-relaxed">
+                                {requisicion.comentarios || <span className="text-[var(--muted)] italic">Sin comentarios.</span>}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <DialogFooter className="px-6 py-4 bg-gray-50/80 border-t border-gray-100 flex items-center justify-between sm:justify-between">
+                <DialogFooter className="px-6 py-4 bg-[var(--bg)] opacity-95 border-t border-[var(--border)] flex items-center justify-between sm:justify-between">
                     <div className="flex gap-2">
                         {canDelete && (
                             <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ export function EventDetailModal({
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="h-8 px-2 text-xs text-gray-500 hover:bg-gray-200"
+                                            className="h-8 px-2 text-xs text-[var(--muted)] hover:bg-[var(--border)]"
                                             onClick={() => setShowConfirm(false)}
                                             disabled={isDeleting}
                                         >
@@ -183,7 +183,7 @@ export function EventDetailModal({
                             </div>
                         )}
                         {canEdit && !showConfirm && (
-                            <Button variant="outline" className="border-gray-200 text-gray-700 hover:bg-white" onClick={() => {
+                            <Button variant="outline" className="border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--card)]" onClick={() => {
                                 onOpenChange(false)
                                 onEdit(requisicion)
                             }}>

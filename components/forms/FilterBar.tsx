@@ -33,7 +33,7 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
 
     return (
         <div className="flex flex-col sm:flex-row gap-3 items-center">
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 mr-2 flex-shrink-0">
+            <div className="flex items-center gap-2 text-sm font-semibold text-[var(--foreground)] mr-2 flex-shrink-0">
                 <Filter className="h-4 w-4" />
                 Filtros:
             </div>
@@ -44,9 +44,9 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                     onValueChange={(val) => handleChange('proveedor_id', val)}
                     disabled={loading}
                 >
-                    <SelectTrigger className="bg-gray-50/50 border-gray-200 pl-2">
+                    <SelectTrigger className="bg-[var(--bg)] opacity-95 border-[var(--border)] pl-2">
                         <div className="flex items-center gap-2 overflow-hidden">
-                            <Factory className="h-4 w-4 text-gray-400 shrink-0" />
+                            <Factory className="h-4 w-4 text-[var(--muted)] shrink-0" />
                             <SelectValue placeholder="Proveedor..." />
                         </div>
                     </SelectTrigger>
@@ -63,9 +63,9 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                     onValueChange={(val) => handleChange('destino_id', val)}
                     disabled={loading}
                 >
-                    <SelectTrigger className="bg-gray-50/50 border-gray-200 pl-2">
+                    <SelectTrigger className="bg-[var(--bg)] opacity-95 border-[var(--border)] pl-2">
                         <div className="flex items-center gap-2 overflow-hidden">
-                            <MapPin className="h-4 w-4 text-gray-400 shrink-0" />
+                            <MapPin className="h-4 w-4 text-[var(--muted)] shrink-0" />
                             <SelectValue placeholder="Destino..." />
                         </div>
                     </SelectTrigger>
@@ -82,9 +82,9 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                     onValueChange={(val) => handleChange('estatus_id', val)}
                     disabled={loading}
                 >
-                    <SelectTrigger className="bg-gray-50/50 border-gray-200 pl-2">
+                    <SelectTrigger className="bg-[var(--bg)] opacity-95 border-[var(--border)] pl-2">
                         <div className="flex items-center gap-2 overflow-hidden">
-                            <ClipboardList className="h-4 w-4 text-gray-400 shrink-0" />
+                            <ClipboardList className="h-4 w-4 text-[var(--muted)] shrink-0" />
                             <SelectValue placeholder="Estatus..." />
                         </div>
                     </SelectTrigger>
@@ -102,10 +102,10 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
                 </Select>
 
                 <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input
                         type="date"
-                        className="pl-9 bg-gray-50/50 border-gray-200 text-sm"
+                        className="pl-9 bg-[var(--bg)] opacity-95 border-[var(--border)] text-sm"
                         value={filters.fecha_desde || ''}
                         onChange={(e) => handleChange('fecha_desde', e.target.value || 'all')}
                     />

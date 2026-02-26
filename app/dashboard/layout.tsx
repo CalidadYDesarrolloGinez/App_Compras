@@ -57,7 +57,7 @@ export default function DashboardLayout({
     }, [pathname])
 
     return (
-        <div className="min-h-screen bg-[#F8F9FC] flex">
+        <div className="min-h-screen bg-[var(--bg)] flex transition-colors">
             <Sidebar collapsed={collapsed} onToggle={toggle} />
 
             <div

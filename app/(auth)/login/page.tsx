@@ -35,22 +35,22 @@ function LoginForm() {
     return (
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1.5">
-                <Label htmlFor="email" className="text-sm text-gray-700">Correo electrónico</Label>
+                <Label htmlFor="email" className="text-sm text-[var(--foreground)]">Correo electrónico</Label>
                 <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input id="email" type="email" placeholder="usuario@empresa.com"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
+                        className="pl-9 border-[var(--border)] focus-visible:ring-[#4266ac]"
                         {...form.register('email')} />
                 </div>
                 {form.formState.errors.email && <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>}
             </div>
 
             <div className="space-y-1.5">
-                <Label htmlFor="password" className="text-sm text-gray-700">Contraseña</Label>
+                <Label htmlFor="password" className="text-sm text-[var(--foreground)]">Contraseña</Label>
                 <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input id="password" type="password" placeholder="••••••••"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
+                        className="pl-9 border-[var(--border)] focus-visible:ring-[#4266ac]"
                         {...form.register('password')} />
                 </div>
                 {form.formState.errors.password && <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>}
@@ -93,52 +93,52 @@ function SignUpForm() {
             <div className="w-14 h-14 rounded-full bg-amber-50 border-4 border-amber-100 flex items-center justify-center mx-auto mb-4">
                 <KeyRound className="h-6 w-6 text-amber-500" />
             </div>
-            <p className="font-semibold text-gray-800 mb-1">¡Solicitud enviada!</p>
-            <p className="text-sm text-gray-500">Un administrador revisará tu cuenta y te asignará acceso.<br />Recibirás confirmación pronto.</p>
+            <p className="font-semibold text-[var(--foreground)] mb-1">¡Solicitud enviada!</p>
+            <p className="text-sm text-[var(--muted)]">Un administrador revisará tu cuenta y te asignará acceso.<br />Recibirás confirmación pronto.</p>
         </div>
     )
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1.5">
-                <Label htmlFor="nombre_completo" className="text-sm text-gray-700">Nombre completo</Label>
+                <Label htmlFor="nombre_completo" className="text-sm text-[var(--foreground)]">Nombre completo</Label>
                 <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input id="nombre_completo" type="text" placeholder="Nombre Apellido"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
+                        className="pl-9 border-[var(--border)] focus-visible:ring-[#4266ac]"
                         {...form.register('nombre_completo')} />
                 </div>
                 {form.formState.errors.nombre_completo && <p className="text-xs text-red-500">{form.formState.errors.nombre_completo.message}</p>}
             </div>
 
             <div className="space-y-1.5">
-                <Label htmlFor="signup-email" className="text-sm text-gray-700">Correo electrónico</Label>
+                <Label htmlFor="signup-email" className="text-sm text-[var(--foreground)]">Correo electrónico</Label>
                 <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input id="signup-email" type="email" placeholder="usuario@empresa.com"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
+                        className="pl-9 border-[var(--border)] focus-visible:ring-[#4266ac]"
                         {...form.register('email')} />
                 </div>
                 {form.formState.errors.email && <p className="text-xs text-red-500">{form.formState.errors.email.message}</p>}
             </div>
 
             <div className="space-y-1.5">
-                <Label htmlFor="signup-password" className="text-sm text-gray-700">Contraseña</Label>
+                <Label htmlFor="signup-password" className="text-sm text-[var(--foreground)]">Contraseña</Label>
                 <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input id="signup-password" type="password" placeholder="Mínimo 6 caracteres"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
+                        className="pl-9 border-[var(--border)] focus-visible:ring-[#4266ac]"
                         {...form.register('password')} />
                 </div>
                 {form.formState.errors.password && <p className="text-xs text-red-500">{form.formState.errors.password.message}</p>}
             </div>
 
             <div className="space-y-1.5">
-                <Label htmlFor="confirm_password" className="text-sm text-gray-700">Confirmar contraseña</Label>
+                <Label htmlFor="confirm_password" className="text-sm text-[var(--foreground)]">Confirmar contraseña</Label>
                 <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted)]" />
                     <Input id="confirm_password" type="password" placeholder="Repite tu contraseña"
-                        className="pl-9 border-gray-200 focus-visible:ring-[#4266ac]"
+                        className="pl-9 border-[var(--border)] focus-visible:ring-[#4266ac]"
                         {...form.register('confirm_password')} />
                 </div>
                 {form.formState.errors.confirm_password && <p className="text-xs text-red-500">{form.formState.errors.confirm_password.message}</p>}
@@ -170,23 +170,23 @@ export default function LoginPage() {
 
             <div className="w-full max-w-md px-6 py-8 relative">
                 {/* Card */}
-                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="bg-[var(--card)] rounded-2xl shadow-2xl overflow-hidden">
                     {/* Header band */}
-                    <div className="bg-white border-b border-gray-100 px-8 py-6 text-center">
+                    <div className="bg-[var(--card)] border-b border-[var(--border)] px-8 py-6 text-center">
                         <img src="/LogoCH.png" alt="Cloro de Hidalgo Logo" className="h-14 w-auto object-contain mx-auto mb-2" />
                         <p className="text-sm text-[#5a5a59] font-medium">Sistema de Gestión de Compras</p>
                     </div>
 
                     {/* Tab toggle */}
-                    <div className="flex border-b border-gray-100">
+                    <div className="flex border-b border-[var(--border)]">
                         <button
-                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${!isSignUp ? 'text-[#4266ac] border-b-2 border-[#4266ac]' : 'text-gray-400 hover:text-gray-600'}`}
+                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${!isSignUp ? 'text-[var(--navy)] border-b-2 border-[#4266ac]' : 'text-[var(--muted)] hover:text-[var(--muted)]'}`}
                             onClick={() => setIsSignUp(false)}
                         >
                             Iniciar Sesión
                         </button>
                         <button
-                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${isSignUp ? 'text-[#4266ac] border-b-2 border-[#4266ac]' : 'text-gray-400 hover:text-gray-600'}`}
+                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${isSignUp ? 'text-[var(--navy)] border-b-2 border-[#4266ac]' : 'text-[var(--muted)] hover:text-[var(--muted)]'}`}
                             onClick={() => setIsSignUp(true)}
                         >
                             Solicitar Acceso
@@ -196,7 +196,7 @@ export default function LoginPage() {
                     {/* Form body */}
                     <div className="px-8 py-7">
                         {isSignUp ? <SignUpForm /> : <LoginForm />}
-                        <p className="text-xs text-center text-gray-400 mt-6">
+                        <p className="text-xs text-center text-[var(--muted)] mt-6">
                             Acceso restringido · Solo personal autorizado
                         </p>
                     </div>

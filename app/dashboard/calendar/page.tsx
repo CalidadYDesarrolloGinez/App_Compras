@@ -38,8 +38,8 @@ export default function CalendarPage() {
         <div className="flex flex-col h-full gap-4 w-full px-4 mx-auto">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#4266ac]">Calendario de Recepción</h1>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <h1 className="text-2xl font-bold text-[var(--navy)]">Calendario de Recepción</h1>
+                    <p className="text-sm text-[var(--muted)] mt-1">
                         Visualiza y gestiona las entregas programadas de materias primas.
                     </p>
                 </div>
@@ -47,7 +47,7 @@ export default function CalendarPage() {
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 flex-1 min-h-0 container-calendar-main">
-                <div className="xl:col-span-3 bg-white rounded-xl shadow-sm border border-gray-100 p-4 min-h-[600px] flex flex-col">
+                <div className="xl:col-span-3 bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)] p-4 min-h-[600px] flex flex-col">
                     <CalendarView
                         requisiciones={requisiciones}
                         isLoading={loading}

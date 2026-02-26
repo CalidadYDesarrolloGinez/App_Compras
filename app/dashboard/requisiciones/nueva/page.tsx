@@ -16,10 +16,10 @@ export default function NuevaRequisicionPage() {
     }, [open, router])
 
     return (
-        <div className="flex flex-col items-center justify-center h-full bg-gray-50">
+        <div className="flex flex-col items-center justify-center h-full bg-[var(--bg)]">
             <div className="text-center">
                 <h1 className="text-xl font-bold text-[#1A2B4A]">Nueva Requisición</h1>
-                <p className="text-sm text-gray-500">Cargando formulario...</p>
+                <p className="text-sm text-[var(--muted)]">Cargando formulario...</p>
             </div>
             <RequisicionFormModal
                 open={open}
