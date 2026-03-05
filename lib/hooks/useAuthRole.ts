@@ -80,7 +80,7 @@ export function useAuthRole(): UseAuthRoleReturn {
 
     const canCreate = isAdmin || isCoordinadora
     const canEdit = isAdmin || isCoordinadora
-    const canDelete = isAdmin
+    const canDelete = isAdmin || isCoordinadora
     const canViewOnly = isLaboratorio || isCedis || isConsulta
     const canManageUsers = isAdmin || isCoordinadora
     const canAccessAdmin = isAdmin || isCoordinadora

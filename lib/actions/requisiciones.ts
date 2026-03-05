@@ -90,9 +90,9 @@ export async function deleteRequisicion(id: string) {
 
     console.log('[Delete] Perfil detectado:', { nombre: profile.nombre_completo, rol: profile.rol })
 
-    if (profile.rol !== 'admin') {
-        console.error('[Delete] Permiso denegado: el perfil no es admin')
-        return { error: 'Solo el administrador puede eliminar requisiciones' }
+    if (profile.rol !== 'admin' && profile.rol !== 'coordinadora') {
+        console.error('[Delete] Permiso denegado: el perfil no es admin ni coordinadora')
+        return { error: 'Solo el administrador o la coordinadora pueden eliminar requisiciones' }
     }
 
     // Rely on CASCADE deletion in DB for requisiciones_historial
