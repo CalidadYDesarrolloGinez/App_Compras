@@ -8,6 +8,7 @@ import {
     DialogContent,
     DialogTitle,
     DialogFooter,
+    DialogClose,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -21,7 +22,8 @@ import {
     Hash,
     FileText,
     Pencil,
-    Trash2
+    Trash2,
+    X
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { deleteRequisicion } from '@/lib/actions/requisiciones'
@@ -63,7 +65,7 @@ export function EventDetailModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md bg-[var(--card)] border-0 shadow-2xl p-0 overflow-hidden">
+            <DialogContent showCloseButton={false} className="max-w-md bg-[var(--card)] border-0 shadow-2xl p-0 overflow-hidden">
                 {/* Header Ribbon */}
                 <div
                     className="px-6 py-5 pb-8 relative"
@@ -72,6 +74,11 @@ export function EventDetailModal({
                     <div className="absolute top-0 right-0 p-4 opacity-20">
                         <Package className="h-24 w-24 text-white" />
                     </div>
+                    {/* Botón Cerrar (X) explícito blanco para asegurar contraste */}
+                    <DialogClose className="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-white">
+                        <X className="h-5 w-5 text-white" />
+                        <span className="sr-only">Cerrar</span>
+                    </DialogClose>
                     <div className="relative z-10">
                         <Badge variant="secondary" className="bg-[var(--card)] opacity-95 text-white hover:bg-[var(--card)] opacity-95 border-0 mb-3 shadow-none">
                             {requisicion.estatus?.nombre}
@@ -193,7 +200,7 @@ export function EventDetailModal({
                         )}
                     </div>
                     {!showConfirm && (
-                        <Button className="bg-[#4266ac] hover:bg-[#62a4dc]" onClick={() => onOpenChange(false)}>
+                        <Button className="bg-[#4266ac] text-white hover:bg-[#62a4dc]" onClick={() => onOpenChange(false)}>
                             Cerrar
                         </Button>
                     )}
