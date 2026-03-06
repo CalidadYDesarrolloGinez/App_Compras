@@ -113,15 +113,15 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                 <div className="space-y-1">
                     <label className="text-[9px] font-bold text-[var(--muted)] uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
                         <CalendarIcon className="h-3 w-3 text-[var(--muted)]" />
-                        Desde Fecha
+                        Fecha Exacta
                     </label>
                     <div className="relative max-w-[140px]">
                         <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--muted)]" />
                         <Input
                             type="date"
                             className="h-9 pl-9 bg-[var(--card)] border-[var(--border)] text-xs shadow-sm focus:ring-[#4266ac]"
-                            value={filters.fecha_desde || ''}
-                            onChange={(e) => handleChange('fecha_desde', e.target.value || 'all')}
+                            value={filters.fecha_exacta || ''}
+                            onChange={(e) => handleChange('fecha_exacta', e.target.value || 'all')}
                         />
                     </div>
                 </div>
