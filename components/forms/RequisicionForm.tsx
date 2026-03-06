@@ -143,6 +143,23 @@ export function RequisicionFormModal({
         }
     }, [open, initialData, form])
 
+    const selectedProveedorId = form.watch('proveedor_id')
+    const selectedProductoId = form.watch('producto_id')
+
+    const availableProveedores = selectedProductoId
+        ? catalogos.proveedores.filter(p =>
+            catalogos.producto_proveedor.some(pp => pp.proveedor_id === p.id && pp.producto_id === selectedProductoId)
+            || p.id === form.getValues('proveedor_id')
+        )
+        : catalogos.proveedores
+
+    const availableProductos = selectedProveedorId
+        ? catalogos.productos.filter(p =>
+            catalogos.producto_proveedor.some(pp => pp.producto_id === p.id && pp.proveedor_id === selectedProveedorId)
+            || p.id === form.getValues('producto_id')
+        )
+        : catalogos.productos
+
     const onSubmit = async (data: RequisicionSchema) => {
         setIsSubmitting(true)
         let result
@@ -309,7 +326,7 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.proveedores
+                                                {availableProveedores
                                                     .filter(p => p.activo || p.id === form.getValues('proveedor_id'))
                                                     .map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
                                             </SelectContent>
@@ -337,7 +354,7 @@ export function RequisicionFormModal({
                                         >
                                             <SelectTrigger className="h-8 text-sm bg-[var(--card)] flex-1"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                             <SelectContent>
-                                                {catalogos.productos
+                                                {availableProductos
                                                     .filter(p => p.activo || p.id === form.getValues('producto_id'))
                                                     .map(p => <SelectItem key={p.id} value={p.id}>{p.nombre}</SelectItem>)}
                                             </SelectContent>

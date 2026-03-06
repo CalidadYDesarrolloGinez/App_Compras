@@ -94,3 +94,40 @@ export async function deleteCatalogEntry(table: string, id: string) {
     revalidatePath('/dashboard/catalogos')
     return { success: true }
 }
+
+export async function updateProductSuppliers(productoId: string, proveedorIds: string[]) {
+    const supabase = await createClient()
+    const profile = await getCurrentProfile()
+
+    if (!profile || !['admin', 'coordinadora'].includes(profile.rol)) {
+        return { error: 'No tienes permisos para modificar catálogos' }
+    }
+
+    // First delete all existing associations for this product
+    const { error: deleteError } = await supabase
+        .from('producto_proveedor')
+        .delete()
+        .eq('producto_id', productoId)
+
+    if (deleteError) return { error: deleteError.message }
+
+    // Then insert the new ones if there are any
+    if (proveedorIds.length > 0) {
+        const rows = proveedorIds.map(id => ({
+            producto_id: productoId,
+            proveedor_id: id
+        }))
+
+        const { error: insertError } = await supabase
+            .from('producto_proveedor')
+            .insert(rows)
+
+        if (insertError) return { error: insertError.message }
+    }
+
+    revalidatePath('/dashboard/catalogos')
+    revalidatePath('/dashboard/requisiciones')
+    revalidatePath('/dashboard/requisiciones/nueva')
+
+    return { success: true }
+}

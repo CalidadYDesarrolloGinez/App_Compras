@@ -162,7 +162,7 @@ export async function getRequisiciones(filters?: RequisicionFilters) {
 export async function getCatalogos() {
     const supabase = await createClient()
 
-    const [proveedores, productos, presentaciones, destinos, estatus, unidades] =
+    const [proveedores, productos, presentaciones, destinos, estatus, unidades, productoProveedor] =
         await Promise.all([
             supabase.from('proveedores').select('*').order('nombre'),
             supabase.from('productos').select('*').order('nombre'),
@@ -170,6 +170,7 @@ export async function getCatalogos() {
             supabase.from('destinos').select('*').order('nombre'),
             supabase.from('estatus').select('*').order('nombre'),
             supabase.from('unidades').select('*').order('nombre'),
+            supabase.from('producto_proveedor').select('*'),
         ])
 
     return {
@@ -179,6 +180,7 @@ export async function getCatalogos() {
         destinos: destinos.data ?? [],
         estatus: estatus.data ?? [],
         unidades: unidades.data ?? [],
+        producto_proveedor: productoProveedor.data ?? [],
     }
 }
 

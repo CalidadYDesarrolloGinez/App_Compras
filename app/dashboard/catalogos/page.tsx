@@ -268,6 +268,8 @@ export default function CatalogosPage() {
                 title={title}
                 table={table}
                 initialData={editingItem}
+                proveedores={catalogos.proveedores}
+                productoProveedor={catalogos.producto_proveedor}
                 onSuccess={() => {
                     refresh()
                     setIsAddModalOpen(false)

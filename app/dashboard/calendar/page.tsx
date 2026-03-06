@@ -7,6 +7,7 @@ import { CalendarView } from '@/components/calendar/CalendarView'
 import { SidebarFilters } from '@/components/calendar/SidebarFilters'
 import { RequisicionFormModal } from '@/components/forms/RequisicionForm'
 import { EventDetailModal } from '@/components/calendar/EventModal'
+import { GroupedEventModal } from '@/components/calendar/GroupedEventModal'
 import { UpcomingDeliveries } from '@/components/layout/UpcomingDeliveries'
 import { StatusLegend } from '@/components/calendar/StatusLegend'
 
@@ -19,6 +20,12 @@ export default function CalendarPage() {
     const [formOpen, setFormOpen] = useState(false)
     const [detailOpen, setDetailOpen] = useState(false)
     const [selectedReq, setSelectedReq] = useState<Requisicion | null>(null)
+
+    // Grouped event modal states
+    const [groupedModalOpen, setGroupedModalOpen] = useState(false)
+    const [groupedReqs, setGroupedReqs] = useState<Requisicion[]>([])
+    const [groupedProviderName, setGroupedProviderName] = useState('')
+    const [groupedDate, setGroupedDate] = useState('')
 
     const loadData = async () => {
         setLoading(true)
@@ -55,6 +62,12 @@ export default function CalendarPage() {
                             setSelectedReq(req)
                             setDetailOpen(true)
                         }}
+                        onGroupedEventClick={(reqs, providerName, date) => {
+                            setGroupedReqs(reqs)
+                            setGroupedProviderName(providerName)
+                            setGroupedDate(date)
+                            setGroupedModalOpen(true)
+                        }}
                     />
                 </div>
 
@@ -80,6 +93,20 @@ export default function CalendarPage() {
                     setFormOpen(true)
                 }}
                 onSuccess={loadData}
+            />
+
+            <GroupedEventModal
+                open={groupedModalOpen}
+                onOpenChange={setGroupedModalOpen}
+                requisiciones={groupedReqs}
+                providerName={groupedProviderName}
+                date={groupedDate}
+                onRequisicionClick={(req) => {
+                    setSelectedReq(req)
+                    setGroupedModalOpen(false)
+                    // Added a slight delay so the dialogs don't visually clash
+                    setTimeout(() => setDetailOpen(true), 150)
+                }}
             />
         </div>
     )

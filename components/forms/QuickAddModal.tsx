@@ -5,6 +5,7 @@ import { Plus, Save } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
     Dialog,
     DialogContent,
@@ -30,6 +31,7 @@ const quickAddSchema = z.object({
     descripcion: z.string().optional(),
     abreviatura: z.string().optional(),
     color_hex: z.string().optional(),
+    proveedores_ids: z.array(z.string()).optional(),
 })
 
 type QuickAddSchema = z.infer<typeof quickAddSchema>
@@ -41,9 +43,11 @@ interface QuickAddModalProps {
     table: string
     onSuccess: (newItem: any) => void
     initialData?: any | null
+    proveedores?: any[]
+    productoProveedor?: any[]
 }
 
-import { createCatalogEntry, updateCatalogEntry } from '@/lib/actions/catalogos'
+import { createCatalogEntry, updateCatalogEntry, updateProductSuppliers } from '@/lib/actions/catalogos'
 
 export function QuickAddModal({
     open,
@@ -52,9 +56,15 @@ export function QuickAddModal({
     table,
     onSuccess,
     initialData,
+    proveedores = [],
+    productoProveedor = [],
 }: QuickAddModalProps) {
     const [loading, setLoading] = useState(false)
     const isEditing = !!initialData?.id
+
+    const initialProveedoresIds = isEditing && table === 'productos'
+        ? productoProveedor.filter((pp: any) => pp.producto_id === initialData.id).map((pp: any) => pp.proveedor_id)
+        : []
 
     const form = useForm<QuickAddSchema>({
         resolver: zodResolver(quickAddSchema),
@@ -63,6 +73,7 @@ export function QuickAddModal({
             descripcion: '',
             abreviatura: '',
             color_hex: '#3b82f6',
+            proveedores_ids: initialProveedoresIds,
         },
     })
 
@@ -74,6 +85,7 @@ export function QuickAddModal({
                 descripcion: initialData.descripcion || '',
                 abreviatura: initialData.abreviatura || '',
                 color_hex: initialData.color_hex || '#3b82f6',
+                proveedores_ids: initialProveedoresIds,
             })
         } else {
             form.reset({
@@ -81,9 +93,10 @@ export function QuickAddModal({
                 descripcion: '',
                 abreviatura: '',
                 color_hex: '#3b82f6',
+                proveedores_ids: [],
             })
         }
-    }, [initialData, form, open])
+    }, [initialData, form, open, table, productoProveedor])
 
     const onSubmit = async (values: QuickAddSchema) => {
         setLoading(true)
@@ -99,6 +112,14 @@ export function QuickAddModal({
                 : await createCatalogEntry(table, data)
 
             if (result.error) throw new Error(result.error)
+
+            // If it's a product, save the suppliers relationships
+            if (table === 'productos' && values.proveedores_ids !== undefined) {
+                const createdId = isEditing ? initialData.id : result.data?.id
+                if (createdId) {
+                    await updateProductSuppliers(createdId, values.proveedores_ids)
+                }
+            }
 
             toast.success(`${title} ${isEditing ? 'actualizado' : 'agregado'} correctamente`)
             onSuccess(result.data)
@@ -136,19 +157,71 @@ export function QuickAddModal({
                         />
 
                         {table === 'productos' && (
-                            <FormField
-                                control={form.control}
-                                name="descripcion"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Descripción</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Descripción breve..." {...field} className="h-9" />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <>
+                                <FormField
+                                    control={form.control}
+                                    name="descripcion"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Descripción</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Descripción breve..." {...field} className="h-9" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="proveedores_ids"
+                                    render={() => (
+                                        <FormItem>
+                                            <div className="mb-4">
+                                                <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Proveedores que lo surten</FormLabel>
+                                            </div>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-2 border border-[var(--border)] rounded-md p-3">
+                                                {proveedores.filter(p => p.activo).map((proveedor) => (
+                                                    <FormField
+                                                        key={proveedor.id}
+                                                        control={form.control}
+                                                        name="proveedores_ids"
+                                                        render={({ field }) => {
+                                                            return (
+                                                                <FormItem
+                                                                    key={proveedor.id}
+                                                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                                                >
+                                                                    <FormControl>
+                                                                        <Checkbox
+                                                                            checked={field.value?.includes(proveedor.id)}
+                                                                            onCheckedChange={(checked) => {
+                                                                                return checked
+                                                                                    ? field.onChange([...(field.value || []), proveedor.id])
+                                                                                    : field.onChange(
+                                                                                        field.value?.filter(
+                                                                                            (value) => value !== proveedor.id
+                                                                                        )
+                                                                                    )
+                                                                            }}
+                                                                        />
+                                                                    </FormControl>
+                                                                    <FormLabel className="font-normal text-sm">
+                                                                        {proveedor.nombre}
+                                                                    </FormLabel>
+                                                                </FormItem>
+                                                            )
+                                                        }}
+                                                    />
+                                                ))}
+                                                {proveedores.filter(p => p.activo).length === 0 && (
+                                                    <div className="text-sm text-[var(--muted)] col-span-2">No hay proveedores activos.</div>
+                                                )}
+                                            </div>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </>
                         )}
 
                         {table === 'unidades' && (

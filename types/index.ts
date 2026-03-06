@@ -47,6 +47,13 @@ export interface Unidad {
     created_at: string
 }
 
+export interface ProductoProveedor {
+    id: string
+    producto_id: string
+    proveedor_id: string
+    created_at: string
+}
+
 // ============================================================
 // MAIN ENTITIES
 // ============================================================
@@ -174,4 +181,5 @@ export interface Catalogos {
     destinos: Destino[]
     estatus: Estatus[]
     unidades: Unidad[]
+    producto_proveedor: ProductoProveedor[]
 }

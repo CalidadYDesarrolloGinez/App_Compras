@@ -17,7 +17,8 @@ import {
     Clock,
     PackageCheck,
     AlertCircle,
-    LucideIcon
+    LucideIcon,
+    Layers
 } from 'lucide-react'
 
 // Map status names to Lucide icons
@@ -40,9 +41,10 @@ interface CalendarViewProps {
     requisiciones: Requisicion[]
     isLoading: boolean
     onEventClick: (req: Requisicion) => void
+    onGroupedEventClick?: (requisiciones: Requisicion[], providerName: string, date: string) => void
 }
 
-export function CalendarView({ requisiciones, isLoading, onEventClick }: CalendarViewProps) {
+export function CalendarView({ requisiciones, isLoading, onEventClick, onGroupedEventClick }: CalendarViewProps) {
     const { catalogos } = useCatalogos()
     const [mounted, setMounted] = useState(false)
 
@@ -70,23 +72,44 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
         )
     }
 
-    // Transform requisiciones to FullCalendar format
-    const events: CalendarEvent[] = requisiciones.map(req => {
-        const eventColor = req.estatus?.color_hex || '#4266ac'
-        const title = req.producto?.nombre || 'S/P'
-        return {
-            id: req.id,
-            title,
-            start: req.fecha_confirmada || req.fecha_recepcion, // YYYY-MM-DD format
+    // Group requisitions by date and provider
+    const groupedMap = new Map<string, Requisicion[]>()
+    requisiciones.forEach((req) => {
+        const date = req.fecha_confirmada || req.fecha_recepcion || ''
+        const providerId = req.proveedor_id || 'unknown'
+        const key = `${date}_${providerId}`
+        if (!groupedMap.has(key)) {
+            groupedMap.set(key, [])
+        }
+        groupedMap.get(key)!.push(req)
+    })
+
+    const events: CalendarEvent[] = []
+    groupedMap.forEach((reqs, key) => {
+        const date = key.split('_')[0]
+        const providerName = reqs[0].proveedor?.nombre || 'Proveedor Desconocido'
+        const count = reqs.length
+
+        const firstColor = reqs[0].estatus?.color_hex || '#4266ac'
+        const isSameColor = reqs.every(r => (r.estatus?.color_hex || '#4266ac') === firstColor)
+        const eventColor = isSameColor ? firstColor : '#64748b' // Slate 500 for mixed
+        const isMixed = !isSameColor
+
+        events.push({
+            id: key,
+            title: providerName,
+            start: date, // YYYY-MM-DD format
             backgroundColor: eventColor,
             borderColor: eventColor,
             extendedProps: {
-                requisicion: req,
-                proveedor_nombre: req.proveedor?.nombre || 'N/A',
-                estatus_nombre: req.estatus?.nombre || 'N/A',
+                isGrouped: true,
+                requisiciones: reqs,
+                proveedor_nombre: providerName,
+                count: count,
                 estatus_color: eventColor,
+                isMixed: isMixed
             }
-        }
+        } as any)
     })
 
     // Custom render for the event block inside the grid cell
@@ -94,6 +117,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
         const { event } = eventInfo
         const props = event.extendedProps
         const color = props.estatus_color || '#4266ac'
+        const isMixed = props.isMixed
 
         // Compute a lighter version for the background
         const hexToRgb = (hex: string) => {
@@ -102,7 +126,6 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
         }
 
         const rgb = hexToRgb(color)
-        const StatusIcon = getStatusIcon(props.estatus_nombre)
 
         return (
             <div
@@ -112,13 +135,14 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
                     borderLeft: `3px solid ${color}`,
                     padding: '3px 6px',
                 }}
-                title={`${event.title} · ${props.proveedor_nombre} (${props.estatus_nombre})`}
+                title={`${event.title} (${props.count} requisiciones)`}
             >
                 <div className="flex items-center gap-1 min-w-0">
-                    <StatusIcon
-                        className="shrink-0"
-                        style={{ width: '10px', height: '10px', color: color }}
-                    />
+                    {isMixed ? (
+                        <Layers className="shrink-0" style={{ width: '10px', height: '10px', color: color }} />
+                    ) : (
+                        <Truck className="shrink-0" style={{ width: '10px', height: '10px', color: color }} />
+                    )}
                     <div
                         className="font-semibold leading-tight truncate"
                         style={{ fontSize: '0.7rem', color: color, letterSpacing: '-0.01em' }}
@@ -127,10 +151,10 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
                     </div>
                 </div>
                 <div
-                    className="truncate leading-snug"
+                    className="truncate leading-snug font-medium"
                     style={{ fontSize: '0.63rem', color: '#64748b', marginTop: '1px', paddingLeft: '11px' }}
                 >
-                    {props.proveedor_nombre}
+                    {props.count} {props.count === 1 ? 'entrega' : 'entregas'}
                 </div>
             </div>
         )
@@ -151,7 +175,12 @@ export function CalendarView({ requisiciones, isLoading, onEventClick }: Calenda
                 events={events as any}
                 eventContent={renderEventContent}
                 eventClick={(info) => {
-                    onEventClick(info.event.extendedProps.requisicion)
+                    const props = info.event.extendedProps
+                    if (onGroupedEventClick) {
+                        onGroupedEventClick(props.requisiciones, props.proveedor_nombre, info.event.startStr)
+                    } else if (props.requisiciones.length === 1 && onEventClick) {
+                        onEventClick(props.requisiciones[0])
+                    }
                 }}
                 dayMaxEvents={3}
                 height="100%"

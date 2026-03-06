@@ -12,6 +12,7 @@ export function useCatalogos() {
         destinos: [],
         estatus: [],
         unidades: [],
+        producto_proveedor: [],
     })
     const [loading, setLoading] = useState(true)
 
