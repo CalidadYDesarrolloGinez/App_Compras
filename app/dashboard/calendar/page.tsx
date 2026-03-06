@@ -16,6 +16,19 @@ export default function CalendarPage() {
     const [filters, setFilters] = useState<RequisicionFilters>({})
     const [loading, setLoading] = useState(true)
 
+    // Client-side filter: misma lógica que CalendarView usa para fecha efectiva
+    const displayRequisiciones = filters.fecha_exacta
+        ? requisiciones.filter(req => {
+            const effectiveDate = req.fecha_confirmada || req.fecha_recepcion || ''
+            return effectiveDate === filters.fecha_exacta
+        })
+        : filters.fecha_desde
+            ? requisiciones.filter(req => {
+                const effectiveDate = req.fecha_confirmada || req.fecha_recepcion || ''
+                return effectiveDate >= filters.fecha_desde!
+            })
+            : requisiciones
+
     // Modal states
     const [formOpen, setFormOpen] = useState(false)
     const [detailOpen, setDetailOpen] = useState(false)
@@ -56,7 +69,7 @@ export default function CalendarPage() {
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 flex-1 min-h-0 container-calendar-main">
                 <div className="xl:col-span-3 bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)] p-4 min-h-[600px] flex flex-col">
                     <CalendarView
-                        requisiciones={requisiciones}
+                        requisiciones={displayRequisiciones}
                         isLoading={loading}
                         onEventClick={(req) => {
                             setSelectedReq(req)

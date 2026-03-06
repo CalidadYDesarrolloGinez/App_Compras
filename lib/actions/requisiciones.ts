@@ -146,8 +146,10 @@ export async function getRequisiciones(filters?: RequisicionFilters) {
     if (filters?.estatus_id) {
         query = query.eq('estatus_id', filters.estatus_id)
     }
-    if (filters?.fecha_desde) {
-        query = query.or(`fecha_confirmada.gte.${filters.fecha_desde},and(fecha_confirmada.is.null,fecha_recepcion.gte.${filters.fecha_desde})`)
+    if (filters?.fecha_exacta) {
+        query = query.or(`fecha_confirmada.eq.${filters.fecha_exacta},fecha_recepcion.eq.${filters.fecha_exacta}`)
+    } else if (filters?.fecha_desde) {
+        query = query.or(`fecha_confirmada.gte.${filters.fecha_desde},fecha_recepcion.gte.${filters.fecha_desde}`)
     }
     if (filters?.fecha_hasta) {
         query = query.or(`fecha_confirmada.lte.${filters.fecha_hasta},and(fecha_confirmada.is.null,fecha_recepcion.lte.${filters.fecha_hasta})`)

@@ -149,6 +149,7 @@ export interface RequisicionFilters {
     estatus_id?: string
     fecha_desde?: string
     fecha_hasta?: string
+    fecha_exacta?: string
     search?: string
 }
 
