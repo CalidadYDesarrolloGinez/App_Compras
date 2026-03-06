@@ -129,30 +129,35 @@ export function CalendarView({ requisiciones, isLoading, onEventClick, onGrouped
 
         return (
             <div
-                className="flex flex-col w-full overflow-hidden rounded-[5px] cursor-pointer"
+                className="flex flex-col w-full overflow-hidden rounded-[4px] cursor-pointer relative"
                 style={{
-                    background: `rgba(${rgb}, 0.10)`,
-                    borderLeft: `3px solid ${color}`,
-                    padding: '3px 6px',
+                    background: `rgba(${rgb}, 0.12)`,
+                    borderLeft: `4px solid ${color}`,
+                    padding: '6px 8px',
+                    minHeight: '42px',
                 }}
                 title={`${event.title} (${props.count} requisiciones)`}
             >
-                <div className="flex items-center gap-1 min-w-0">
+                {/* Background Icon Watermark */}
+                <div className="absolute -left-1 opacity-20" style={{ top: '50%', transform: 'translateY(-50%)' }}>
                     {isMixed ? (
-                        <Layers className="shrink-0" style={{ width: '10px', height: '10px', color: color }} />
+                        <Layers className="shrink-0" style={{ width: '32px', height: '32px', color: color }} />
                     ) : (
-                        <Truck className="shrink-0" style={{ width: '10px', height: '10px', color: color }} />
+                        <Truck className="shrink-0" style={{ width: '32px', height: '32px', color: color }} />
                     )}
+                </div>
+
+                <div className="flex items-center gap-1.5 min-w-0 relative z-10 pl-6">
                     <div
-                        className="font-semibold leading-tight truncate"
-                        style={{ fontSize: '0.7rem', color: color, letterSpacing: '-0.01em' }}
+                        className="font-bold leading-tight truncate tracking-tight drop-shadow-sm"
+                        style={{ fontSize: '0.85rem', color: color }}
                     >
                         {event.title}
                     </div>
                 </div>
                 <div
-                    className="truncate leading-snug font-medium"
-                    style={{ fontSize: '0.63rem', color: '#64748b', marginTop: '1px', paddingLeft: '11px' }}
+                    className="truncate leading-snug font-medium relative z-10 pl-6"
+                    style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '2px' }}
                 >
                     {props.count} {props.count === 1 ? 'entrega' : 'entregas'}
                 </div>
@@ -161,7 +166,20 @@ export function CalendarView({ requisiciones, isLoading, onEventClick, onGrouped
     }
 
     return (
-        <div className="h-full w-full bg-[var(--card)] rounded-lg">
+        <div className="h-full w-full bg-[var(--card)] rounded-lg calendar-wrapper">
+            <style jsx global>{`
+                .calendar-wrapper .fc-daygrid-day-number {
+                    font-size: 1.1rem !important;
+                    font-weight: 600 !important;
+                    color: #1e293b !important;
+                    padding: 4px 8px !important;
+                }
+                .calendar-wrapper .fc-col-header-cell-cushion {
+                    font-size: 0.85rem !important;
+                    font-weight: 700 !important;
+                    text-transform: uppercase !important;
+                }
+            `}</style>
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
