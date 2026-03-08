@@ -107,6 +107,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick, onGrouped
                 proveedor_nombre: providerName,
                 count: count,
                 estatus_color: eventColor,
+                estatus_nombre: reqs[0].estatus?.nombre,
                 isMixed: isMixed
             }
         } as any)
@@ -118,6 +119,8 @@ export function CalendarView({ requisiciones, isLoading, onEventClick, onGrouped
         const props = event.extendedProps
         const color = props.estatus_color || '#4266ac'
         const isMixed = props.isMixed
+
+        const StatusIcon = isMixed ? Layers : getStatusIcon(props.estatus_nombre)
 
         // Compute a lighter version for the background
         const hexToRgb = (hex: string) => {
@@ -140,11 +143,7 @@ export function CalendarView({ requisiciones, isLoading, onEventClick, onGrouped
             >
                 {/* Background Icon Watermark */}
                 <div className="absolute -left-1 opacity-20" style={{ top: '50%', transform: 'translateY(-50%)' }}>
-                    {isMixed ? (
-                        <Layers className="shrink-0" style={{ width: '32px', height: '32px', color: color }} />
-                    ) : (
-                        <Truck className="shrink-0" style={{ width: '32px', height: '32px', color: color }} />
-                    )}
+                    <StatusIcon className="shrink-0" style={{ width: '32px', height: '32px', color: color }} />
                 </div>
 
                 <div className="flex items-center gap-1.5 min-w-0 relative z-10 pl-6">

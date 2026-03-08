@@ -105,6 +105,27 @@ export default function CatalogosPage() {
                                                 <div className="h-4 w-4 rounded border border-[var(--border)] shadow-sm" style={{ backgroundColor: item[col.key] }} />
                                                 <span className="font-mono text-xs text-[var(--muted)]">{item[col.key]}</span>
                                             </div>
+                                        ) : col.key === 'proveedores' ? (
+                                            <div className="flex flex-wrap gap-1">
+                                                {catalogos.producto_proveedor
+                                                    .filter(pp => pp.producto_id === item.id)
+                                                    .map(pp => {
+                                                        const proveedor = catalogos.proveedores.find(p => p.id === pp.proveedor_id)
+                                                        if (!proveedor) return null
+                                                        return (
+                                                            <span
+                                                                key={pp.id}
+                                                                className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20"
+                                                            >
+                                                                {proveedor.nombre}
+                                                            </span>
+                                                        )
+                                                    })
+                                                }
+                                                {catalogos.producto_proveedor.filter(pp => pp.producto_id === item.id).length === 0 && (
+                                                    <span className="text-xs text-[var(--muted)] italic">Sin proveedores</span>
+                                                )}
+                                            </div>
                                         ) : item[col.key]}
                                     </td>
                                 ))}
@@ -231,7 +252,8 @@ export default function CatalogosPage() {
                     <TabsContent value="productos" className="m-0 focus-visible:outline-none">
                         {renderList(catalogos.productos, [
                             { key: 'nombre', label: 'Nombre del Producto' },
-                            { key: 'descripcion', label: 'Descripción' }
+                            { key: 'descripcion', label: 'Descripción' },
+                            { key: 'proveedores', label: 'Proveedores' }
                         ])}
                     </TabsContent>
 

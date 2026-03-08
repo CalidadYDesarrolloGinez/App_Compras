@@ -61,11 +61,12 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
     const currentEstatus = filters.estatus_id || 'all'
 
     return (
-        <div className="flex items-center gap-2 bg-[var(--card)] px-2 py-1.5 rounded-full border border-[var(--border)] shadow-sm ml-auto">
+        <div className="flex items-center gap-2 bg-[var(--card)] px-2 py-1.5 rounded-full border border-[var(--border)] shadow-sm">
             <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
                 {/* Botón de TODOS */}
                 <button
                     onClick={() => handleStatusClick('all')}
+                    onMouseDown={(e) => e.preventDefault()}
                     className={`flex items-center justify-center gap-2 px-4 py-1.5 rounded-full transition-all duration-200 ${currentEstatus === 'all'
                         ? 'bg-[var(--bg)] text-[var(--foreground)] shadow-sm border border-[var(--border)] font-bold'
                         : 'hover:bg-[var(--bg)] text-[var(--muted)] font-semibold border border-transparent'
@@ -88,6 +89,7 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
                         <button
                             key={e.id}
                             onClick={() => handleStatusClick(e.id)}
+                            onMouseDown={(e) => e.preventDefault()}
                             className={`flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full transition-all duration-200 ${isSelected
                                 ? 'shadow-sm'
                                 : 'hover:bg-[var(--bg)] border border-transparent'
