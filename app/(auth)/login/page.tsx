@@ -169,8 +169,8 @@ export default function LoginPage() {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[10s] hover:scale-105 scale-110"
                 style={{ backgroundImage: 'url("/panel.jpg")' }}
             />
-            {/* Global Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1A2B4A]/90 via-[#1A2B4A]/40 to-[#1A2B4A]/90 lg:from-[#1A2B4A]/80 lg:to-[#1A2B4A]/40" />
+            {/* Global Overlay - Reduced opacity to reveal background image */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1A2B4A]/70 via-transparent to-[#1A2B4A]/70 lg:from-[#1A2B4A]/60 lg:to-transparent" />
 
             <div className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-2">
                 {/* Left Side: Hero Section */}
@@ -204,13 +204,11 @@ export default function LoginPage() {
 
                     <div className="w-full max-w-[440px] space-y-8 relative z-10">
                         <div className="text-center">
-                            <div className="inline-flex items-center justify-center p-4 rounded-3xl bg-white shadow-2xl mb-6 ring-4 ring-white/10 transform transition-rotate hover:rotate-2">
-                                <img src="/LogoCH.png" alt="Cloro de Hidalgo Logo" className="h-14 w-auto object-contain" />
+                            {/* Logo Container - Made subtle with glassmorphism */}
+                            <div className="inline-flex items-center justify-center p-6 rounded-[32px] bg-white/5 backdrop-blur-md border border-white/10 shadow-xl mb-8 transform transition-all hover:scale-105">
+                                <img src="/LogoCH.png" alt="Cloro de Hidalgo Logo" className="h-16 w-auto object-contain brightness-110 drop-shadow-lg" />
                             </div>
-                            <div className="bg-white/90 backdrop-blur-md rounded-2xl py-3 px-6 mx-auto inline-block border border-white/20 shadow-xl mb-2">
-                                <h2 className="text-xl font-black text-[#1A2B4A] uppercase tracking-wide">Acceso Seguro</h2>
-                            </div>
-                            <p className="text-white/80 mt-3 font-semibold drop-shadow-sm">Sistema de Gestión de Suministros</p>
+                            <p className="text-white/90 text-xl font-bold tracking-tight drop-shadow-sm">Sistema de Gestión de Suministros</p>
                         </div>
 
                         <div className="bg-white/95 backdrop-blur-2xl rounded-[32px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] border border-white/40 overflow-hidden ring-1 ring-black/5">
