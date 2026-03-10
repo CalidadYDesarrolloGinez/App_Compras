@@ -8,7 +8,7 @@ import { signIn, signUp } from '@/lib/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, Lock, Mail, User, KeyRound } from 'lucide-react'
+import { Loader2, Lock, Mail, User, KeyRound, CalendarDays, ArrowRight } from 'lucide-react'
 import { toast } from 'sonner'
 
 // ─── Login Form ────────────────────────────────────────────
@@ -57,8 +57,9 @@ function LoginForm() {
             </div>
 
             <Button type="submit" disabled={loading}
-                className="w-full mt-2 bg-[#4266ac] hover:bg-[#62a4dc] text-white font-semibold py-5 rounded-xl transition-all">
-                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Procesando...</> : 'Ingresar al Sistema'}
+                className="w-full mt-2 bg-[#1A2B4A] hover:bg-[#2d4a80] text-white font-bold h-12 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+                {loading ? 'Validando...' : 'Acceder al Tablero'}
             </Button>
         </form>
     )
@@ -149,8 +150,9 @@ function SignUpForm() {
             </p>
 
             <Button type="submit" disabled={loading}
-                className="w-full mt-2 bg-[#4266ac] hover:bg-[#62a4dc] text-white font-semibold py-5 rounded-xl transition-all">
-                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Enviando solicitud...</> : 'Solicitar Acceso'}
+                className="w-full mt-2 bg-[#1A2B4A] hover:bg-[#2d4a80] text-white font-bold h-12 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <CalendarDays className="h-4 w-4" />}
+                {loading ? 'Enviando...' : 'Solicitar Registro'}
             </Button>
         </form>
     )
@@ -161,50 +163,100 @@ export default function LoginPage() {
     const [isSignUp, setIsSignUp] = useState(false)
 
     return (
-        <div className="min-h-screen flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #2d4a80 0%, #4266ac 50%, #62a4dc 100%)' }}>
+        <div className="min-h-screen relative overflow-hidden bg-[#1A2B4A]">
+            {/* Shared Background Image */}
+            <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[10s] hover:scale-105 scale-110"
+                style={{ backgroundImage: 'url("/panel.jpg")' }}
+            />
+            {/* Global Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1A2B4A]/90 via-[#1A2B4A]/40 to-[#1A2B4A]/90 lg:from-[#1A2B4A]/80 lg:to-[#1A2B4A]/40" />
 
-            {/* Background dot pattern */}
-            <div className="absolute inset-0 opacity-5"
-                style={{ backgroundImage: 'radial-gradient(circle at 25px 25px, white 2px, transparent 0)', backgroundSize: '50px 50px' }} />
-
-            <div className="w-full max-w-md px-6 py-8 relative">
-                {/* Card */}
-                <div className="bg-[var(--card)] rounded-2xl shadow-2xl overflow-hidden">
-                    {/* Header band */}
-                    <div className="bg-[var(--card)] border-b border-[var(--border)] px-8 py-6 text-center">
-                        <img src="/LogoCH.png" alt="Cloro de Hidalgo Logo" className="h-14 w-auto object-contain mx-auto mb-2" />
-                        <p className="text-sm text-[#5a5a59] font-medium">Sistema de Gestión de Compras</p>
+            <div className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-2">
+                {/* Left Side: Hero Section */}
+                <div className="hidden lg:flex flex-col items-center justify-center p-12 overflow-hidden border-r border-white/10">
+                    <div className="relative z-10 text-center max-w-xl">
+                        <div className="bg-white/10 backdrop-blur-xl rounded-[40px] p-12 border border-white/20 shadow-2xl">
+                            <CalendarDays className="h-24 w-24 text-[#FFD700] mx-auto mb-8 drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]" />
+                            <h1 className="text-5xl font-black text-white mb-4 tracking-tighter leading-[1.1] uppercase italic">
+                                Gestión de Compras
+                            </h1>
+                            <p className="text-3xl font-bold text-[#FFD700] tracking-widest uppercase mb-8 drop-shadow-md">
+                                Cloro de Hidalgo
+                            </p>
+                            <div className="h-1.5 w-24 bg-[#FFD700] mx-auto rounded-full mb-8 shadow-[0_0_15px_rgba(255,215,0,0.5)]" />
+                            <p className="text-lg text-white/80 font-medium leading-relaxed max-w-md mx-auto">
+                                Precisión operacional y control total en cada suministro.
+                            </p>
+                        </div>
                     </div>
 
-                    {/* Tab toggle */}
-                    <div className="flex border-b border-[var(--border)]">
-                        <button
-                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${!isSignUp ? 'text-[var(--navy)] border-b-2 border-[#4266ac]' : 'text-[var(--muted)] hover:text-[var(--muted)]'}`}
-                            onClick={() => setIsSignUp(false)}
-                        >
-                            Iniciar Sesión
-                        </button>
-                        <button
-                            className={`flex-1 py-3 text-sm font-semibold transition-colors ${isSignUp ? 'text-[var(--navy)] border-b-2 border-[#4266ac]' : 'text-[var(--muted)] hover:text-[var(--muted)]'}`}
-                            onClick={() => setIsSignUp(true)}
-                        >
-                            Solicitar Acceso
-                        </button>
-                    </div>
-
-                    {/* Form body */}
-                    <div className="px-8 py-7">
-                        {isSignUp ? <SignUpForm /> : <LoginForm />}
-                        <p className="text-xs text-center text-[var(--muted)] mt-6">
-                            Acceso restringido · Solo personal autorizado
-                        </p>
+                    <div className="absolute bottom-12 flex items-center gap-4 text-white/40 text-xs font-bold uppercase tracking-[0.3em]">
+                        <div className="h-1 w-12 bg-[#FFD700] rounded-full" />
+                        <span>Operación Certificada 2026</span>
                     </div>
                 </div>
 
-                <p className="text-center text-xs text-white/40 mt-4">
-                    © 2026. Cloro de Hidalgo S.A. de C.V. Sistema de Compras.
-                </p>
+                {/* Right Side: Form Section */}
+                <div className="flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-y-auto">
+                    {/* Glassy Background Container for Form side to improve legibility */}
+                    <div className="absolute inset-0 bg-[#1A2B4A]/30 backdrop-blur-sm lg:bg-transparent" />
+
+                    <div className="w-full max-w-[440px] space-y-8 relative z-10">
+                        <div className="text-center">
+                            <div className="inline-flex items-center justify-center p-4 rounded-3xl bg-white shadow-2xl mb-6 ring-4 ring-white/10 transform transition-rotate hover:rotate-2">
+                                <img src="/LogoCH.png" alt="Cloro de Hidalgo Logo" className="h-14 w-auto object-contain" />
+                            </div>
+                            <div className="bg-white/90 backdrop-blur-md rounded-2xl py-3 px-6 mx-auto inline-block border border-white/20 shadow-xl mb-2">
+                                <h2 className="text-xl font-black text-[#1A2B4A] uppercase tracking-wide">Acceso Seguro</h2>
+                            </div>
+                            <p className="text-white/80 mt-3 font-semibold drop-shadow-sm">Sistema de Gestión de Suministros</p>
+                        </div>
+
+                        <div className="bg-white/95 backdrop-blur-2xl rounded-[32px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] border border-white/40 overflow-hidden ring-1 ring-black/5">
+                            {/* Premium Tab Switcher */}
+                            <div className="flex p-1.5 bg-slate-100/80 m-2 rounded-2xl">
+                                <button
+                                    className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${!isSignUp ? 'bg-white text-[#1A2B4A] shadow-md' : 'text-slate-500 hover:text-[#1A2B4A]'}`}
+                                    onClick={() => setIsSignUp(false)}
+                                >
+                                    Ingresar
+                                </button>
+                                <button
+                                    className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${isSignUp ? 'bg-white text-[#1A2B4A] shadow-md' : 'text-slate-500 hover:text-[#1A2B4A]'}`}
+                                    onClick={() => setIsSignUp(true)}
+                                >
+                                    Registro
+                                </button>
+                            </div>
+
+                            <div className="p-10">
+                                {isSignUp ? <SignUpForm /> : <LoginForm />}
+                            </div>
+                        </div>
+
+                        <div className="text-center space-y-6">
+                            <div className="flex items-center justify-center gap-6 text-white/20">
+                                <div className="h-px w-16 bg-current" />
+                                <div className="p-1.5 rounded-full border border-current">
+                                    <Lock className="h-3 w-3" />
+                                </div>
+                                <div className="h-px w-16 bg-current" />
+                            </div>
+
+                            <div className="bg-black/20 backdrop-blur-md rounded-xl p-4 border border-white/5 shadow-inner">
+                                <p className="text-[10px] text-white/60 font-black uppercase tracking-[0.25em] leading-relaxed">
+                                    Propiedad Privada · Cloro de Hidalgo S.A. de C.V.<br />
+                                    Personal Autorizado Únicamente
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer className="mt-auto pt-12 text-white/30 text-[9px] font-black uppercase tracking-[0.4em] text-center">
+                        © 2026 Procurement System · All Rights Reserved
+                    </footer>
+                </div>
             </div>
         </div>
     )
