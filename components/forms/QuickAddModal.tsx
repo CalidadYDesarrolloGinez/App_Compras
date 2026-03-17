@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Plus, Save } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -56,15 +56,20 @@ export function QuickAddModal({
     table,
     onSuccess,
     initialData,
-    proveedores = [],
-    productoProveedor = [],
+    proveedores,
+    productoProveedor,
 }: QuickAddModalProps) {
+    const safeProveedores = proveedores || []
+    const safeProductoProveedor = productoProveedor || []
+    
     const [loading, setLoading] = useState(false)
     const isEditing = !!initialData?.id
 
-    const initialProveedoresIds = isEditing && table === 'productos'
-        ? productoProveedor.filter((pp: any) => pp.producto_id === initialData.id).map((pp: any) => pp.proveedor_id)
-        : []
+    const initialProveedoresIds = useMemo(() => {
+        return isEditing && table === 'productos'
+            ? safeProductoProveedor.filter((pp: any) => pp.producto_id === initialData.id).map((pp: any) => pp.proveedor_id)
+            : []
+    }, [isEditing, table, safeProductoProveedor, initialData])
 
     const form = useForm<QuickAddSchema>({
         resolver: zodResolver(quickAddSchema),
@@ -79,6 +84,8 @@ export function QuickAddModal({
 
     // Update form when initialData changes
     useEffect(() => {
+        if (!open) return // Only reset when opening or while open but initialData changes
+
         if (initialData) {
             form.reset({
                 nombre: initialData.nombre || '',
@@ -96,7 +103,7 @@ export function QuickAddModal({
                 proveedores_ids: [],
             })
         }
-    }, [initialData, form, open, table, productoProveedor])
+    }, [initialData, open, table, initialProveedoresIds]) // Removed form from deps as it's stable, and added initialProveedoresIds
 
     const onSubmit = async (values: QuickAddSchema) => {
         setLoading(true)
@@ -180,7 +187,7 @@ export function QuickAddModal({
                                                 <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Proveedores que lo surten</FormLabel>
                                             </div>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-2 border border-[var(--border)] rounded-md p-3">
-                                                {proveedores.filter(p => p.activo).map((proveedor) => (
+                                                {safeProveedores.filter(p => p.activo).map((proveedor) => (
                                                     <FormField
                                                         key={proveedor.id}
                                                         control={form.control}
@@ -213,7 +220,7 @@ export function QuickAddModal({
                                                         }}
                                                     />
                                                 ))}
-                                                {proveedores.filter(p => p.activo).length === 0 && (
+                                                {safeProveedores.filter(p => p.activo).length === 0 && (
                                                     <div className="text-sm text-[var(--muted)] col-span-2">No hay proveedores activos.</div>
                                                 )}
                                             </div>

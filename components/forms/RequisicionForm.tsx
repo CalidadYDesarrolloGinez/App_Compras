@@ -544,21 +544,23 @@ export function RequisicionFormModal({
                         </Button>
                     </DialogFooter>
                 </form>
-
-                {quickAdd && (
-                    <QuickAddModal
-                        open={quickAdd.open}
-                        onOpenChange={(open) => setQuickAdd(prev => prev ? { ...prev, open } : null)}
-                        title={quickAdd.title}
-                        table={quickAdd.table}
-                        onSuccess={(newItem) => {
-                            refresh()
-                            form.setValue(quickAdd.field, newItem.id as any, { shouldValidate: true })
-                            setQuickAdd(null)
-                        }}
-                    />
-                )}
             </DialogContent>
+
+            {quickAdd && (
+                <QuickAddModal
+                    open={quickAdd.open}
+                    onOpenChange={(open) => setQuickAdd(prev => prev ? { ...prev, open } : null)}
+                    title={quickAdd.title}
+                    table={quickAdd.table}
+                    proveedores={catalogos.proveedores}
+                    productoProveedor={catalogos.producto_proveedor}
+                    onSuccess={(newItem) => {
+                        refresh()
+                        form.setValue(quickAdd.field, newItem.id as any, { shouldValidate: true })
+                        setQuickAdd(null)
+                    }}
+                />
+            )}
         </Dialog>
     )
 }
