@@ -218,7 +218,6 @@ export function EventDetailModal({
                             <CedisRecepcionForm
                                 requisicionId={requisicion.id}
                                 estatusNombre={estatusNombre}
-                                unidadAbreviatura={requisicion.unidad_cantidad?.abreviatura}
                                 onStatusChange={handleStatusChange}
                             />
                         )}

@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentProfile } from './auth'
-import { format } from 'date-fns'
 
 // Estatus IDs (from DB)
 const ESTATUS = {
@@ -13,7 +12,7 @@ const ESTATUS = {
     DEVOLUCION: 'b7d1ab0f-73cb-4a45-bbe6-6493ee47cacb',
 }
 
-export async function confirmarRecepcion(requisicionId: string, cantidadRecibida: number) {
+export async function confirmarRecepcion(requisicionId: string) {
     const supabase = await createClient()
     const profile = await getCurrentProfile()
 
@@ -32,47 +31,25 @@ export async function confirmarRecepcion(requisicionId: string, cantidadRecibida
         return { error: 'Solo se puede confirmar recepción de materiales liberados' }
     }
 
-    if (!cantidadRecibida || cantidadRecibida <= 0) {
-        return { error: 'Debe ingresar una cantidad válida' }
-    }
-
-    const hoy = format(new Date(), 'yyyy-MM-dd')
-
     const { error } = await supabase
         .from('requisiciones')
         .update({
             estatus_id: ESTATUS.RECIBIDO,
-            cantidad_entregada: cantidadRecibida,
-            fecha_entregado: hoy,
         })
         .eq('id', requisicionId)
 
     if (error) return { error: error.message }
 
-    // Audit trail
-    await supabase.from('requisiciones_historial').insert([
-        {
+    // Audit trail (non-blocking)
+    try {
+        await supabase.from('requisiciones_historial').insert({
             requisicion_id: requisicionId,
             campo_modificado: 'Estatus',
             valor_anterior: 'Liberado',
             valor_nuevo: 'Recibido',
             usuario_id: profile.id,
-        },
-        {
-            requisicion_id: requisicionId,
-            campo_modificado: 'Cantidad Entregada',
-            valor_anterior: '',
-            valor_nuevo: String(cantidadRecibida),
-            usuario_id: profile.id,
-        },
-        {
-            requisicion_id: requisicionId,
-            campo_modificado: 'Fecha Entregado',
-            valor_anterior: '',
-            valor_nuevo: hoy,
-            usuario_id: profile.id,
-        },
-    ])
+        })
+    } catch {}
 
     revalidatePath('/dashboard/calendar')
     revalidatePath('/dashboard/requisiciones')

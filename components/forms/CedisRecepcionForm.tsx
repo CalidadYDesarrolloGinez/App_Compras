@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { Loader2, PackageCheck, RotateCcw } from 'lucide-react'
 import { confirmarRecepcion, confirmarDevolucion } from '@/lib/actions/cedis'
@@ -11,17 +9,14 @@ import { confirmarRecepcion, confirmarDevolucion } from '@/lib/actions/cedis'
 interface CedisRecepcionFormProps {
     requisicionId: string
     estatusNombre: string
-    unidadAbreviatura?: string
     onStatusChange?: () => void
 }
 
 export function CedisRecepcionForm({
     requisicionId,
     estatusNombre,
-    unidadAbreviatura = '',
     onStatusChange,
 }: CedisRecepcionFormProps) {
-    const [cantidad, setCantidad] = useState('')
     const [loading, setLoading] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
 
@@ -31,23 +26,18 @@ export function CedisRecepcionForm({
     if (!isLiberado && !isRechazado) return null
 
     const handleRecepcion = async () => {
-        const cantNum = parseFloat(cantidad)
-        if (isNaN(cantNum) || cantNum <= 0) {
-            toast.error('Ingrese una cantidad válida')
-            return
-        }
-
         setLoading(true)
-        const res = await confirmarRecepcion(requisicionId, cantNum)
+        const res = await confirmarRecepcion(requisicionId)
         if (res.error) {
             toast.error('Error', { description: res.error })
         } else {
             toast.success('Recepción confirmada ✅', {
-                description: `${cantNum} ${unidadAbreviatura} registrados como recibido`,
+                description: 'Material marcado como recibido',
             })
             onStatusChange?.()
         }
         setLoading(false)
+        setShowConfirm(false)
     }
 
     const handleDevolucion = async () => {
@@ -74,27 +64,36 @@ export function CedisRecepcionForm({
                         Confirmar Recepción (CEDIS)
                     </p>
                 </div>
-                <div className="space-y-1.5">
-                    <Label className="text-xs font-semibold text-emerald-700">
-                        Cantidad Recibida {unidadAbreviatura && `(${unidadAbreviatura})`}
-                    </Label>
-                    <Input
-                        type="number"
-                        step="0.01"
-                        placeholder="Ej: 1500"
-                        value={cantidad}
-                        onChange={(e) => setCantidad(e.target.value)}
-                        className="h-9 bg-white border-emerald-300 focus:border-emerald-500"
-                    />
-                </div>
-                <Button
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
-                    onClick={handleRecepcion}
-                    disabled={loading || !cantidad}
-                >
-                    {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                    📦 Confirmar Recepción
-                </Button>
+                <p className="text-xs text-emerald-700">
+                    Confirma que el material ha sido recibido en CEDIS.
+                </p>
+                {showConfirm ? (
+                    <div className="flex gap-2">
+                        <Button
+                            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs"
+                            onClick={handleRecepcion}
+                            disabled={loading}
+                        >
+                            {loading && <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />}
+                            Sí, confirmar recepción
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className="text-xs text-[var(--muted)]"
+                            onClick={() => setShowConfirm(false)}
+                            disabled={loading}
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                ) : (
+                    <Button
+                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                        onClick={() => setShowConfirm(true)}
+                    >
+                        📦 Confirmar Recepción
+                    </Button>
+                )}
             </div>
         )
     }

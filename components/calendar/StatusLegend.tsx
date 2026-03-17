@@ -61,60 +61,53 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
     const currentEstatus = filters.estatus_id || 'all'
 
     return (
-        <div className="flex items-center gap-2 bg-[var(--card)] px-2 py-1.5 rounded-full border border-[var(--border)] shadow-sm">
-            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-                {/* Botón de TODOS */}
-                <button
-                    onClick={() => handleStatusClick('all')}
-                    onMouseDown={(e) => e.preventDefault()}
-                    className={`flex items-center justify-center gap-2 px-4 py-1.5 rounded-full transition-all duration-200 ${currentEstatus === 'all'
-                        ? 'bg-[var(--bg)] text-[var(--foreground)] shadow-sm border border-[var(--border)] font-bold'
-                        : 'hover:bg-[var(--bg)] text-[var(--muted)] font-semibold border border-transparent'
-                        }`}
-                >
-                    <Layers size={16} className={currentEstatus === 'all' ? 'text-[var(--navy)]' : 'text-[var(--muted)]'} />
-                    <span className="text-[12px] whitespace-nowrap tracking-wide">
-                        TODOS
-                    </span>
-                </button>
+        <div className="flex flex-wrap items-center gap-2">
+            {/* Botón de TODOS */}
+            <button
+                onClick={() => handleStatusClick('all')}
+                onMouseDown={(e) => e.preventDefault()}
+                className={`flex items-center justify-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 border ${currentEstatus === 'all'
+                    ? 'bg-[var(--navy)] text-white shadow-sm border-[var(--navy)] font-bold'
+                    : 'bg-[var(--card)] hover:bg-[var(--bg)] text-[var(--muted)] font-semibold border-[var(--border)]'
+                    }`}
+            >
+                <Layers size={14} className={currentEstatus === 'all' ? 'text-white' : 'text-[var(--muted)]'} />
+                <span className="text-[11px] whitespace-nowrap tracking-wide">
+                    TODOS
+                </span>
+            </button>
 
-                <div className="w-px h-5 bg-[var(--border)] mx-1 hidden md:block"></div>
+            {/* Lista de Estados */}
+            {catalogos.estatus.map(e => {
+                const Icon = getStatusIcon(e.nombre)
+                const isSelected = currentEstatus === e.id
 
-                {/* Lista de Estados */}
-                {catalogos.estatus.map(e => {
-                    const Icon = getStatusIcon(e.nombre)
-                    const isSelected = currentEstatus === e.id
-
-                    return (
-                        <button
-                            key={e.id}
-                            onClick={() => handleStatusClick(e.id)}
-                            onMouseDown={(e) => e.preventDefault()}
-                            className={`flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full transition-all duration-200 ${isSelected
-                                ? 'shadow-sm'
-                                : 'hover:bg-[var(--bg)] border border-transparent'
-                                }`}
-                            style={isSelected ? {
-                                backgroundColor: `${e.color_hex}1A`, // 10% opacity
-                                borderColor: `${e.color_hex}40`  // 25% opacity
-                            } : {}}
-                        >
-                            <Icon
-                                size={18}
-                                style={{ color: e.color_hex }}
-                                className={`transition-all ${isSelected ? 'scale-110' : 'opacity-80 hover:opacity-100'}`}
-                            />
-                            <span
-                                className={`text-[12px] whitespace-nowrap tracking-wide ${isSelected ? 'font-bold' : 'font-semibold text-[var(--muted)]'
-                                    }`}
-                                style={isSelected ? { color: e.color_hex } : {}}
-                            >
-                                {e.nombre}
-                            </span>
-                        </button>
-                    )
-                })}
-            </div>
+                return (
+                    <button
+                        key={e.id}
+                        onClick={() => handleStatusClick(e.id)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        className={`flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full transition-all duration-200 border ${isSelected
+                            ? 'shadow-sm font-bold'
+                            : 'bg-[var(--card)] hover:bg-[var(--bg)] border-[var(--border)] font-semibold text-[var(--muted)]'
+                            }`}
+                        style={isSelected ? {
+                            backgroundColor: `${e.color_hex}1A`, // 10% opacity
+                            borderColor: e.color_hex,
+                            color: e.color_hex
+                        } : {}}
+                    >
+                        <Icon
+                            size={14}
+                            style={{ color: isSelected ? e.color_hex : undefined }}
+                            className={`transition-all ${isSelected ? 'scale-110' : 'opacity-70 group-hover:opacity-100'}`}
+                        />
+                        <span className="text-[11px] whitespace-nowrap tracking-wide">
+                            {e.nombre}
+                        </span>
+                    </button>
+                )
+            })}
         </div>
     )
 }

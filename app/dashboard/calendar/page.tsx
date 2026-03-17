@@ -62,7 +62,7 @@ export default function CalendarPage() {
                     Visualiza y gestiona las entregas programadas de materias primas.
                 </p>
             </div>
-            <div className="overflow-x-auto -mx-4 px-4">
+            <div className="w-full">
                 <StatusLegend filters={filters} onFilterChange={setFilters} />
             </div>
 
