@@ -102,6 +102,7 @@ export function UpcomingDeliveries() {
                             const dateToUse = req.fecha_confirmada || req.fecha_recepcion
                             const reqDate = new Date(dateToUse + 'T00:00:00')
                             const isToday = format(reqDate, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd')
+                            const estatusLower = (req.estatus?.nombre || '').toLowerCase()
 
                             return (
                                 <div key={req.id} className="p-4 hover:bg-[var(--bg)] transition-colors flex flex-col gap-1 group">
@@ -135,6 +136,35 @@ export function UpcomingDeliveries() {
                                             </p>
                                         </div>
                                     </div>
+
+                                    {/* Lab/CEDIS Status Indicators */}
+                                    {estatusLower === 'en revisión' && (
+                                        <div className="flex items-center gap-1.5 mt-1.5 px-2 py-1 bg-orange-50 rounded-md border border-orange-200">
+                                            <span className="text-[10px]">🔬</span>
+                                            <span className="text-[10px] font-bold text-orange-700">En revisión por Lab</span>
+                                        </div>
+                                    )}
+                                    {estatusLower === 'liberado' && (
+                                        <div className="flex items-center gap-1.5 mt-1.5 px-2 py-1 bg-emerald-50 rounded-md border border-emerald-200">
+                                            <span className="text-[10px]">🧪✅</span>
+                                            <span className="text-[10px] font-bold text-emerald-700">Liberado por Lab</span>
+                                        </div>
+                                    )}
+                                    {estatusLower === 'rechazado' && (
+                                        <div className="flex items-center gap-1.5 mt-1.5 px-2 py-1 bg-red-50 rounded-md border border-red-200">
+                                            <span className="text-[10px]">❌</span>
+                                            <span className="text-[10px] font-bold text-red-700">Rechazado por Lab</span>
+                                        </div>
+                                    )}
+                                    {estatusLower === 'recibido' && req.cantidad_entregada && (
+                                        <div className="flex items-center gap-1.5 mt-1.5 px-2 py-1 bg-blue-50 rounded-md border border-blue-200">
+                                            <span className="text-[10px]">📦</span>
+                                            <span className="text-[10px] font-bold text-blue-700">
+                                                Recibido: {Number(req.cantidad_entregada).toLocaleString('es-MX')} {req.unidad_cantidad?.abreviatura || ''}
+                                            </span>
+                                        </div>
+                                    )}
+
                                 </div>
                             )
                         })}

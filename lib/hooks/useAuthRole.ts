@@ -19,6 +19,8 @@ interface UseAuthRoleReturn {
     canEdit: boolean
     canDelete: boolean
     canViewOnly: boolean
+    canLiberate: boolean
+    canReceive: boolean
     canManageUsers: boolean
     canAccessAdmin: boolean
     loading: boolean
@@ -82,6 +84,8 @@ export function useAuthRole(): UseAuthRoleReturn {
     const canEdit = isAdmin || isCoordinadora
     const canDelete = isAdmin || isCoordinadora
     const canViewOnly = isLaboratorio || isCedis || isConsulta
+    const canLiberate = isLaboratorio
+    const canReceive = isCedis
     const canManageUsers = isAdmin || isCoordinadora
     const canAccessAdmin = isAdmin || isCoordinadora
 
@@ -99,6 +103,8 @@ export function useAuthRole(): UseAuthRoleReturn {
         canEdit,
         canDelete,
         canViewOnly,
+        canLiberate,
+        canReceive,
         canManageUsers,
         canAccessAdmin,
         loading,

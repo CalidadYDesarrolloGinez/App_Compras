@@ -56,13 +56,13 @@ export default function CalendarPage() {
 
     return (
         <div className="flex flex-col h-full gap-4 w-full px-4 mx-auto">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold text-[var(--navy)]">Calendario de Recepción</h1>
-                    <p className="text-sm text-[var(--muted)] mt-1">
-                        Visualiza y gestiona las entregas programadas de materias primas.
-                    </p>
-                </div>
+            <div>
+                <h1 className="text-2xl font-bold text-[var(--navy)]">Calendario de Recepción</h1>
+                <p className="text-sm text-[var(--muted)] mt-1">
+                    Visualiza y gestiona las entregas programadas de materias primas.
+                </p>
+            </div>
+            <div className="overflow-x-auto -mx-4 px-4">
                 <StatusLegend filters={filters} onFilterChange={setFilters} />
             </div>
 

@@ -100,6 +100,17 @@ export interface RequisicionHistorial {
     profiles?: Profile
 }
 
+export interface LabEvidencia {
+    id: string
+    requisicion_id: string
+    foto_url: string
+    notas: string | null
+    resultado: 'liberado' | 'rechazado'
+    usuario_id: string
+    created_at: string
+    profiles?: Profile
+}
+
 // ============================================================
 // AUTH / ROLES
 // ============================================================
