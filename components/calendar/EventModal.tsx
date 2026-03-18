@@ -113,10 +113,15 @@ export function EventDetailModal({
                         <X className="h-5 w-5 text-white" />
                         <span className="sr-only">Cerrar</span>
                     </DialogClose>
-                    <div className="relative z-10">
-                        <Badge variant="secondary" className="bg-[var(--card)] opacity-95 text-white hover:bg-[var(--card)] opacity-95 border-0 mb-3 shadow-none">
-                            {requisicion.estatus?.nombre}
-                        </Badge>
+                    <div className="relative z-10 flex flex-col gap-0.5">
+                        <div 
+                            className="inline-flex items-center w-fit px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-sm shadow-sm border border-black/5 mb-3"
+                            style={{ color: requisicion.estatus?.color_hex || '#4266ac' }}
+                        >
+                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">
+                                {requisicion.estatus?.nombre}
+                            </span>
+                        </div>
                         <DialogTitle className="text-white text-xl font-bold leading-tight shadow-sm">
                             {requisicion.producto?.nombre}
                         </DialogTitle>
