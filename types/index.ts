@@ -105,6 +105,7 @@ export interface LabEvidencia {
     id: string
     requisicion_id: string
     foto_url: string
+    fotos?: string[]
     notas: string | null
     resultado: 'liberado' | 'rechazado'
     usuario_id: string

@@ -95,32 +95,47 @@ export async function uploadLabEvidencia(
         return { error: 'Solo se pueden subir evidencias cuando el estatus es "En Revisión"' }
     }
 
-    const file = formData.get('foto') as File
+    const files = formData.getAll('fotos') as File[]
     const notas = formData.get('notas') as string
     const resultado = formData.get('resultado') as 'liberado' | 'rechazado'
 
-    if (!file || !file.size) return { error: 'Debe subir una foto' }
+    if (!files || files.length === 0) return { error: 'Debe subir al menos una foto' }
+    if (files.length > 5) return { error: 'Máximo 5 fotos por registro' }
     if (!resultado) return { error: 'Debe seleccionar un resultado' }
 
-    // Upload file to storage
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${requisicionId}/${Date.now()}.${fileExt}`
+    const fotoUrls: string[] = []
 
-    const { error: uploadError } = await supabase.storage
-        .from('lab-evidencias')
-        .upload(fileName, file, { cacheControl: '3600', upsert: false })
+    // Upload each file
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        if (!file.size) continue
 
-    if (uploadError) return { error: 'Error al subir la foto: ' + uploadError.message }
+        const fileExt = file.name.split('.').pop()
+        const fileName = `${requisicionId}/${Date.now()}_${i}.${fileExt}`
 
-    // Get public URL
-    const { data: urlData } = supabase.storage
-        .from('lab-evidencias')
-        .getPublicUrl(fileName)
+        const { error: uploadError } = await supabase.storage
+            .from('lab-evidencias')
+            .upload(fileName, file, { cacheControl: '3600', upsert: false })
+
+        if (uploadError) {
+            console.error(`[Lab] Error uploading photo ${i}:`, uploadError)
+            continue // Continue with others or return error?
+        }
+
+        const { data: urlData } = supabase.storage
+            .from('lab-evidencias')
+            .getPublicUrl(fileName)
+        
+        fotoUrls.push(urlData.publicUrl)
+    }
+
+    if (fotoUrls.length === 0) return { error: 'No se pudo subir ninguna foto' }
 
     // Insert evidencia record
     const { error: insertError } = await supabase.from('lab_evidencias').insert({
         requisicion_id: requisicionId,
-        foto_url: urlData.publicUrl,
+        foto_url: fotoUrls[0], // For legacy support
+        fotos: fotoUrls,       // New array column
         notas: notas || null,
         resultado,
         usuario_id: profile.id,
