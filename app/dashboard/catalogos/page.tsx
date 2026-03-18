@@ -126,6 +126,13 @@ export default function CatalogosPage() {
                                                     <span className="text-xs text-[var(--muted)] italic">Sin proveedores</span>
                                                 )}
                                             </div>
+                                        ) : col.key === 'requiere_inspeccion' ? (
+                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${item.requiere_inspeccion !== false
+                                                ? 'bg-cyan-50 text-cyan-700 border border-cyan-100'
+                                                : 'bg-gray-50 text-gray-500 border border-gray-200'
+                                                }`}>
+                                                {item.requiere_inspeccion !== false ? '🔬 Sí' : 'No'}
+                                            </span>
                                         ) : item[col.key]}
                                     </td>
                                 ))}
@@ -253,7 +260,8 @@ export default function CatalogosPage() {
                         {renderList(catalogos.productos, [
                             { key: 'nombre', label: 'Nombre del Producto' },
                             { key: 'descripcion', label: 'Descripción' },
-                            { key: 'proveedores', label: 'Proveedores' }
+                            { key: 'proveedores', label: 'Proveedores' },
+                            { key: 'requiere_inspeccion', label: 'Inspección' }
                         ])}
                     </TabsContent>
 

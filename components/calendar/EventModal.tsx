@@ -59,10 +59,15 @@ export function EventDetailModal({
 
     const estatusNombre = requisicion.estatus?.nombre || ''
     const estatusLower = estatusNombre.toLowerCase()
+    const requiereInspeccion = requisicion.producto?.requiere_inspeccion !== false // default true
 
-    const canStartReview = canLiberate && ELIGIBLE_FOR_REVISION.includes(estatusLower)
-    const showLabSection = !['pendiente', 'confirmado', 'en tránsito', 'cancelado'].includes(estatusLower)
-    const showCedisSection = canReceive && ['liberado', 'rechazado'].includes(estatusLower)
+    const canStartReview = canLiberate && requiereInspeccion && ELIGIBLE_FOR_REVISION.includes(estatusLower)
+    const showLabSection = requiereInspeccion && !['pendiente', 'confirmado', 'en tránsito', 'cancelado'].includes(estatusLower)
+    const showCedisSection = canReceive && (
+        requiereInspeccion
+            ? ['liberado', 'rechazado'].includes(estatusLower)
+            : ['pendiente', 'confirmado', 'en tránsito', 'liberado', 'rechazado'].includes(estatusLower)
+    )
 
     const handleDelete = async () => {
         setIsDeleting(true)
@@ -223,6 +228,7 @@ export function EventDetailModal({
                             <CedisRecepcionForm
                                 requisicionId={requisicion.id}
                                 estatusNombre={estatusNombre}
+                                requiereInspeccion={requiereInspeccion}
                                 onStatusChange={handleStatusChange}
                             />
                         )}

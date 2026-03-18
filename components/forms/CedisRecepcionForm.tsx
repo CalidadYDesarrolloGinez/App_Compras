@@ -9,21 +9,26 @@ import { confirmarRecepcion, confirmarDevolucion } from '@/lib/actions/cedis'
 interface CedisRecepcionFormProps {
     requisicionId: string
     estatusNombre: string
+    requiereInspeccion?: boolean
     onStatusChange?: () => void
 }
 
 export function CedisRecepcionForm({
     requisicionId,
     estatusNombre,
+    requiereInspeccion = true,
     onStatusChange,
 }: CedisRecepcionFormProps) {
     const [loading, setLoading] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
 
-    const isLiberado = estatusNombre.toLowerCase() === 'liberado'
-    const isRechazado = estatusNombre.toLowerCase() === 'rechazado'
+    const lower = estatusNombre.toLowerCase()
+    const isRechazado = lower === 'rechazado'
+    const canReceive = requiereInspeccion
+        ? lower === 'liberado'
+        : ['pendiente', 'confirmado', 'en tránsito', 'liberado'].includes(lower)
 
-    if (!isLiberado && !isRechazado) return null
+    if (!canReceive && !isRechazado) return null
 
     const handleRecepcion = async () => {
         setLoading(true)
@@ -55,7 +60,7 @@ export function CedisRecepcionForm({
         setShowConfirm(false)
     }
 
-    if (isLiberado) {
+    if (canReceive) {
         return (
             <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="flex items-center gap-2">

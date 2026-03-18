@@ -128,7 +128,7 @@ export async function getRequisiciones(filters?: RequisicionFilters) {
             `
       *,
       proveedor:proveedores(id, nombre),
-      producto:productos(id, nombre),
+      producto:productos(id, nombre, requiere_inspeccion),
       presentacion:presentaciones(id, nombre),
       destino:destinos(id, nombre),
       estatus:estatus(id, nombre, color_hex),

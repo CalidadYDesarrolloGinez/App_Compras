@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Switch } from '@/components/ui/switch'
 import {
     Dialog,
     DialogContent,
@@ -32,6 +33,7 @@ const quickAddSchema = z.object({
     abreviatura: z.string().optional(),
     color_hex: z.string().optional(),
     proveedores_ids: z.array(z.string()).optional(),
+    requiere_inspeccion: z.boolean().optional(),
 })
 
 type QuickAddSchema = z.infer<typeof quickAddSchema>
@@ -79,6 +81,7 @@ export function QuickAddModal({
             abreviatura: '',
             color_hex: '#3b82f6',
             proveedores_ids: initialProveedoresIds,
+            requiere_inspeccion: true,
         },
     })
 
@@ -93,6 +96,7 @@ export function QuickAddModal({
                 abreviatura: initialData.abreviatura || '',
                 color_hex: initialData.color_hex || '#3b82f6',
                 proveedores_ids: initialProveedoresIds,
+                requiere_inspeccion: initialData.requiere_inspeccion !== false,
             })
         } else {
             form.reset({
@@ -101,6 +105,7 @@ export function QuickAddModal({
                 abreviatura: '',
                 color_hex: '#3b82f6',
                 proveedores_ids: [],
+                requiere_inspeccion: true,
             })
         }
     }, [initialData, open, table, initialProveedoresIds]) // Removed form from deps as it's stable, and added initialProveedoresIds
@@ -110,7 +115,10 @@ export function QuickAddModal({
         try {
             // Clean up data based on table
             const data: any = { nombre: values.nombre }
-            if (table === 'productos') data.descripcion = values.descripcion
+            if (table === 'productos') {
+                data.descripcion = values.descripcion
+                data.requiere_inspeccion = values.requiere_inspeccion !== false
+            }
             if (table === 'unidades') data.abreviatura = values.abreviatura
             if (table === 'estatus') data.color_hex = values.color_hex
 
@@ -225,6 +233,27 @@ export function QuickAddModal({
                                                 )}
                                             </div>
                                             <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="requiere_inspeccion"
+                                    render={({ field }) => (
+                                        <FormItem className="flex flex-row items-center justify-between rounded-lg border border-[var(--border)] p-3">
+                                            <div className="space-y-0.5">
+                                                <FormLabel className="text-xs font-bold text-[var(--muted)] uppercase">Inspección de Lab</FormLabel>
+                                                <p className="text-[11px] text-[var(--muted)]">
+                                                    {field.value ? 'Laboratorio revisará este material antes de recibirse' : 'CEDIS puede recibir directamente sin pasar por Lab'}
+                                                </p>
+                                            </div>
+                                            <FormControl>
+                                                <Switch
+                                                    checked={field.value}
+                                                    onCheckedChange={field.onChange}
+                                                    className="data-[state=checked]:bg-[#3558a0]"
+                                                />
+                                            </FormControl>
                                         </FormItem>
                                     )}
                                 />

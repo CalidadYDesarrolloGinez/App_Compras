@@ -13,6 +13,7 @@ export interface Producto {
     id: string
     nombre: string
     descripcion: string | null
+    requiere_inspeccion: boolean
     activo: boolean
     created_at: string
 }
