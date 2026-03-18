@@ -238,12 +238,12 @@ export function RequisicionFormModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-2xl bg-[#F8F9FC] border-none shadow-2xl p-0 overflow-hidden flex flex-col max-h-[95vh]">
-                <div className="bg-[#1A2B4A] px-6 py-4 sticky top-0 z-20">
-                    <DialogTitle className="text-white text-lg">
+            <DialogContent className="max-w-2xl bg-[var(--card)] border border-[var(--border)] shadow-2xl p-0 overflow-hidden flex flex-col max-h-[95vh]">
+                <div className="bg-[#1A2B4A] px-6 py-5 sticky top-0 z-20 transition-colors">
+                    <DialogTitle className="text-slate-50 text-xl font-bold">
                         {isEdit ? 'Editar Requisición' : 'Nueva Requisición'}
                     </DialogTitle>
-                    <DialogDescription className="text-blue-200 text-xs">
+                    <DialogDescription className="text-slate-300 text-xs mt-1">
                         Complete los campos obligatorios (*) para agendar una entrega.
                     </DialogDescription>
                 </div>
@@ -251,54 +251,54 @@ export function RequisicionFormModal({
                 <form onSubmit={form.handleSubmit(onSubmit)} className="px-6 py-4 overflow-y-auto flex-1">
                     <div className="space-y-6">
                         {/* Section 1: Manual Input Fields (Excel Style) */}
-                        <div className="bg-[var(--card)] p-4 rounded-lg border border-[var(--border)]">
-                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b pb-2 flex items-center gap-2">
-                                <FileText className="h-4 w-4 text-[#3558a0]" />
+                        <div className="bg-[var(--bg)]/50 p-4 rounded-lg border border-[var(--border)]">
+                            <h3 className="text-sm font-bold text-[var(--navy)] mb-4 border-b border-[var(--border)] pb-2 flex items-center gap-2">
+                                <FileText className="h-4 w-4 text-[var(--navy)]" />
                                 Datos de la Requisición
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Hash className="h-3 w-3 text-[var(--muted)]" />
                                         № REQUI
                                     </Label>
                                     <Input {...form.register('requisicion_numero')} className="h-8 text-sm" placeholder="F0000" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Calendar className="h-3 w-3 text-[var(--muted)]" />
                                         FECHA DE OC
                                     </Label>
                                     <Input type="date" {...form.register('fecha_oc')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Barcode className="h-3 w-3 text-[var(--muted)]" />
                                         FOLIO OC
                                     </Label>
                                     <Input {...form.register('numero_oc')} className="h-8 text-sm" placeholder="GG-01000" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Clock className="h-3 w-3 text-[var(--muted)]" />
                                         FECHA SOLICITADA
                                     </Label>
                                     <Input type="date" {...form.register('fecha_solicitada_entrega')} className="h-8 text-sm" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className={`text-xs font-semibold flex items-center gap-1.5 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-[var(--muted)]'}`}>
-                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[#3558a0]' : 'text-[var(--muted)]'}`} />
+                                    <Label className={`text-xs font-bold flex items-center gap-1.5 uppercase ${canEditConfirmedDate ? 'text-[var(--navy)]' : 'text-[var(--muted)]'}`}>
+                                        <CheckCircle className={`h-3 w-3 ${canEditConfirmedDate ? 'text-[var(--navy)]' : 'text-[var(--muted)]'}`} />
                                         FECHA CONFIRMADA *
                                     </Label>
                                     <Input
                                         type="date"
                                         {...form.register('fecha_confirmada')}
-                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[#3558a0]' : 'bg-[var(--bg)] cursor-not-allowed'}`}
+                                        className={`h-8 text-sm ${canEditConfirmedDate ? 'border-[var(--navy)]' : 'bg-[var(--bg)] cursor-not-allowed'}`}
                                         disabled={!canEditConfirmedDate}
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <FileCheck className="h-3 w-3 text-[var(--muted)]" />
                                         FACTURA / REMISIÓN
                                     </Label>
@@ -308,14 +308,14 @@ export function RequisicionFormModal({
                         </div>
 
                         {/* Section 2: Catalog Selection */}
-                        <div className="bg-blue-50/30 p-4 rounded-lg border border-blue-100">
-                            <h3 className="text-sm font-bold text-[#1A2B4A] mb-4 border-b border-blue-100 pb-2 flex items-center gap-2">
-                                <Package className="h-4 w-4 text-[#3558a0]" />
+                        <div className="bg-blue-500/5 p-4 rounded-lg border border-blue-200 dark:border-blue-500/20">
+                            <h3 className="text-sm font-bold text-blue-700 dark:text-blue-400 mb-4 border-b border-blue-200 dark:border-blue-500/20 pb-2 flex items-center gap-2">
+                                <Package className="h-4 w-4 text-blue-600 dark:text-blue-500" />
                                 Detalles del Material (Catálogo)
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Factory className="h-3 w-3 text-[var(--muted)]" />
                                         PROVEEDOR *
                                     </Label>
@@ -335,7 +335,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[var(--navy)] hover:text-[var(--navy)]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Proveedor', table: 'proveedores', field: 'proveedor_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -343,7 +343,7 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Box className="h-3 w-3 text-[var(--muted)]" />
                                         PRODUCTO *
                                     </Label>
@@ -363,7 +363,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[var(--navy)] hover:text-[var(--navy)]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Producto', table: 'productos', field: 'producto_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -371,7 +371,7 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Layers className="h-3 w-3 text-[var(--muted)]" />
                                         PRESENTACIÓN *
                                     </Label>
@@ -391,7 +391,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[var(--navy)] hover:text-[var(--navy)]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Presentación', table: 'presentaciones', field: 'presentacion_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -399,7 +399,7 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <MapPin className="h-3 w-3 text-[var(--muted)]" />
                                         DESTINO *
                                     </Label>
@@ -419,7 +419,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[var(--navy)] hover:text-[var(--navy)]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Destino', table: 'destinos', field: 'destino_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -427,7 +427,7 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <ClipboardList className="h-3 w-3 text-[var(--muted)]" />
                                         ESTATUS *
                                     </Label>
@@ -447,7 +447,7 @@ export function RequisicionFormModal({
                                             type="button"
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
+                                            className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[var(--navy)] hover:text-[var(--navy)]"
                                             onClick={() => setQuickAdd({ open: true, title: 'Estatus', table: 'estatus', field: 'estatus_id' })}
                                         >
                                             <Plus className="h-3 w-3" />
@@ -455,7 +455,7 @@ export function RequisicionFormModal({
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Scale className="h-3 w-3 text-[var(--muted)]" />
                                         CANTIDAD Y UNIDAD *
                                     </Label>
@@ -477,7 +477,7 @@ export function RequisicionFormModal({
                                                 type="button"
                                                 variant="outline"
                                                 size="icon"
-                                                className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[#3558a0] hover:text-[#3558a0]"
+                                                className="h-8 w-8 shrink-0 border-dashed border-[var(--border)] hover:border-[var(--navy)] hover:text-[var(--navy)]"
                                                 onClick={() => setQuickAdd({ open: true, title: 'Unidad', table: 'unidades', field: 'unidad_cantidad_id' })}
                                             >
                                                 <Plus className="h-3 w-3" />
@@ -489,21 +489,21 @@ export function RequisicionFormModal({
                         </div>
 
                         {/* Delivery Information Section */}
-                        <div className="bg-emerald-50/20 p-4 rounded-lg border border-emerald-100/50">
-                            <h3 className="text-sm font-bold text-[#065F46] mb-4 border-b border-emerald-100 pb-2 flex items-center gap-2">
-                                <Truck className="h-4 w-4 text-[#065F46]" />
+                        <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-200 dark:border-emerald-500/20">
+                            <h3 className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-4 border-b border-emerald-200 dark:border-emerald-500/20 pb-2 flex items-center gap-2">
+                                <Truck className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
                                 Información de Entrega (Cierre)
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <CalendarCheck className="h-3 w-3 text-[var(--muted)]" />
                                         FECHA ENTREGADO
                                     </Label>
                                     <Input type="date" {...form.register('fecha_entregado')} className="h-8 text-sm bg-[var(--card)]" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                         <Check className="h-3 w-3 text-[var(--muted)]" />
                                         CANTIDAD ENTREGADA
                                     </Label>
@@ -513,7 +513,7 @@ export function RequisicionFormModal({
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1.5">
+                            <Label className="text-xs font-bold text-[var(--muted)] flex items-center gap-1.5 uppercase">
                                 <MessageSquare className="h-3 w-3 text-[var(--muted)]" />
                                 COMENTARIOS / NOTAS
                             </Label>
@@ -536,7 +536,7 @@ export function RequisicionFormModal({
                         </Button>
                         <Button
                             type="submit"
-                            className="bg-[#3558a0] hover:bg-[#1A2B4A] text-white"
+                            className="bg-[#3558a0] hover:bg-[#1A2B4A] text-white font-bold"
                             disabled={isSubmitting}
                         >
                             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

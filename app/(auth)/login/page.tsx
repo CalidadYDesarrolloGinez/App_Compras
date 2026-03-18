@@ -215,13 +215,13 @@ export default function LoginPage() {
                             {/* Premium Tab Switcher */}
                             <div className="flex p-1.5 bg-slate-100/80 m-2 rounded-2xl">
                                 <button
-                                    className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${!isSignUp ? 'bg-white text-[#1A2B4A] shadow-md' : 'text-slate-500 hover:text-[#1A2B4A]'}`}
+                                    className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${!isSignUp ? 'bg-white text-[var(--navy)] shadow-md' : 'text-[var(--muted)] hover:text-[var(--navy)]'}`}
                                     onClick={() => setIsSignUp(false)}
                                 >
                                     Ingresar
                                 </button>
                                 <button
-                                    className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${isSignUp ? 'bg-white text-[#1A2B4A] shadow-md' : 'text-slate-500 hover:text-[#1A2B4A]'}`}
+                                    className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${isSignUp ? 'bg-white text-[var(--navy)] shadow-md' : 'text-[var(--muted)] hover:text-[var(--navy)]'}`}
                                     onClick={() => setIsSignUp(true)}
                                 >
                                     Registro

@@ -62,14 +62,14 @@ export function CedisRecepcionForm({
 
     if (canReceive) {
         return (
-            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="flex items-center gap-2">
-                    <PackageCheck className="h-4 w-4 text-emerald-600" />
-                    <p className="text-xs font-bold text-emerald-800 uppercase tracking-wider">
+                    <PackageCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
+                    <p className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider">
                         Confirmar Recepción (CEDIS)
                     </p>
                 </div>
-                <p className="text-xs text-emerald-700">
+                <p className="text-xs text-emerald-700 dark:text-emerald-300/80">
                     Confirma que el material ha sido recibido en CEDIS.
                 </p>
                 {showConfirm ? (
@@ -105,14 +105,14 @@ export function CedisRecepcionForm({
 
     if (isRechazado) {
         return (
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="flex items-center gap-2">
-                    <RotateCcw className="h-4 w-4 text-amber-600" />
-                    <p className="text-xs font-bold text-amber-800 uppercase tracking-wider">
+                    <RotateCcw className="h-4 w-4 text-amber-600 dark:text-amber-500" />
+                    <p className="text-xs font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider">
                         Material Rechazado por Lab
                     </p>
                 </div>
-                <p className="text-xs text-amber-700">
+                <p className="text-xs text-amber-700 dark:text-amber-300/80">
                     Este material fue rechazado por laboratorio. Confirma la devolución al proveedor.
                 </p>
                 {showConfirm ? (

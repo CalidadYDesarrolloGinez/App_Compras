@@ -150,8 +150,8 @@ export function QuickAddModal({
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[400px] bg-[var(--card)] border-none shadow-2xl">
-                <DialogHeader className="border-b pb-4">
-                    <DialogTitle className="text-[#1A2B4A]">
+                <DialogHeader className="border-b border-[var(--border)] pb-4">
+                    <DialogTitle className="text-[var(--foreground)]">
                         {isEditing ? 'Editar' : 'Agregar'} {title}
                     </DialogTitle>
                 </DialogHeader>

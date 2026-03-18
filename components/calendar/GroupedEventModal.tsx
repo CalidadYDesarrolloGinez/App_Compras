@@ -35,10 +35,10 @@ export function GroupedEventModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px] bg-[var(--card)] border border-[var(--border)] shadow-2xl p-0 overflow-hidden flex flex-col max-h-[85vh]">
                 <div className="bg-[#1A2B4A] px-6 py-4 sticky top-0 z-20">
-                    <DialogTitle className="text-white text-lg font-bold">
+                    <DialogTitle className="text-slate-50 text-lg font-bold">
                         {providerName}
                     </DialogTitle>
-                    <DialogDescription className="text-blue-200 text-xs mt-1 capitalize">
+                    <DialogDescription className="text-slate-300 text-xs mt-1 capitalize font-medium">
                         {formattedDate} · {requisiciones.length} {requisiciones.length === 1 ? 'entrega programada' : 'entregas programadas'}
                     </DialogDescription>
                 </div>
@@ -53,7 +53,7 @@ export function GroupedEventModal({
                                 style={{ borderLeft: `4px solid ${req.estatus?.color_hex || '#4266ac'}` }}
                             >
                                 <div className="flex justify-between items-start mb-2">
-                                    <div className="font-semibold text-sm text-[#1A2B4A]">
+                                    <div className="font-semibold text-sm text-[var(--foreground)]">
                                         {req.producto?.nombre}
                                     </div>
                                     <Badge
@@ -71,12 +71,12 @@ export function GroupedEventModal({
 
                                 <div className="grid grid-cols-2 gap-2 text-xs text-[var(--muted)]">
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] uppercase font-bold opacity-70">Cantidad</span>
-                                        <span className="font-medium text-[#1A2B4A]">{req.cantidad_solicitada} {req.unidad_cantidad?.abreviatura}</span>
+                                        <span className="text-[10px] uppercase font-bold text-[var(--muted)]">Cantidad</span>
+                                        <span className="font-medium text-[var(--foreground)]">{req.cantidad_solicitada} {req.unidad_cantidad?.abreviatura}</span>
                                     </div>
                                     <div className="flex flex-col text-right">
-                                        <span className="text-[10px] uppercase font-bold opacity-70">Folio OC</span>
-                                        <span className="font-medium text-[#1A2B4A]">{req.numero_oc || 'N/A'}</span>
+                                        <span className="text-[10px] uppercase font-bold text-[var(--muted)]">Folio OC</span>
+                                        <span className="font-medium text-[var(--foreground)]">{req.numero_oc || 'N/A'}</span>
                                     </div>
                                 </div>
                             </div>

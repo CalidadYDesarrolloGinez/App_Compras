@@ -111,26 +111,26 @@ export function EventDetailModal({
                     className="px-6 py-5 pb-8 relative shrink-0"
                     style={{ backgroundColor: requisicion.estatus?.color_hex || '#4266ac' }}
                 >
-                    <div className="absolute top-0 right-0 p-4 opacity-20">
-                        <Package className="h-24 w-24 text-white" />
+                    <div className="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
+                        <Package className="h-24 w-24 text-slate-50" />
                     </div>
-                    <DialogClose className="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-white">
-                        <X className="h-5 w-5 text-white" />
+                    <DialogClose className="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-slate-50">
+                        <X className="h-5 w-5 text-slate-50" />
                         <span className="sr-only">Cerrar</span>
                     </DialogClose>
                     <div className="relative z-10 flex flex-col gap-0.5">
                         <div 
-                            className="inline-flex items-center w-fit px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-sm shadow-sm border border-black/5 mb-3"
+                            className="inline-flex items-center w-fit px-2 py-0.5 rounded-full bg-slate-50/90 backdrop-blur-sm shadow-sm border border-black/5 mb-3"
                             style={{ color: requisicion.estatus?.color_hex || '#4266ac' }}
                         >
-                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">
+                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-90">
                                 {requisicion.estatus?.nombre}
                             </span>
                         </div>
-                        <DialogTitle className="text-white text-xl font-bold leading-tight shadow-sm">
+                        <DialogTitle className="text-slate-50 text-xl font-bold leading-tight shadow-sm">
                             {requisicion.producto?.nombre}
                         </DialogTitle>
-                        <p className="text-white/90 text-sm mt-1">
+                        <p className="text-slate-100 text-sm mt-1 font-medium">
                             {requisicion.proveedor?.nombre}
                         </p>
                     </div>
@@ -143,7 +143,7 @@ export function EventDetailModal({
 
                         <div className="grid grid-cols-2 gap-y-4 gap-x-6">
                             <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
                                     <CalendarIcon className="h-3.5 w-3.5" /> Fecha
                                 </div>
                                 <p className="text-sm font-medium text-[var(--foreground)]">
@@ -152,7 +152,7 @@ export function EventDetailModal({
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
                                     <Package className="h-3.5 w-3.5" /> Cantidad
                                 </div>
                                 <p className="text-sm font-medium text-[var(--foreground)]">
@@ -161,7 +161,7 @@ export function EventDetailModal({
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
                                     <Truck className="h-3.5 w-3.5" /> Presentación
                                 </div>
                                 <p className="text-sm font-medium text-[var(--foreground)]">
@@ -170,7 +170,7 @@ export function EventDetailModal({
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
                                     <MapPin className="h-3.5 w-3.5" /> Destino
                                 </div>
                                 <p className="text-sm font-medium text-[var(--foreground)]">
@@ -179,7 +179,7 @@ export function EventDetailModal({
                             </div>
 
                             <div className="flex flex-col gap-1 col-span-2">
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
                                     <Hash className="h-3.5 w-3.5" /> Orden de Compra
                                 </div>
                                 <p className="text-sm font-medium text-[var(--foreground)]">
@@ -188,7 +188,7 @@ export function EventDetailModal({
                             </div>
 
                             <div className="flex flex-col gap-1 col-span-2 bg-[var(--bg)] p-3 rounded-lg border border-[var(--border)] mt-2">
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] uppercase tracking-wider mb-1">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider mb-1">
                                     <FileText className="h-3.5 w-3.5" /> Comentarios
                                 </div>
                                 <p className="text-sm text-[var(--foreground)] whitespace-pre-wrap leading-relaxed">
@@ -264,7 +264,7 @@ export function EventDetailModal({
                                 ) : (
                                     <Button
                                         variant="ghost"
-                                        className="text-[#c41f1a] hover:bg-red-50 hover:text-[#a31a16] px-3 transition-colors"
+                                        className="text-[#c41f1a] hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-[#a31a16] px-3 transition-colors"
                                         onClick={() => setShowConfirm(true)}
                                     >
                                         <Trash2 className="h-4 w-4" />
