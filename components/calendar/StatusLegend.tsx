@@ -87,20 +87,20 @@ export function StatusLegend({ filters, onFilterChange }: StatusLegendProps) {
                         key={e.id}
                         onClick={() => handleStatusClick(e.id)}
                         onMouseDown={(e) => e.preventDefault()}
-                        className={`flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full transition-all duration-200 border ${isSelected
-                            ? 'shadow-sm font-bold'
-                            : 'bg-[var(--card)] hover:bg-[var(--bg)] border-[var(--border)] font-semibold text-[var(--muted)]'
+                        className={`flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full transition-all duration-200 border-2 ${isSelected
+                            ? 'shadow-sm font-bold scale-105'
+                            : 'bg-[var(--card)] hover:bg-[var(--bg)] font-semibold text-[var(--muted)] opacity-85 hover:opacity-100'
                             }`}
-                        style={isSelected ? {
-                            backgroundColor: `${e.color_hex}1A`, // 10% opacity
-                            borderColor: e.color_hex,
-                            color: e.color_hex
-                        } : {}}
+                        style={{
+                            borderColor: isSelected ? e.color_hex : `${e.color_hex}33`, // 100% vs 20% opacity
+                            backgroundColor: isSelected ? `${e.color_hex}1A` : 'transparent', // 10% vs 0%
+                            color: isSelected ? e.color_hex : undefined
+                        }}
                     >
                         <Icon
                             size={14}
-                            style={{ color: isSelected ? e.color_hex : undefined }}
-                            className={`transition-all ${isSelected ? 'scale-110' : 'opacity-70 group-hover:opacity-100'}`}
+                            style={{ color: e.color_hex }}
+                            className={`transition-all ${isSelected ? 'scale-110' : 'opacity-90'}`}
                         />
                         <span className="text-[11px] whitespace-nowrap tracking-wide">
                             {e.nombre}
