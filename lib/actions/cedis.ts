@@ -87,7 +87,7 @@ export async function confirmarDevolucion(requisicionId: string) {
         requisicion_id: requisicionId,
         campo_modificado: 'Estatus',
         valor_anterior: 'Rechazado',
-        valor_nuevo: 'Devolución a Proveedor',
+        valor_nuevo: 'Devolución',
         usuario_id: profile.id,
     })
 
