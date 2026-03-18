@@ -2,7 +2,7 @@
 ## Calendario y Gestión de Requisiciones de Compras de MP
 
 <p align="center">
-  <img src="public/panel.jpg" alt="Cloro de Hidalgo - Haciendo Química Contigo" width="100%" />
+  <img src="public/panel.jpg" alt="Cloro de Hidalgo - Haciendo Química Contigo" width="180" />
 </p>
 
 Sistema empresarial avanzado para el **control, seguimiento y gestión integral de requisiciones** de materias primas, suministros y entregas logísticas de **Cloro de Hidalgo**. Conecta los departamentos de **Compras, Laboratorio, CEDIS y Proveedores** en un solo flujo digital.
