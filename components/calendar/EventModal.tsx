@@ -140,7 +140,7 @@ export function EventDetailModal({
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="overflow-y-auto flex-1">
+                <div className="overflow-y-auto flex-1 min-h-0">
                     {/* Details Grid */}
                     <div className="px-6 py-5 -mt-4 relative z-20 bg-[var(--card)] rounded-t-2xl flex flex-col gap-4">
 

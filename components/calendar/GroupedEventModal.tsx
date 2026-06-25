@@ -51,7 +51,7 @@ export function GroupedEventModal({
                     </DialogDescription>
                 </div>
 
-                <div className="overflow-y-auto flex-1 p-4">
+                <div className="overflow-y-auto flex-1 min-h-0 p-4">
                     <div className="space-y-3">
                         {requisiciones.map((req) => (
                             <div
