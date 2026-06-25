@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import type { Requisicion } from '@/types'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { X } from 'lucide-react'
 
 interface GroupedEventModalProps {
     open: boolean
@@ -33,8 +33,16 @@ export function GroupedEventModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[500px] bg-[var(--card)] border border-[var(--border)] shadow-2xl p-0 overflow-hidden flex flex-col max-h-[85vh]">
+            <DialogContent showCloseButton={false} className="sm:max-w-[500px] bg-[var(--card)] border border-[var(--border)] shadow-2xl p-0 overflow-hidden flex flex-col max-h-[85vh]">
                 <div className="bg-[#1A2B4A] px-6 py-4 sticky top-0 z-20">
+                    <button
+                        type="button"
+                        onClick={() => onOpenChange(false)}
+                        className="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-slate-50 cursor-pointer"
+                    >
+                        <X className="h-5 w-5 text-slate-50" />
+                        <span className="sr-only">Cerrar</span>
+                    </button>
                     <DialogTitle className="text-slate-50 text-lg font-bold">
                         {providerName}
                     </DialogTitle>
@@ -43,7 +51,7 @@ export function GroupedEventModal({
                     </DialogDescription>
                 </div>
 
-                <ScrollArea className="flex-1 p-4">
+                <div className="overflow-y-auto flex-1 p-4">
                     <div className="space-y-3">
                         {requisiciones.map((req) => (
                             <div
@@ -82,7 +90,7 @@ export function GroupedEventModal({
                             </div>
                         ))}
                     </div>
-                </ScrollArea>
+                </div>
             </DialogContent>
         </Dialog>
     )

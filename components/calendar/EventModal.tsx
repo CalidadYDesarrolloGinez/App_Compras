@@ -8,7 +8,6 @@ import {
     DialogContent,
     DialogTitle,
     DialogFooter,
-    DialogClose,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -114,10 +113,14 @@ export function EventDetailModal({
                     <div className="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
                         <Package className="h-24 w-24 text-slate-50" />
                     </div>
-                    <DialogClose className="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-slate-50">
+                    <button
+                        type="button"
+                        onClick={() => onOpenChange(false)}
+                        className="absolute top-4 right-4 z-20 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-slate-50 cursor-pointer"
+                    >
                         <X className="h-5 w-5 text-slate-50" />
                         <span className="sr-only">Cerrar</span>
-                    </DialogClose>
+                    </button>
                     <div className="relative z-10 flex flex-col gap-0.5">
                         <div 
                             className="inline-flex items-center w-fit px-2 py-0.5 rounded-full bg-slate-50/90 backdrop-blur-sm shadow-sm border border-black/5 mb-3"
