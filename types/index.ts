@@ -163,6 +163,7 @@ export interface RequisicionFilters {
     fecha_desde?: string
     fecha_hasta?: string
     fecha_exacta?: string
+    numero_oc?: string
     search?: string
 }
 

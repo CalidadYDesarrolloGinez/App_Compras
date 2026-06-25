@@ -154,6 +154,9 @@ export async function getRequisiciones(filters?: RequisicionFilters) {
     if (filters?.fecha_hasta) {
         query = query.or(`fecha_confirmada.lte.${filters.fecha_hasta},and(fecha_confirmada.is.null,fecha_recepcion.lte.${filters.fecha_hasta})`)
     }
+    if (filters?.numero_oc) {
+        query = query.ilike('numero_oc', `%${filters.numero_oc}%`)
+    }
 
     const { data, error } = await query
 

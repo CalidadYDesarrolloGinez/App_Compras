@@ -17,7 +17,8 @@ import {
     AlertCircle,
     LucideIcon,
     ClipboardList,
-    Factory
+    Factory,
+    Hash
 } from 'lucide-react'
 import type { RequisicionFilters } from '@/types'
 import { Button } from '@/components/ui/button'
@@ -122,6 +123,23 @@ export function SidebarFilters({ filters, onFilterChange }: SidebarFiltersProps)
                             className="h-9 pl-9 bg-[var(--card)] border-[var(--border)] text-xs shadow-sm focus:ring-[#4266ac]"
                             value={filters.fecha_exacta || ''}
                             onChange={(e) => handleChange('fecha_exacta', e.target.value || 'all')}
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-[var(--muted)] uppercase tracking-wider ml-0.5 flex items-center gap-1.5">
+                        <Hash className="h-3 w-3 text-[var(--muted)]" />
+                        Folio OC
+                    </label>
+                    <div className="relative">
+                        <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--muted)]" />
+                        <Input
+                            type="text"
+                            placeholder="Buscar folio..."
+                            className="h-9 pl-9 bg-[var(--card)] border-[var(--border)] text-xs shadow-sm focus:ring-[#4266ac]"
+                            value={filters.numero_oc || ''}
+                            onChange={(e) => handleChange('numero_oc', e.target.value || 'all')}
                         />
                     </div>
                 </div>
